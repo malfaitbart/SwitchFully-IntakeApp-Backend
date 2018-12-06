@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
 using Swashbuckle.AspNetCore.Swagger;
+using SwitchFully.IntakeApp.Data;
 using SwitchFully.IntakeApp.Service.Logging;
 using System;
 using System.IO;
-using NLog;
 
 namespace SwitchFully.IntakeApp.API
 {
@@ -35,7 +37,11 @@ namespace SwitchFully.IntakeApp.API
 				});
 			});
 
-			services.AddSingleton<ILoggerManager, LoggerManager>();			
+			services.AddSingleton<ILoggerManager, LoggerManager>();
+			services.AddTransient<SwitchFullyIntakeAppContext>();
+			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
+				options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
+			);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

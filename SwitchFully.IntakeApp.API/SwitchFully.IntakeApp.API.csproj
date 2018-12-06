@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SwitchFully.IntakeApp.Data\SwitchFully.IntakeApp.Data.csproj" />
     <ProjectReference Include="..\SwitchFully.IntakeApp.Service\SwitchFully.IntakeApp.Service.csproj" />
   </ItemGroup>
 
