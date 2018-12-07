@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SwitchFully.IntakeApp.Data\SwitchFully.IntakeApp.Data.csproj" />
+    <ProjectReference Include="..\SwitchFully.IntakeApp.Domain\SwitchFully.IntakeApp.Domain.csproj" />
     <ProjectReference Include="..\SwitchFully.IntakeApp.Service\SwitchFully.IntakeApp.Service.csproj" />
   </ItemGroup>
 

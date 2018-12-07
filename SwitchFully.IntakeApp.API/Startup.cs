@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Swashbuckle.AspNetCore.Swagger;
+using SwitchFully.IntakeApp.API.Helpers;
 using SwitchFully.IntakeApp.Data;
 using SwitchFully.IntakeApp.Service.Logging;
 using System;
@@ -45,7 +46,7 @@ namespace SwitchFully.IntakeApp.API
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerManager logger)
 		{
 			if (env.IsDevelopment())
 			{
@@ -58,6 +59,8 @@ namespace SwitchFully.IntakeApp.API
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "SwitchFully Intake App V1");
 				c.RoutePrefix = string.Empty;
 			});
+			app.ConfigureExceptionHandler(logger);
+
 			app.UseMvc();
 		}
 	}
