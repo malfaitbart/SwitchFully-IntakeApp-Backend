@@ -17,7 +17,6 @@ using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
 using System;
 using System.IO;
-using System.Security.Claims;
 using System.Text;
 
 namespace SwitchFully.IntakeApp.API
@@ -87,9 +86,6 @@ namespace SwitchFully.IntakeApp.API
 						ValidateAudience = false
 					};
 				});
-
-
-
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,8 +111,6 @@ namespace SwitchFully.IntakeApp.API
 				.AllowCredentials());
 
 			app.UseAuthentication();
-
-
 
 			app.UseMvc();
 		}

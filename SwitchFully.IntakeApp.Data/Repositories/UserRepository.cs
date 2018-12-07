@@ -1,8 +1,10 @@
-﻿using SwitchFully.IntakeApp.Domain.Users;
+﻿using Microsoft.EntityFrameworkCore;
+using SwitchFully.IntakeApp.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.Data.Repositories
 {
@@ -27,9 +29,9 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 			return _context.Users.ToList();
 		}
 
-		public User GetById(Guid id)
+		public async Task<User> GetById(Guid id)
 		{
-			return _context.Users.FirstOrDefault(u => u.Id == id);
+			return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 		}
 
 		public User Update(User objectToUpdate)

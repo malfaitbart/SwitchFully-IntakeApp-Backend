@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Domain.Users;
 
@@ -26,9 +27,9 @@ namespace SwitchFully.IntakeApp.Service.Users
 			throw new NotImplementedException();
 		}
 
-		public User GetById(Guid id)
+		public async Task<User> GetById(Guid id)
 		{
-			return _userRepository.GetById(id);
+			return await _userRepository.GetById(id);
 		}
 
 		public string Update(User user)
