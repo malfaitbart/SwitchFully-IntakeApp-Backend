@@ -1,16 +1,24 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using NLog;
 using Swashbuckle.AspNetCore.Swagger;
 using SwitchFully.IntakeApp.API.Helpers;
+using SwitchFully.IntakeApp.API.Users.Mapper;
 using SwitchFully.IntakeApp.Data;
+using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Service.Logging;
+using SwitchFully.IntakeApp.Service.Security;
+using SwitchFully.IntakeApp.Service.Users;
 using System;
 using System.IO;
+using System.Security.Claims;
+using System.Text;
 
 namespace SwitchFully.IntakeApp.API
 {
@@ -19,6 +27,7 @@ namespace SwitchFully.IntakeApp.API
 		public Startup(IConfiguration configuration)
 		{
 			LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
 			Configuration = configuration;
 		}
 
@@ -38,11 +47,49 @@ namespace SwitchFully.IntakeApp.API
 				});
 			});
 
-			services.AddSingleton<ILoggerManager, LoggerManager>();
+			services.AddScoped<ILoggerManager, LoggerManager>();
+
+			services.AddScoped<IUserService, UserService>();
+
+			services.AddScoped<UserMapper>();
+
+			services.AddScoped<Hasher>();
+			services.AddScoped<Salter>();
+			services.AddScoped<UserAuthenticationService>();
+
 			services.AddTransient<SwitchFullyIntakeAppContext>();
 			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
 				options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
 			);
+			services.AddScoped<UserRepository>();
+
+
+			var key = Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+
+			services
+				//.AddAuthorization(options => {
+				//	options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.r, "admin@gmail.com"));
+				//})
+				.AddAuthentication(options =>
+				{
+					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(key),
+						ValidateIssuer = false,
+						ValidateAudience = false
+					};
+				});
+
+
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +107,16 @@ namespace SwitchFully.IntakeApp.API
 				c.RoutePrefix = string.Empty;
 			});
 			app.ConfigureExceptionHandler(logger);
+
+			app.UseCors(x => x
+				.AllowAnyOrigin()
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+				.AllowCredentials());
+
+			app.UseAuthentication();
+
+
 
 			app.UseMvc();
 		}
