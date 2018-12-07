@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.API", "SwitchFully.IntakeApp.API\SwitchFully.IntakeApp.API.csproj", "{5F5E0483-278A-4A22-8611-578DD91A554A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwitchFully.IntakeApp.Tests", "SwitchFully.IntakeApp.Tests", "{651B242B-9DD8-426B-87C3-F7CFAB6EBCA8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Domain", "SwitchFully.IntakeApp.Domain\SwitchFully.IntakeApp.Domain.csproj", "{6290DE88-DD4B-4C8A-98E4-3D0F18880B4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Service", "SwitchFully.IntakeApp.Service\SwitchFully.IntakeApp.Service.csproj", "{6421BB85-26B8-4DC6-A294-B978E34F3679}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Data", "SwitchFully.IntakeApp.Data\SwitchFully.IntakeApp.Data.csproj", "{63035834-C5CC-4462-88B7-6D4958DB1DAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Service.Tests", "SwitchFully.IntakeApp.Service.Tests\SwitchFully.IntakeApp.Service.Tests.csproj", "{507F0300-4661-4A77-9024-35BD6B69A602}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F5E0483-278A-4A22-8611-578DD91A554A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5E0483-278A-4A22-8611-578DD91A554A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5E0483-278A-4A22-8611-578DD91A554A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5E0483-278A-4A22-8611-578DD91A554A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6290DE88-DD4B-4C8A-98E4-3D0F18880B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6290DE88-DD4B-4C8A-98E4-3D0F18880B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6290DE88-DD4B-4C8A-98E4-3D0F18880B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6290DE88-DD4B-4C8A-98E4-3D0F18880B4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6421BB85-26B8-4DC6-A294-B978E34F3679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6421BB85-26B8-4DC6-A294-B978E34F3679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6421BB85-26B8-4DC6-A294-B978E34F3679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6421BB85-26B8-4DC6-A294-B978E34F3679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63035834-C5CC-4462-88B7-6D4958DB1DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63035834-C5CC-4462-88B7-6D4958DB1DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63035834-C5CC-4462-88B7-6D4958DB1DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63035834-C5CC-4462-88B7-6D4958DB1DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{507F0300-4661-4A77-9024-35BD6B69A602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{507F0300-4661-4A77-9024-35BD6B69A602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{507F0300-4661-4A77-9024-35BD6B69A602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{507F0300-4661-4A77-9024-35BD6B69A602}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{507F0300-4661-4A77-9024-35BD6B69A602} = {651B242B-9DD8-426B-87C3-F7CFAB6EBCA8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A407B739-E12D-4BE9-94A0-17CA82D0D03E}
+	EndGlobalSection
+EndGlobal
