@@ -37,14 +37,16 @@ namespace SwitchFully.IntakeApp.API.Users.Controller
 
 		[HttpPost("authenticate")]
 		[AllowAnonymous]
-		public ActionResult<string> Authenticate([FromBody] UserRegisterDto userRequestDto)
+		public ActionResult<TokenDTO> Authenticate([FromBody] UserRegisterDto userRequestDto)
 		{
 			var securityToken = _userAuthenticationService.Authenticate(userRequestDto.Email, userRequestDto.Password);
 
 			if (securityToken != null)
 			{
-				return Ok(securityToken.RawData);
-			}
+                TokenDTO token = new TokenDTO();
+                token.Token = securityToken.RawData;
+                return Ok(token);
+            }
 
 			return BadRequest("Email or Password incorrect!");
 		}
