@@ -12,6 +12,6 @@ namespace SwitchFully.IntakeApp.Service.Campaigns
     {
         Task <List<Campaign>> GetAllCampaigns();
         Task< Campaign> CreateNewCampaign(Campaign campaign);
-        
+        Task<Campaign> GetSingleCampaignByID(string id);
     }
 }
