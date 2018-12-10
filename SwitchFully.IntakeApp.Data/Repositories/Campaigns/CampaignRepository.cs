@@ -17,9 +17,11 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Campaigns
             _context = context;
         }
 
-        public Task<Campaign> Create(Campaign objectToCreate)
+        public async Task<Campaign> Create(Campaign campaign)
         {
-            throw new NotImplementedException();
+            var campaignToCreate = await _context.Campaigns.AddAsync(campaign);
+            await _context.SaveChangesAsync();
+            return campaign;
         }
 
         public async Task<List<Campaign>> GetAll()

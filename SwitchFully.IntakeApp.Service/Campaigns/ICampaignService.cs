@@ -11,6 +11,7 @@ namespace SwitchFully.IntakeApp.Service.Campaigns
     public interface ICampaignService
     {
         Task <List<Campaign>> GetAllCampaigns();
+        Task< Campaign> CreateNewCampaign(Campaign campaign);
         
     }
 }
