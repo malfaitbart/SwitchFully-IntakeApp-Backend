@@ -33,12 +33,6 @@ namespace SwitchFully.IntakeApp.Data
 				.HasKey(u => u.Id);
 
 			modelBuilder.Entity<User>()
-				.HasOne(u => u.Role)
-				.WithMany()
-				.HasForeignKey(u => u.RoleId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			modelBuilder.Entity<User>()
 				.OwnsOne(u => u.Email,
 					email => { email.Property(prop => prop.Address).HasColumnName("Email"); }
 				);

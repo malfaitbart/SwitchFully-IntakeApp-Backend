@@ -6,6 +6,7 @@ using SwitchFully.IntakeApp.Domain.Users;
 using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
 using System;
+using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.API.Users.Controller
 {
@@ -26,24 +27,26 @@ namespace SwitchFully.IntakeApp.API.Users.Controller
 
 		[HttpPost]
 		[AllowAnonymous]
-		public ActionResult<UserDto> Register([FromBody] UserRegisterDto userRequestDto)
+		public async Task<ActionResult<UserDto>> Register([FromBody] UserRegisterDto userRequestDto)
 		{
 			User user = _userMapper.UserRegisterDtoToDomain(userRequestDto);
 			var userId = _userService.Create(user);
-			UserDto userDto = _userMapper.UserToUserDto(_userService.GetById(Guid.Parse(userId)));
+			UserDto userDto = _userMapper.UserToUserDto(await _userService.GetById(Guid.Parse(userId)));
 			return Ok(userDto);
 		}
 
 		[HttpPost("authenticate")]
 		[AllowAnonymous]
-		public ActionResult<string> Authenticate([FromBody] UserRegisterDto userRequestDto)
+		public ActionResult<TokenDTO> Authenticate([FromBody] UserRegisterDto userRequestDto)
 		{
 			var securityToken = _userAuthenticationService.Authenticate(userRequestDto.Email, userRequestDto.Password);
 
 			if (securityToken != null)
 			{
-				return Ok(securityToken.RawData);
-			}
+                TokenDTO token = new TokenDTO();
+                token.Token = securityToken.RawData;
+                return Ok(token);
+            }
 
 			return BadRequest("Email or Password incorrect!");
 		}

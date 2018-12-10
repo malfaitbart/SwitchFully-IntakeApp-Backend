@@ -14,19 +14,30 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CampaignsController : ControllerBase, IController<Campaign, CampaignDTO_Return>
+    public class CampaignsController //: ControllerBase, IController<Campaign, CampaignDTO_Return>
     {
-        private readonly ICampaignService _campaignService;
-        private readonly ICampaignMapper _campaignMapper;
+        //private readonly ICampaignService _campaignService;
+        //private readonly ICampaignMapper _campaignMapper;
 
-        public CampaignsController(ICampaignService campaignService, ICampaignMapper campaignMapper)
+        //public CampaignsController(ICampaignService campaignService, ICampaignMapper campaignMapper)
+        //{
+        //    _campaignService = campaignService;
+        //    _campaignMapper = campaignMapper;
+        //}
+
+
+        // GET: api/Campaigns/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
-            _campaignService = campaignService;
-            _campaignMapper = campaignMapper;
+            return "value";
         }
 
-
-
+        // POST: api/Campaigns
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
 
         [HttpGet]
         public ActionResult<List<CampaignDTO_Return>> GetAll()
