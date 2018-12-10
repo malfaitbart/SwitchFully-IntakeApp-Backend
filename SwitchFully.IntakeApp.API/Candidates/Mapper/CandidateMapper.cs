@@ -23,7 +23,17 @@ namespace SwitchFully.IntakeApp.API.Candidates.Mapper
 
 		public Candidate DtoToDomain(CandidateDto candidateDto)
 		{
-			return new Candidate(candidateDto.Id, candidateDto.FirstName, candidateDto.LastName, new MailAddress(candidateDto.Email));
+			var id = candidateDto.Id;
+			if (candidateDto.Id == null)
+			{
+				id = Guid.NewGuid().ToString();
+			}
+			return new Candidate(Guid.Parse(id), candidateDto.FirstName, candidateDto.LastName, new MailAddress(candidateDto.Email));
+		}
+
+		public Candidate DtoToDomain(CandidateDtoWithoutId candidateDto)
+		{
+			return new Candidate(Guid.NewGuid(), candidateDto.FirstName, candidateDto.LastName, new MailAddress(candidateDto.Email));
 		}
 	}
 }
