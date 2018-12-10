@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.Users;
 
@@ -11,6 +12,7 @@ namespace SwitchFully.IntakeApp.Data
 
 		public virtual DbSet<User> Users { get; set; }
 		public virtual DbSet<Candidate> Candidates { get; set; }
+		public virtual DbSet<Campaign> Campaigns { get; set; }
 
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
 		{
@@ -55,6 +57,23 @@ namespace SwitchFully.IntakeApp.Data
 					email => { email.Property(prop => prop.Address).HasColumnName("Email"); }
 				);
 
+
+			modelBuilder.Entity<Campaign>()
+				.ToTable("Campaign")
+				.HasKey(key => key.CampaignId);
+
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.CampaignId).HasColumnName("CampaignId");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.Name).HasColumnName("CampaignName");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.StartDate).HasColumnName("CampaignStartDate");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.EndDate).HasColumnName("CampaignEndDate");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.Client).HasColumnName("ClientName");
+			modelBuilder.Entity<Campaign>()
+				.Ignore(prop => prop.Status);
 			base.OnModelCreating(modelBuilder);
 
 		}

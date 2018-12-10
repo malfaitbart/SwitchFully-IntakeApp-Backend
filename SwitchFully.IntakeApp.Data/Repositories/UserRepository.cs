@@ -20,7 +20,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 		public async Task<User> Create(User objectToCreate)
 		{
 			_context.Add(objectToCreate);
-			_context.SaveChangesAsync();
+			await _context.SaveChangesAsync();
 			return objectToCreate;
 		}
 
@@ -37,7 +37,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 		public async Task<User> UpdateAsync(User objectToUpdate)
 		{
 			_context.Update(objectToUpdate);
-			_context.SaveChangesAsync();
+			await _context.SaveChangesAsync();
 			return await _context.Users.FirstOrDefaultAsync(u => u.Id == objectToUpdate.Id);
 		}
 

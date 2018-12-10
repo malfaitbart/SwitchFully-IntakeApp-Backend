@@ -10,13 +10,8 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Mappers
 {
     public class CampaignMapper : ICampaignMapper
     {
-        private readonly IClientMapper _clientMapper;
 
-        public CampaignMapper(IClientMapper clientMapper)
-        {
-            _clientMapper = clientMapper;
-        }
-
+    
         public List<CampaignDTO_Return> CampaignListToCampaignDTOReturnList(List<Campaign> campaignList)
         {
             var CampaignDTO_ReturnList = new List<CampaignDTO_Return>();
@@ -39,17 +34,17 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Mappers
             return campaignList;
         }
 
-        public  CampaignDTO_Return CampaignToCampaignDTOReturn(Campaign campaign)
+        public CampaignDTO_Return CampaignToCampaignDTOReturn(Campaign campaign)
         {
             return new CampaignDTO_Return()
             {
                 CampaignId = campaign.CampaignId,
-                Clients = _clientMapper.ClientListToClientDTOReturnList(campaign.Clients),
                 Name = campaign.Name,
                 EndDate = campaign.EndDate,
                 StartDate = campaign.StartDate,
-                Status = campaign.Status
-
+                Status = campaign.Status,
+                Client = campaign.Client
+                
             };
         }
 
@@ -57,7 +52,7 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Mappers
         {
             var campaign = Campaign.CreateNewCampaign(
                 campaignDTO.Name,
-                _clientMapper.ClientDTOListCreateToClientList(campaignDTO.Clients),
+                campaignDTO.Client,
                 campaignDTO.StartDate,
                 campaignDTO.EndDate);
                 return campaign;
