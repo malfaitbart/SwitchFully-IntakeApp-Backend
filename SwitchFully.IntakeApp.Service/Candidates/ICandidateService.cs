@@ -12,8 +12,10 @@ namespace SwitchFully.IntakeApp.Service.Candidates
 
 		Task<Candidate> GetById(string id);
 
-		Candidate Update(Candidate candidate);
+		Task<Candidate> Update(Candidate candidate);
 
 		bool Delete(Candidate candidate);
+
+		Task<Candidate> Create(Candidate candidate);
 	}
 }

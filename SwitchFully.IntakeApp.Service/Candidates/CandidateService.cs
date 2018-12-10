@@ -35,9 +35,20 @@ namespace SwitchFully.IntakeApp.Service.Candidates
 			return await _candidateRepository.GetById(Guid.Parse(id));
 		}
 
-		public Candidate Update(Candidate candidate)
+		public Task<Candidate> Update(Candidate candidate)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<Candidate> Create(Candidate candidate)
+		{
+			_loggerManager.LogInfo($"Creating new candidate with id {candidate.Id.ToString()}");
+			var returnedCandidate = await _candidateRepository.Create(candidate);
+			if (returnedCandidate == null)
+			{
+				_loggerManager.LogError("unable to create candidate");
+			}
+			return returnedCandidate;
 		}
 	}
 }

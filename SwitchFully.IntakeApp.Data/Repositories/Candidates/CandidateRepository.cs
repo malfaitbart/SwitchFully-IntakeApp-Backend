@@ -2,8 +2,6 @@
 using SwitchFully.IntakeApp.Domain.Candidates;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
@@ -21,9 +19,14 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
 			_context = context;
 		}
 
-		public Task<Candidate> Create(Candidate objectToCreate)
+		public async Task<Candidate> Create(Candidate objectToCreate)
 		{
-			throw new NotImplementedException();
+			await _context.AddAsync(objectToCreate);
+			if (await _context.SaveChangesAsync() == 0)
+			{
+				throw new Exception("Candidate not created");
+			}
+			return await GetById(objectToCreate.Id);
 		}
 
 		public Task<List<Candidate>> GetAll()
@@ -31,9 +34,9 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
 			return _context.Candidates.ToListAsync();
 		}
 
-		public Task<Candidate> GetById(Guid id)
+		public async Task<Candidate> GetById(Guid id)
 		{
-			return _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
+			return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
 		}
 
 		public Task<Candidate> UpdateAsync(Candidate objectToUpdate)

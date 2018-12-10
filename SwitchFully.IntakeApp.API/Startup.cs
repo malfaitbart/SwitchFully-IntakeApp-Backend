@@ -9,12 +9,15 @@ using Microsoft.IdentityModel.Tokens;
 using NLog;
 using Swashbuckle.AspNetCore.Swagger;
 using SwitchFully.IntakeApp.API.Campaigns.Mappers;
+using SwitchFully.IntakeApp.API.Candidates.Mapper;
 using SwitchFully.IntakeApp.API.Helpers;
 using SwitchFully.IntakeApp.API.Users.Mapper;
 using SwitchFully.IntakeApp.Data;
 using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
+using SwitchFully.IntakeApp.Data.Repositories.Candidates;
 using SwitchFully.IntakeApp.Service.Campaigns;
+using SwitchFully.IntakeApp.Service.Candidates;
 using SwitchFully.IntakeApp.Service.Logging;
 using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
@@ -53,10 +56,13 @@ namespace SwitchFully.IntakeApp.API
 
 			services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICampaignService, CampaignService>();
+			services.AddScoped<ICandidateService, CandidateService>();
 
             services.AddScoped<CampaignRepository>();
+			services.AddScoped<CandidateRepository>();
 
 			services.AddScoped<UserMapper>();
+			services.AddScoped<ICandidateMapper, CandidateMapper>();
             services.AddSingleton<ICampaignMapper, CampaignMapper>();
 
 			services.AddScoped<Hasher>();

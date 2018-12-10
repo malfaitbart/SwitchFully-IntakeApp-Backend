@@ -7,9 +7,6 @@ namespace SwitchFully.IntakeApp.Domain.Candidates
 {
 	public class Candidate
 	{
-		private string id;
-		private MailAddress mailAddress;
-
 		public Guid Id { get; private set; }
 		public string FirstName { get; private set; }
 		public string LastName { get; private set; }
@@ -27,9 +24,9 @@ namespace SwitchFully.IntakeApp.Domain.Candidates
 			Email = email;
 		}
 
-		public Candidate(string id, string firstName, string lastName, MailAddress mailAddress)
+		public Candidate(Guid id, string firstName, string lastName, MailAddress mailAddress)
 		{
-			Id = Guid.Parse(id);
+			Id = id;
 			FirstName = firstName;
 			LastName = lastName;
 			Email = mailAddress;

@@ -7,5 +7,6 @@ namespace SwitchFully.IntakeApp.API.Candidates.Mapper
 	{
 		CandidateDto DomainToDto(Candidate candidate);
 		Candidate DtoToDomain(CandidateDto candidateDto);
+		Candidate DtoToDomain(CandidateDtoWithoutId candidateDto);
 	}
 }

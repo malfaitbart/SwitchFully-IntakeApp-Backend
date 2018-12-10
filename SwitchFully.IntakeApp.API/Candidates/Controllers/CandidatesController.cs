@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SwitchFully.IntakeApp.API.Candidates.DTO;
 using SwitchFully.IntakeApp.API.Candidates.Mapper;
-using SwitchFully.IntakeApp.API.Interfaces;
-using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Service.Candidates;
 using SwitchFully.IntakeApp.Service.Logging;
 using System;
@@ -13,24 +11,25 @@ using System.Threading.Tasks;
 namespace SwitchFully.IntakeApp.API.Candidates.Controllers
 {
 	[Route("api/[controller]")]
-	[Authorize]
+	//[Authorize]
 	[ApiController]
-	public class CandidateController : ControllerBase
+	public class CandidatesController : ControllerBase
 	{
-		private readonly CandidateService _candidateService;
+		private readonly ICandidateService _candidateService;
 		private readonly ILoggerManager _loggerManager;
 		private readonly ICandidateMapper _candidateMapper;
 
-		public CandidateController(CandidateService candidateService, ILoggerManager loggerManager, ICandidateMapper candidateMapper)
+		public CandidatesController(ICandidateService candidateService, ILoggerManager loggerManager, ICandidateMapper candidateMapper)
 		{
 			_candidateService = candidateService;
 			_loggerManager = loggerManager;
 			_candidateMapper = candidateMapper;
 		}
 		[HttpPost]
-		public Task<ActionResult<CandidateDto>> Create(Candidate objectToCreate)
+		public async Task<ActionResult<CandidateDto>> Create(CandidateDtoWithoutId objectToCreate)
 		{
-			throw new NotImplementedException();
+			var created = await _candidateService.Create(_candidateMapper.DtoToDomain(objectToCreate));
+			return _candidateMapper.DomainToDto(created);
 		}
 		[HttpGet]
 		public async Task<ActionResult<List<CandidateDto>>> GetAll()
