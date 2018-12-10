@@ -11,8 +11,8 @@ using Xunit;
 
 namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
 {
-    public class CampaignServiceTests
-    {
+	public class CampaignServiceTests
+	{
 
         //    private static DbContextOptions<SwitchFullyIntakeAppContext> CreateNewInMemoryDatabase()
         //    {

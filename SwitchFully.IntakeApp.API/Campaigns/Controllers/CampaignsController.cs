@@ -14,6 +14,7 @@ using SwitchFully.IntakeApp.Service.Campaigns;
 namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
 {
     [Route("api/[controller]")]
+	[Authorize]
     [ApiController]
     public class CampaignsController : ControllerBase, IController<Campaign, CampaignDTO_Return>
     {
@@ -25,26 +26,26 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
             _campaignService = campaignService;
             _campaignMapper = campaignMapper;
         }
-
-        [HttpGet]
-        async Task<ActionResult<List<CampaignDTO_Return>>> IController<Campaign, CampaignDTO_Return>.GetAll()
-        {
-            return _campaignMapper.CampaignListToCampaignDTOReturnList( await _campaignService.GetAllCampaigns());
-        }
-        [HttpGet ("id")]
-        Task<ActionResult<CampaignDTO_Return>> IController<Campaign, CampaignDTO_Return>.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-        [HttpPut]
-        Task<ActionResult<CampaignDTO_Return>> IController<Campaign, CampaignDTO_Return>.Update(Campaign objectToUpdate)
-        {
-            throw new NotImplementedException();
-        }
-        [HttpPost]
-        Task<ActionResult<CampaignDTO_Return>> IController<Campaign, CampaignDTO_Return>.Create(Campaign objectToCreate)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		[HttpPost]
+		public Task<ActionResult<CampaignDTO_Return>> Create(Campaign objectToCreate)
+		{
+			throw new NotImplementedException();
+		}
+		[HttpGet]
+		public async Task<ActionResult<List<CampaignDTO_Return>>> GetAll()
+		{
+			return _campaignMapper.CampaignListToCampaignDTOReturnList(await _campaignService.GetAllCampaigns());
+		}
+		[HttpGet]
+		[Route("id:int")]
+		public Task<ActionResult<CampaignDTO_Return>> GetById(int id)
+		{
+			throw new NotImplementedException();
+		}
+		[HttpPut]
+		public Task<ActionResult<CampaignDTO_Return>> Update(Campaign objectToUpdate)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

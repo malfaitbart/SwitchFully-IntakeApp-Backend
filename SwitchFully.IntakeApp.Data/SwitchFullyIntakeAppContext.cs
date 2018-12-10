@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.Campaigns;
+using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.Users;
 
 namespace SwitchFully.IntakeApp.Data
@@ -17,6 +17,7 @@ namespace SwitchFully.IntakeApp.Data
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
 		{
 		}
+
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -51,23 +52,28 @@ namespace SwitchFully.IntakeApp.Data
 				.ToTable("Candidates")
 				.HasKey(c => c.Id);
 
-            modelBuilder.Entity<Campaign>()
-                .ToTable("Campaign")
-                .HasKey(key => key.CampaignId);
+			modelBuilder.Entity<Candidate>()
+				.OwnsOne(c => c.Email,
+					email => { email.Property(prop => prop.Address).HasColumnName("Email"); }
+				);
 
-            modelBuilder.Entity<Campaign>()
-                .Property(prop => prop.CampaignId).HasColumnName("CampaignId");
-            modelBuilder.Entity<Campaign>()
-                .Property(prop => prop.Name).HasColumnName("CampaignName");
-            modelBuilder.Entity<Campaign>()
-                .Property(prop => prop.StartDate).HasColumnName("CampaignStartDate");
-            modelBuilder.Entity<Campaign>()
-                .Property(prop => prop.EndDate).HasColumnName("CampaignEndDate");
-            modelBuilder.Entity<Campaign>()
-                .Property(prop => prop.Client).HasColumnName("ClientName");
-            modelBuilder.Entity<Campaign>()
-                .Ignore(prop => prop.Status);
 
+			modelBuilder.Entity<Campaign>()
+				.ToTable("Campaign")
+				.HasKey(key => key.CampaignId);
+
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.CampaignId).HasColumnName("CampaignId");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.Name).HasColumnName("CampaignName");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.StartDate).HasColumnName("CampaignStartDate");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.EndDate).HasColumnName("CampaignEndDate");
+			modelBuilder.Entity<Campaign>()
+				.Property(prop => prop.Client).HasColumnName("ClientName");
+			modelBuilder.Entity<Campaign>()
+				.Ignore(prop => prop.Status);
 			base.OnModelCreating(modelBuilder);
 
 		}
