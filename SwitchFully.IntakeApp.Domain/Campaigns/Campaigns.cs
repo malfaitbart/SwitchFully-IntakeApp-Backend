@@ -51,7 +51,7 @@ namespace SwitchFully.IntakeApp.Domain.Campaigns
         {
             DateTime dateToday = DateTime.Now;
 
-            return dateToday < StartDate && dateToday > EndDate ? false : true;
+            return dateToday >= StartDate && dateToday <= EndDate ;
         }
 
     }
