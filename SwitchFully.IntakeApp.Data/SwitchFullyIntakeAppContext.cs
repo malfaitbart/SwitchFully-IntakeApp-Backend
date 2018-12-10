@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Users;
 
@@ -10,6 +11,7 @@ namespace SwitchFully.IntakeApp.Data
 		private readonly ILoggerFactory _logger;
 
 		public virtual DbSet<User> Users { get; set; }
+		public virtual DbSet<Candidate> Candidates { get; set; }
 		public virtual DbSet<Campaign> Campaigns { get; set; }
 
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
@@ -44,6 +46,10 @@ namespace SwitchFully.IntakeApp.Data
 						securePass.Property(prop => prop.PasswordHash).HasColumnName("PassWord");
 						securePass.Property(prop => prop.Salt).HasColumnName("SecPass");
 					});
+
+			modelBuilder.Entity<Candidate>()
+				.ToTable("Candidates")
+				.HasKey(c => c.Id);
 
             modelBuilder.Entity<Campaign>()
                 .ToTable("Campaign")
