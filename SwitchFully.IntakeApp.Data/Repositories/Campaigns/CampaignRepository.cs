@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SwitchFully.IntakeApp.Domain.Campaigns;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SwitchFully.IntakeApp.Domain.Campaigns;
+using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.Data.Repositories.Campaigns
 {
@@ -15,22 +17,22 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Campaigns
             _context = context;
         }
 
-        public Campaign Create(Campaign objectToCreate)
+        public Task<Campaign> Create(Campaign objectToCreate)
         {
             throw new NotImplementedException();
         }
 
-        public List<Campaign> GetAll()
+        public async Task<List<Campaign>> GetAll()
         {
-            return _context.Campaigns.ToList();
+            return await _context.Campaigns.ToListAsync();
         }
 
-        public Campaign GetById(Guid id)
+        public Task<Campaign> GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Campaign Update(Campaign objectToUpdate)
+        public Task<Campaign> UpdateAsync(Campaign objectToUpdate)
         {
             throw new NotImplementedException();
         }

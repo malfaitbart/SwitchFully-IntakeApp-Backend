@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
 using SwitchFully.IntakeApp.Domain.Campaigns;
@@ -16,9 +17,10 @@ namespace SwitchFully.IntakeApp.Service.Campaigns
             _campaignRepo = campaignRepo;
         }
 
-        public List<Campaign> GetAllCampaigns()
+        public async Task <List<Campaign>> GetAllCampaigns()
         {
-            return _campaignRepo.GetAll();
+            return await _campaignRepo.GetAll();
         }
+
     }
 }

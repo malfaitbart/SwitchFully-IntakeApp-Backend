@@ -14,16 +14,16 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CampaignsController //: ControllerBase, IController<Campaign, CampaignDTO_Return>
+    public class CampaignsController : ControllerBase, IController<Campaign, CampaignDTO_Return>
     {
-        //private readonly ICampaignService _campaignService;
-        //private readonly ICampaignMapper _campaignMapper;
+        private readonly ICampaignService _campaignService;
+        private readonly ICampaignMapper _campaignMapper;
 
-        //public CampaignsController(ICampaignService campaignService, ICampaignMapper campaignMapper)
-        //{
-        //    _campaignService = campaignService;
-        //    _campaignMapper = campaignMapper;
-        //}
+        public CampaignsController(ICampaignService campaignService, ICampaignMapper campaignMapper)
+        {
+            _campaignService = campaignService;
+            _campaignMapper = campaignMapper;
+        }
 
 
         // GET: api/Campaigns/5
@@ -39,11 +39,6 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
         {
         }
 
-        [HttpGet]
-        public ActionResult<List<CampaignDTO_Return>> GetAll()
-        {
-            return _campaignMapper.CampaignListToCampaignDTOReturnList(_campaignService.GetAllCampaigns());
-        }
 
         [HttpGet("{id}")]
         public ActionResult<CampaignDTO_Return> GetById(int id)
@@ -58,6 +53,26 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
 
         [HttpPost]
         public ActionResult<CampaignDTO_Return> Create(Campaign objectToCreate)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<ActionResult<List<CampaignDTO_Return>>> IController<Campaign, CampaignDTO_Return>.GetAll()
+        {
+            return _campaignMapper.CampaignListToCampaignDTOReturnList( await _campaignService.GetAllCampaigns());
+        }
+
+        Task<ActionResult<CampaignDTO_Return>> IController<Campaign, CampaignDTO_Return>.GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ActionResult<CampaignDTO_Return>> IController<Campaign, CampaignDTO_Return>.Update(Campaign objectToUpdate)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ActionResult<CampaignDTO_Return>> IController<Campaign, CampaignDTO_Return>.Create(Campaign objectToCreate)
         {
             throw new NotImplementedException();
         }
