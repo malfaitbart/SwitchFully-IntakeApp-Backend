@@ -44,11 +44,11 @@ namespace SwitchFully.IntakeApp.API.Candidates.Controllers
 			return dtoList;
 		}
 
-		[HttpGet]
-		[Route("id:string")]
-		public Task<ActionResult<CandidateDto>> GetById(string id)
+		[HttpGet("{id}")]
+		public async Task<ActionResult<CandidateDto>> GetById(string id)
 		{
-			throw new NotImplementedException();
+			var candidate = await _candidateService.GetById(id);
+			return _candidateMapper.DomainToDto(candidate);
 		}
 
 		[HttpPut]
