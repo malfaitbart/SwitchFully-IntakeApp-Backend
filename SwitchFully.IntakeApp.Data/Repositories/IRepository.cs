@@ -7,9 +7,9 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 {
 	public interface IRepository<T>
 	{
-		List<T> GetAll();
+		Task<List<T>> GetAll();
 		Task<T> GetById(Guid id);
-		T Update(T objectToUpdate);
-		T Create(T objectToCreate);
+		Task<T> UpdateAsync(T objectToUpdate);
+		Task<T> Create(T objectToCreate);
 	}
 }

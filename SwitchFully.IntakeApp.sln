@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Data"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwitchFully.IntakeApp.Tests", "SwitchFully.IntakeApp.Tests", "{7D5A2577-1E33-4190-B03E-3B81CEC8BE50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchFully.IntakeApp.Domain.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Domain.Tests\SwitchFully.IntakeApp.Domain.Tests.csproj", "{D12CE95F-0130-499C-B634-E7CD0A5E48A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Domain.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Domain.Tests\SwitchFully.IntakeApp.Domain.Tests.csproj", "{D12CE95F-0130-499C-B634-E7CD0A5E48A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchFully.IntakeApp.Service.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Service.Tests\SwitchFully.IntakeApp.Service.Tests.csproj", "{BB0F3F57-3FBA-4E05-B96D-B8B92886C0E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Service.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Service.Tests\SwitchFully.IntakeApp.Service.Tests.csproj", "{BB0F3F57-3FBA-4E05-B96D-B8B92886C0E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchFully.IntakeApp.Tests.Integration.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests.csproj", "{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Tests.Integration.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests.csproj", "{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchFully.IntakeApp.Controller.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Controller.Tests\SwitchFully.IntakeApp.Controller.Tests.csproj", "{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{D12CE95F-0130-499C-B634-E7CD0A5E48A4} = {7D5A2577-1E33-4190-B03E-3B81CEC8BE50}
 		{BB0F3F57-3FBA-4E05-B96D-B8B92886C0E0} = {7D5A2577-1E33-4190-B03E-3B81CEC8BE50}
 		{A18E2C28-5819-42C5-A772-3EFBB9B83D2E} = {7D5A2577-1E33-4190-B03E-3B81CEC8BE50}
+		{B4711259-CC8E-4E47-8AA0-AAF78D593B4D} = {7D5A2577-1E33-4190-B03E-3B81CEC8BE50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A407B739-E12D-4BE9-94A0-17CA82D0D03E}

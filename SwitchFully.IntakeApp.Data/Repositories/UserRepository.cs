@@ -17,16 +17,16 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 			_context = context;
 		}
 
-		public User Create(User objectToCreate)
+		public async Task<User> Create(User objectToCreate)
 		{
 			_context.Add(objectToCreate);
 			_context.SaveChangesAsync();
 			return objectToCreate;
 		}
 
-		public List<User> GetAll()
+		public async Task<List<User>> GetAll()
 		{
-			return _context.Users.ToList();
+			return await _context.Users.ToListAsync();
 		}
 
 		public async Task<User> GetById(Guid id)
@@ -34,11 +34,11 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 			return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 		}
 
-		public User Update(User objectToUpdate)
+		public async Task<User> UpdateAsync(User objectToUpdate)
 		{
 			_context.Update(objectToUpdate);
 			_context.SaveChangesAsync();
-			return _context.Users.FirstOrDefault(u => u.Id == objectToUpdate.Id);
+			return await _context.Users.FirstOrDefaultAsync(u => u.Id == objectToUpdate.Id);
 		}
 
 		public User FindByEmail(string providedEmail)

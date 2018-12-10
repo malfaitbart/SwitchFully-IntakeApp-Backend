@@ -8,9 +8,9 @@ namespace SwitchFully.IntakeApp.API.Interfaces
 {
 	public interface IController<T, U>
 	{
-		ActionResult<List<U>> GetAll();
-		ActionResult<U> GetById(int id);
-		ActionResult<U> Update(T objectToUpdate);
-		ActionResult<U> Create(T objectToCreate);
+		Task<ActionResult<List<U>>> GetAll();
+		Task<ActionResult<U>> GetById(int id);
+		Task<ActionResult<U>> Update(T objectToUpdate);
+		Task<ActionResult<U>> Create(T objectToCreate);
 	}
 }
