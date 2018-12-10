@@ -50,6 +50,11 @@ namespace SwitchFully.IntakeApp.Data
 				.ToTable("Candidates")
 				.HasKey(c => c.Id);
 
+			modelBuilder.Entity<Candidate>()
+				.OwnsOne(c => c.Email,
+					email => { email.Property(prop => prop.Address).HasColumnName("Email"); }
+				);
+
 			base.OnModelCreating(modelBuilder);
 
 		}
