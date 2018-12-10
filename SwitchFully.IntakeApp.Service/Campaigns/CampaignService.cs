@@ -33,5 +33,10 @@ namespace SwitchFully.IntakeApp.Service.Campaigns
             return await _campaignRepo.GetAll();
         }
 
+        public async Task<Campaign> GetSingleCampaignByID(string id)
+        {
+
+            return await _campaignRepo.GetById(new Guid(id));
+        }
     }
 }
