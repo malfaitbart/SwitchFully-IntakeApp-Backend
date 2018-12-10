@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SwitchFully.IntakeApp.Domain.Campaigns
@@ -8,38 +9,49 @@ namespace SwitchFully.IntakeApp.Domain.Campaigns
     {
         public Guid CampaignId { get; private set; }
         public string Name { get; private set; }
-        public List<Client> Clients { get; private set; }
+        public string Client { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
-        public bool Status { get; private set; }
+        private bool status;
 
+        public bool Status
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                status = SetStatusOfCampaign();
+            }
+        }
 
         private Campaign() { }
 
-        private Campaign(string name, List<Client> clients, DateTime startDate, DateTime endDate)
+        private Campaign(string name, string client, DateTime startDate, DateTime endDate)
         {
             CampaignId = Guid.NewGuid();
             Name = name;
-            Clients = clients;
+            Client = client;
             StartDate = startDate;
             EndDate = endDate;
-            Status = SetStatusOfCampaign();
+            Status = status;
         }
 
-        public static Campaign CreateNewCampaign(string name, List<Client> clients, DateTime startDate, DateTime endDate )
+        public static Campaign CreateNewCampaign(string name, string client, DateTime startDate, DateTime endDate)
         {
-            if (string.IsNullOrWhiteSpace(name) || clients == null ||  startDate == null || endDate == null)
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(client) ||  startDate == null || endDate == null)
             {
                 return null;
             }
-            return new Campaign(name, clients, startDate, endDate);
+            return new Campaign(name, client, startDate, endDate);
         }
 
         private bool SetStatusOfCampaign()
         {
             DateTime dateToday = DateTime.Now;
 
-            return dateToday < StartDate || dateToday > EndDate ? false : true;
+            return dateToday < StartDate && dateToday > EndDate ? false : true;
         }
 
     }

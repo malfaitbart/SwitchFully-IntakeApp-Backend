@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Users;
 
 namespace SwitchFully.IntakeApp.Data
@@ -9,11 +10,11 @@ namespace SwitchFully.IntakeApp.Data
 		private readonly ILoggerFactory _logger;
 
 		public virtual DbSet<User> Users { get; set; }
+		public virtual DbSet<Campaign> Campaigns { get; set; }
 
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
 		{
 		}
-
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -49,6 +50,23 @@ namespace SwitchFully.IntakeApp.Data
 						securePass.Property(prop => prop.PasswordHash).HasColumnName("PassWord");
 						securePass.Property(prop => prop.Salt).HasColumnName("SecPass");
 					});
+
+            modelBuilder.Entity<Campaign>()
+                .ToTable("Campaign")
+                .HasKey(key => key.CampaignId);
+
+            modelBuilder.Entity<Campaign>()
+                .Property(prop => prop.CampaignId).HasColumnName("CampaignId");
+            modelBuilder.Entity<Campaign>()
+                .Property(prop => prop.Name).HasColumnName("CampaignName");
+            modelBuilder.Entity<Campaign>()
+                .Property(prop => prop.StartDate).HasColumnName("CampaignStartDate");
+            modelBuilder.Entity<Campaign>()
+                .Property(prop => prop.EndDate).HasColumnName("CampaignEndDate");
+            modelBuilder.Entity<Campaign>()
+                .Property(prop => prop.Client).HasColumnName("ClientName");
+            modelBuilder.Entity<Campaign>()
+                .Ignore(prop => prop.Status);
 
 			base.OnModelCreating(modelBuilder);
 

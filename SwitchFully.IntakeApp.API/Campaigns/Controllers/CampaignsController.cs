@@ -26,46 +26,26 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
         }
 
 
-        // GET: api/Campaigns/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST: api/Campaigns
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
-        // PUT: api/Campaigns/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
+        [HttpGet]
         public ActionResult<List<CampaignDTO_Return>> GetAll()
         {
             return _campaignMapper.CampaignListToCampaignDTOReturnList(_campaignService.GetAllCampaigns());
         }
 
+        [HttpGet("{id}")]
         public ActionResult<CampaignDTO_Return> GetById(int id)
         {
             throw new NotImplementedException();
         }
-
+        [HttpPut]
         public ActionResult<CampaignDTO_Return> Update(Campaign objectToUpdate)
         {
             throw new NotImplementedException();
         }
 
+        [HttpPost]
         public ActionResult<CampaignDTO_Return> Create(Campaign objectToCreate)
         {
             throw new NotImplementedException();

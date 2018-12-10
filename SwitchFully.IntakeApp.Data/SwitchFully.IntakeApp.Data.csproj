@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181207092519_Users_Update2.cs" />
+    <Compile Remove="Migrations\20181207142509_CreateCampaign.cs" />
+    <Compile Remove="Migrations\20181210072945_removedstatuscolumn.cs" />
   </ItemGroup>
 
   <ItemGroup>
