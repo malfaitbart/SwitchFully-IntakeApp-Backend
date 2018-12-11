@@ -7,7 +7,7 @@ namespace SwitchFully.IntakeApp.Domain.ErrorHandling
     public class ExceptionsHandler : ApplicationException
     {
 
-        public ExceptionsHandler(Type type,string message) : base(type.ToString() + " Exeption: " + message)
+        public ExceptionsHandler(string type, string message) : base( type + " Exeption: " + message)
         { }
     }
 }

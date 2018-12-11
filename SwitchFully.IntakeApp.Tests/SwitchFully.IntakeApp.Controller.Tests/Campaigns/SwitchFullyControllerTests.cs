@@ -1,5 +1,6 @@
 ﻿using SwitchFully.IntakeApp.API.Campaigns.DTO;
 using SwitchFully.IntakeApp.API.Campaigns.Mappers;
+using SwitchFully.IntakeApp.Domain.Campaigns;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +28,7 @@ namespace SwitchFully.IntakeApp.Controller.Tests.Campaigns
             Assert.Equal("VAB", result.Client);
             Assert.True(result.Status == false);
         }
+
         [Fact]
         public void GivenCampaignDTOCreateToCampaignWithActiveCampaign_WhenCreatingACampaignFromCampaignDTO_ThenCampaignIsCreatedWithStatusTrue()
         {
@@ -45,5 +47,23 @@ namespace SwitchFully.IntakeApp.Controller.Tests.Campaigns
             Assert.Equal("VAB", result.Client);
             Assert.True(result.Status == true);
         }
+
+        [Fact]
+        public void GivenCampaignToCampaignDTOReturn_WhenCreatingACampaignDTOReturnFromCampaign_ThenCampaignDTOReturnIsCreated()
+        {
+            Campaign campaign = Campaign.CreateNewCampaign(
+                "java",
+                "vab",
+                new DateTime(2018, 06, 21),
+                new DateTime(2018, 09, 25));
+
+            var campaignMapper = new CampaignMapper();
+            var result = campaignMapper.CampaignToCampaignDTOReturn(campaign);
+
+            Assert.Equal("java", result.Name);
+            Assert.Equal("vab", result.Client);
+            Assert.True(result.Status == false);
+        }
+
     }
 }

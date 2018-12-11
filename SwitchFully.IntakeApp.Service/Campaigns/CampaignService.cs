@@ -22,7 +22,7 @@ namespace SwitchFully.IntakeApp.Service.Campaigns
         {
             if (campaign == null)
             {
-                throw new ExceptionsHandler(this.GetType(), "fields are not filled in correctly");
+                throw new ExceptionsHandler("campaign", "fields are not filled in correctly");
             }
 
             return await _campaignRepo.Create(campaign);

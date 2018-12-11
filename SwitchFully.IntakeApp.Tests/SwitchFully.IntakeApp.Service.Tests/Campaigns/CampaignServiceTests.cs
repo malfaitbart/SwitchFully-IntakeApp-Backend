@@ -3,6 +3,7 @@ using NSubstitute;
 using SwitchFully.IntakeApp.Data;
 using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
 using SwitchFully.IntakeApp.Domain.Campaigns;
+using SwitchFully.IntakeApp.Domain.ErrorHandling;
 using SwitchFully.IntakeApp.Service.Campaigns;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,40 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
                 var result = await service.GetSingleCampaignByID(Guid.NewGuid().ToString());
 
                 Assert.Null(result);
+            }
+
+        }
+
+        [Fact]
+        public async void GivenCreateNewCampaign_whenCreatingANewCampaign_ThenCampaignIsCreated()
+        {
+            var testCampaign = Campaign.CreateNewCampaign("java", "VAB", new DateTime(2018, 04, 21), new DateTime(2018, 06, 22));
+
+            using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
+            {
+
+                var repo = new CampaignRepository(context);
+                var service = new CampaignService(repo);
+                var result = await service.CreateNewCampaign(testCampaign);
+
+                Assert.True(context.Campaigns.SingleOrDefaultAsync(r => r.CampaignId == testCampaign.CampaignId) != null);
+            }
+
+        }
+
+        [Fact]
+        public async void GivenCreateNewCampaignUnhappyPath_whenCreatingANewCampaignWhenNotallFieldsAreFilledIn_ThenReturnNull()
+        {
+            var testCampaign = Campaign.CreateNewCampaign("", "VAB", new DateTime(2018, 04, 21), new DateTime(2018, 06, 22));
+
+            using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
+            {
+
+                var repo = new CampaignRepository(context);
+                var service = new CampaignService(repo);
+                var exc =  await Assert.ThrowsAsync<ExceptionsHandler>(async () =>  await service.CreateNewCampaign(testCampaign));
+
+                Assert.Equal("campaign Exeption: fields are not filled in correctly", exc.Message);
             }
 
         }

@@ -27,26 +27,26 @@ using System.Text;
 
 namespace SwitchFully.IntakeApp.API
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration)
-		{
-			LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
-			Configuration = configuration;
-		}
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			ConfigureAdditionalServices(services);
-		}
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            ConfigureAdditionalServices(services);
+        }
 
-		protected virtual void ConfigureAdditionalServices(IServiceCollection services)
-		{
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+        protected virtual void ConfigureAdditionalServices(IServiceCollection services)
+        {
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwaggerGen(c =>
             {
@@ -105,30 +105,32 @@ namespace SwitchFully.IntakeApp.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerManager logger)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-			app.UseSwagger();
-			app.UseSwaggerUI(c =>
-			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "SwitchFully Intake App V1");
-				c.RoutePrefix = string.Empty;
-			});
-			app.ConfigureExceptionHandler(logger);
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SwitchFully Intake App V1");
+                c.RoutePrefix = string.Empty;
+            });
+            app.ConfigureExceptionHandler(logger);
 
-			app.UseCors(x => x
-				.AllowAnyOrigin()
-				.AllowAnyMethod()
-				.AllowAnyHeader()
-				.AllowCredentials());
+            ConfigureAdditionalMiddleware(app, env);
 
-			app.UseAuthentication();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
-			app.UseMvc();
-		}
+            app.UseAuthentication();
+
+            app.UseMvc();
+        }
 
         private byte[] GetSecretKey()
         {
@@ -139,5 +141,11 @@ namespace SwitchFully.IntakeApp.API
             return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
         }
 
+        protected virtual void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
+        {
+        }
+
     }
+
 }
+
