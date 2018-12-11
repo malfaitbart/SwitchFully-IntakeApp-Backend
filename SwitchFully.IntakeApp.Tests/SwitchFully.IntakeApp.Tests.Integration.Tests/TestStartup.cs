@@ -11,7 +11,5 @@ namespace SwitchFully.IntakeApp.Integration.Tests
 		public TestStartup(IConfiguration configuration) : base(configuration)
 		{
 		}
-
-		protected override void 
 	}
 }
