@@ -1,11 +1,11 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using SwitchFully.IntakeApp.Data.Repositories.Users;
 using SwitchFully.IntakeApp.Domain.Users;
-using SwitchFully.IntakeApp.Data.Repositories;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 
 namespace SwitchFully.IntakeApp.Service.Security
 {

@@ -19,6 +19,24 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Campaigns.Campaign", b =>
+                {
+                    b.Property<Guid>("CampaignId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Client");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.HasKey("CampaignId");
+
+                    b.ToTable("Campaign");
+                });
+
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Candidates.Candidate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -31,6 +49,41 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Candidates");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CampagneId");
+
+                    b.Property<Guid>("CandidateId");
+
+                    b.Property<int>("StatusId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampagneId");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("JobApplication");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Users.User", b =>
@@ -67,6 +120,24 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                                 .HasForeignKey("System.Net.Mail.MailAddress", "CandidateId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", b =>
+                {
+                    b.HasOne("SwitchFully.IntakeApp.Domain.Campaigns.Campaign", "Campaign")
+                        .WithMany()
+                        .HasForeignKey("CampagneId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SwitchFully.IntakeApp.Domain.Candidates.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SwitchFully.IntakeApp.Domain.JobApplications.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Users.User", b =>

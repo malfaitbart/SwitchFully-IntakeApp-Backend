@@ -1,11 +1,7 @@
 ﻿using SwitchFully.IntakeApp.API.Users.Dto;
 using SwitchFully.IntakeApp.Domain.Users;
 using SwitchFully.IntakeApp.Service.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.API.Users.Mapper
 {

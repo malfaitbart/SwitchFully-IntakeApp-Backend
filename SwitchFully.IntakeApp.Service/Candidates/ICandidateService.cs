@@ -1,7 +1,5 @@
 ﻿using SwitchFully.IntakeApp.Domain.Candidates;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.Service.Candidates

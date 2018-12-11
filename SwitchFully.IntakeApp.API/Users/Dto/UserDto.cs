@@ -1,8 +1,4 @@
-﻿using SwitchFully.IntakeApp.Domain.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace SwitchFully.IntakeApp.API.Users.Dto
 {

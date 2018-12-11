@@ -11,13 +11,16 @@ using Swashbuckle.AspNetCore.Swagger;
 using SwitchFully.IntakeApp.API.Campaigns.Mappers;
 using SwitchFully.IntakeApp.API.Candidates.Mapper;
 using SwitchFully.IntakeApp.API.Helpers;
+using SwitchFully.IntakeApp.API.JobApplications.Mapper;
 using SwitchFully.IntakeApp.API.Users.Mapper;
 using SwitchFully.IntakeApp.Data;
-using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
 using SwitchFully.IntakeApp.Data.Repositories.Candidates;
+using SwitchFully.IntakeApp.Data.Repositories.JobApplications;
+using SwitchFully.IntakeApp.Data.Repositories.Users;
 using SwitchFully.IntakeApp.Service.Campaigns;
 using SwitchFully.IntakeApp.Service.Candidates;
+using SwitchFully.IntakeApp.Service.JobApplications;
 using SwitchFully.IntakeApp.Service.Logging;
 using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
@@ -48,63 +51,67 @@ namespace SwitchFully.IntakeApp.API
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = "SwitchFully Intake App",
-                    Version = "v1"
-                });
-            });
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info
+				{
+					Title = "SwitchFully Intake App",
+					Version = "v1"
+				});
+			});
 
-            services.AddScoped<ILoggerManager, LoggerManager>();
+			services.AddScoped<ILoggerManager, LoggerManager>();
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICampaignService, CampaignService>();
-            services.AddScoped<ICandidateService, CandidateService>();
+			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<ICampaignService, CampaignService>();
+			services.AddScoped<ICandidateService, CandidateService>();
+			services.AddScoped<IJobApplicationService, JobApplicationService>();
 
-            services.AddScoped<CampaignRepository>();
-            services.AddScoped<CandidateRepository>();
+			services.AddScoped<CampaignRepository>();
+			services.AddScoped<CandidateRepository>();
+			services.AddScoped<JobApplicationRepository>();
 
-            services.AddScoped<UserMapper>();
-            services.AddScoped<ICandidateMapper, CandidateMapper>();
-            services.AddSingleton<ICampaignMapper, CampaignMapper>();
+			services.AddScoped<UserMapper>();
+			services.AddScoped<ICandidateMapper, CandidateMapper>();
+			services.AddSingleton<ICampaignMapper, CampaignMapper>();
+			services.AddScoped<JobApplicationMapper>();
+			services.AddScoped<StatusMapper>();
 
-            services.AddScoped<Hasher>();
-            services.AddScoped<Salter>();
-            services.AddScoped<UserAuthenticationService>();
+			services.AddScoped<Hasher>();
+			services.AddScoped<Salter>();
+			services.AddScoped<UserAuthenticationService>();
 
-            services.AddTransient<SwitchFullyIntakeAppContext>();
-            services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-                options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-            );
-            services.AddScoped<UserRepository>();
+			services.AddTransient<SwitchFullyIntakeAppContext>();
+			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
+				options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
+			);
+			services.AddScoped<UserRepository>();
 
-            services
-                //.AddAuthorization(options => {
-                //	options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.r, "admin@gmail.com"));
-                //})
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(GetSecretKey()),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
-        }
+			services
+				//.AddAuthorization(options => {
+				//	options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.r, "admin@gmail.com"));
+				//})
+				.AddAuthentication(options =>
+				{
+					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(GetSecretKey()),
+						ValidateIssuer = false,
+						ValidateAudience = false
+					};
+				});
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerManager logger)
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerManager logger)
 		{
 			if (env.IsDevelopment())
 			{
@@ -130,14 +137,14 @@ namespace SwitchFully.IntakeApp.API
 			app.UseMvc();
 		}
 
-        private byte[] GetSecretKey()
-        {
-            if (Configuration["SecretKey"] == null)
-            {
-                throw new ArgumentNullException("SecretKey", "Set the SecretKey user secret, it is required");
-            }
-            return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
-        }
+		private byte[] GetSecretKey()
+		{
+			if (Configuration["SecretKey"] == null)
+			{
+				throw new ArgumentNullException("SecretKey", "Set the SecretKey user secret, it is required");
+			}
+			return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+		}
 
-    }
+	}
 }
