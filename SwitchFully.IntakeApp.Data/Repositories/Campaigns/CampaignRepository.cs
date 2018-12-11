@@ -34,7 +34,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Campaigns
             return await _context.Campaigns.SingleOrDefaultAsync(campaign => campaign.CampaignId == givenId);
         }
 
-        public Task<Campaign> UpdateAsync(Campaign objectToUpdate)
+        public Task<Campaign> Update(Campaign objectToUpdate)
         {
             throw new NotImplementedException();
         }

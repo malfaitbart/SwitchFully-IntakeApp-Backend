@@ -41,68 +41,70 @@ namespace SwitchFully.IntakeApp.API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new Info
-				{
-					Title = "SwitchFully Intake App",
-					Version = "v1"
-				});
-			});
-
-			services.AddScoped<ILoggerManager, LoggerManager>();
-
-			services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICampaignService, CampaignService>();
-			services.AddScoped<ICandidateService, CandidateService>();
-
-            services.AddScoped<CampaignRepository>();
-			services.AddScoped<CandidateRepository>();
-
-			services.AddScoped<UserMapper>();
-			services.AddScoped<ICandidateMapper, CandidateMapper>();
-            services.AddSingleton<ICampaignMapper, CampaignMapper>();
-
-			services.AddScoped<Hasher>();
-			services.AddScoped<Salter>();
-			services.AddScoped<UserAuthenticationService>();
-
-			services.AddTransient<SwitchFullyIntakeAppContext>();
-			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-				options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-			);
-			services.AddScoped<UserRepository>();
-
-
-			var key = Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
-
-			services
-				//.AddAuthorization(options => {
-				//	options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.r, "admin@gmail.com"));
-				//})
-				.AddAuthentication(options =>
-				{
-					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-					options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-				})
-				.AddJwtBearer(options =>
-				{
-					options.RequireHttpsMetadata = false;
-					options.SaveToken = true;
-					options.TokenValidationParameters = new TokenValidationParameters
-					{
-						ValidateIssuerSigningKey = true,
-						IssuerSigningKey = new SymmetricSecurityKey(key),
-						ValidateIssuer = false,
-						ValidateAudience = false
-					};
-				});
+			ConfigureAdditionalServices(services);
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerManager logger)
+		protected virtual void ConfigureAdditionalServices(IServiceCollection services)
+		{
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "SwitchFully Intake App",
+                    Version = "v1"
+                });
+            });
+
+            services.AddScoped<ILoggerManager, LoggerManager>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICampaignService, CampaignService>();
+            services.AddScoped<ICandidateService, CandidateService>();
+
+            services.AddScoped<CampaignRepository>();
+            services.AddScoped<CandidateRepository>();
+
+            services.AddScoped<UserMapper>();
+            services.AddScoped<ICandidateMapper, CandidateMapper>();
+            services.AddSingleton<ICampaignMapper, CampaignMapper>();
+
+            services.AddScoped<Hasher>();
+            services.AddScoped<Salter>();
+            services.AddScoped<UserAuthenticationService>();
+
+            services.AddTransient<SwitchFullyIntakeAppContext>();
+            services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
+                options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
+            );
+            services.AddScoped<UserRepository>();
+
+            services
+                //.AddAuthorization(options => {
+                //	options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.r, "admin@gmail.com"));
+                //})
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(GetSecretKey()),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerManager logger)
 		{
 			if (env.IsDevelopment())
 			{
@@ -127,5 +129,15 @@ namespace SwitchFully.IntakeApp.API
 
 			app.UseMvc();
 		}
-	}
+
+        private byte[] GetSecretKey()
+        {
+            if (Configuration["SecretKey"] == null)
+            {
+                throw new ArgumentNullException("SecretKey", "Set the SecretKey user secret, it is required");
+            }
+            return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+        }
+
+    }
 }
