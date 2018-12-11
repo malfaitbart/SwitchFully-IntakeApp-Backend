@@ -3,10 +3,9 @@ using SwitchFully.IntakeApp.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace SwitchFully.IntakeApp.Data.Repositories
+namespace SwitchFully.IntakeApp.Data.Repositories.Users
 {
 	public class UserRepository : IRepository<User>
 	{

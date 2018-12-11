@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SwitchFully.IntakeApp.Domain.Users;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using SwitchFully.IntakeApp.Domain.Users;
 
 namespace SwitchFully.IntakeApp.Service.Users
 {
