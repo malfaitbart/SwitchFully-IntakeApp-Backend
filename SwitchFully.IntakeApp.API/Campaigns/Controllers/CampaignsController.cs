@@ -38,11 +38,18 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
 			return Ok(_campaignMapper.CampaignListToCampaignDTOReturnList(await _campaignService.GetAllCampaigns()));
 		}
 		[HttpGet]
-		[Route("id:int")]
-		public Task<ActionResult<CampaignDTO_Return>> GetById(int id)
+		[Route("id:string")]
+		public async Task<ActionResult<CampaignDTO_Return>> GetById(string id)
 		{
-			throw new NotImplementedException();
-		}
+            var campaign = await _campaignService.GetSingleCampaignByID(id);
+            if (campaign == null)
+            {
+                return BadRequest("Id not found");
+            }
+            var campaignToReturn = _campaignMapper.CampaignToCampaignDTOReturn(campaign);
+
+            return Ok(campaignToReturn);
+        }
 		[HttpPut]
 		public Task<ActionResult<CampaignDTO_Return>> Update(Campaign objectToUpdate)
 		{
