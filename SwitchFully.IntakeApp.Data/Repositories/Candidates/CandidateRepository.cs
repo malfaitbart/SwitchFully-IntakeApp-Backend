@@ -39,7 +39,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
 			return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
 		}
 
-		public Task<Candidate> UpdateAsync(Candidate objectToUpdate)
+		public Task<Candidate> Update(Candidate objectToUpdate)
 		{
 			throw new NotImplementedException();
 		}

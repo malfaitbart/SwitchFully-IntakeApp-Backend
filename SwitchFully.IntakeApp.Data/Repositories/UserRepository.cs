@@ -34,7 +34,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 			return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 		}
 
-		public async Task<User> UpdateAsync(User objectToUpdate)
+		public async Task<User> Update(User objectToUpdate)
 		{
 			_context.Update(objectToUpdate);
 			await _context.SaveChangesAsync();

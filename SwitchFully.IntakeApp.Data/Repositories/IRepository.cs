@@ -9,7 +9,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories
 	{
 		Task<List<T>> GetAll();
 		Task<T> GetById(Guid id);
-		Task<T> UpdateAsync(T objectToUpdate);
+		Task<T> Update(T objectToUpdate);
 		Task<T> Create(T objectToCreate);
 	}
 }

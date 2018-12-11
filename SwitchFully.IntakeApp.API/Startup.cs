@@ -41,6 +41,11 @@ namespace SwitchFully.IntakeApp.API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			ConfigureAdditionalServices(services);
+		}
+
+		protected virtual void ConfigureAdditionalServices(IServiceCollection services)
+		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 			services.AddSwaggerGen(c =>
@@ -55,15 +60,15 @@ namespace SwitchFully.IntakeApp.API
 			services.AddScoped<ILoggerManager, LoggerManager>();
 
 			services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICampaignService, CampaignService>();
+			services.AddScoped<ICampaignService, CampaignService>();
 			services.AddScoped<ICandidateService, CandidateService>();
 
-            services.AddScoped<CampaignRepository>();
+			services.AddScoped<CampaignRepository>();
 			services.AddScoped<CandidateRepository>();
 
 			services.AddScoped<UserMapper>();
 			services.AddScoped<ICandidateMapper, CandidateMapper>();
-            services.AddSingleton<ICampaignMapper, CampaignMapper>();
+			services.AddSingleton<ICampaignMapper, CampaignMapper>();
 
 			services.AddScoped<Hasher>();
 			services.AddScoped<Salter>();
@@ -99,6 +104,7 @@ namespace SwitchFully.IntakeApp.API
 						ValidateAudience = false
 					};
 				});
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

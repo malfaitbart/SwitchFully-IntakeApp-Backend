@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace SwitchFully.IntakeApp.API.Candidates.Controllers
 {
 	[Route("api/[controller]")]
-	//[Authorize]
+	[Authorize]
 	[ApiController]
 	public class CandidatesController : ControllerBase
 	{

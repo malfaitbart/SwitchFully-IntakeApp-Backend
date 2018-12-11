@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Service.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Service.Tests\SwitchFully.IntakeApp.Service.Tests.csproj", "{BB0F3F57-3FBA-4E05-B96D-B8B92886C0E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Tests.Integration.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests.csproj", "{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Integration.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Tests.Integration.Tests\SwitchFully.IntakeApp.Integration.Tests.csproj", "{A18E2C28-5819-42C5-A772-3EFBB9B83D2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchFully.IntakeApp.Controller.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Controller.Tests\SwitchFully.IntakeApp.Controller.Tests.csproj", "{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchFully.IntakeApp.Controller.Tests", "SwitchFully.IntakeApp.Tests\SwitchFully.IntakeApp.Controller.Tests\SwitchFully.IntakeApp.Controller.Tests.csproj", "{B4711259-CC8E-4E47-8AA0-AAF78D593B4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
