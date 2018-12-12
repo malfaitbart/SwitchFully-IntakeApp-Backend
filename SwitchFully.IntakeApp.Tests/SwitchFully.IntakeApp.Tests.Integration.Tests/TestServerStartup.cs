@@ -29,17 +29,37 @@ using System;
 namespace SwitchFully.IntakeApp.Integration.Tests
 {
 
-        public class TestServerStartup : Startup
+    public class TestServerStartup : Startup
+    {
+        public TestServerStartup(IConfiguration configuration) : base(configuration)
         {
-            public TestServerStartup(IConfiguration configuration) : base(configuration)
-            {
-            }
-
-            protected override void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
-            {
-                app.UseMiddleware<TestMiddleware.AuthenticatedTestRequestMiddleware>();
-            }
         }
 
 
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            ConfigureAdditionalServices(services);
+        }
+
+        protected override void ConfigureAdditionalServices(IServiceCollection services)
+        {
+            services.AddDbContext<SwitchFullyIntakeAppContext>(DbContext =>
+                    DbContext.UseInMemoryDatabase("SwitchDb" + Guid.NewGuid().ToString("N")), 
+                    ServiceLifetime.Singleton
+                );
+
+            base.ConfigureAdditionalServices(services);
+        }
+
+
+
+
+
+
+
+        protected override void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMiddleware<TestMiddleware.AuthenticatedTestRequestMiddleware>();
+        }
+    }
 }
