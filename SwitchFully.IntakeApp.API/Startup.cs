@@ -141,20 +141,27 @@ namespace SwitchFully.IntakeApp.API
         }
 
 		private byte[] GetSecretKey()
-		{
-            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process)))
+        {
+            if (IsSecretKeySetForRemoteServer())
             {
-                System.Diagnostics.Trace.TraceWarning("The secret key was not found as an environment variable. Defaulting to local User Secrets. ");
-                if(string.IsNullOrEmpty(Configuration["SecretKey"]))
-                {
-                    var errorMessage = "No secret key was found. A secret key needs to be configured: Locally with User Secrets, remotely with Environment variables";
-                    System.Diagnostics.Trace.TraceError(errorMessage);
-                    throw new ArgumentException(errorMessage);
-                }
-                return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+                return Encoding.ASCII.GetBytes(GetSecretKeyForRemoteServer());
             }
-            return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process));
-		}
+            if (IsSecretKeySetForContinuousIntegration())
+            {
+                return Encoding.ASCII.GetBytes(GetSecretKeyForContinuousIntegration());
+            }
+            if (IsSecretKeyForLocalDevelopment())
+            {
+                return Encoding.ASCII.GetBytes(GetSecretKeyForLocalDevelopment());
+            }
+            else
+            {
+                var errorMessage = "No secret key was found. A secret key needs to be configured: Locally with User Secrets, " +
+                    "remotely with Environment variables";
+                System.Diagnostics.Trace.TraceError(errorMessage);
+                throw new ArgumentException(errorMessage);
+            }
+        }
 
         private string GetConnectionString()
         {
@@ -165,6 +172,36 @@ namespace SwitchFully.IntakeApp.API
                 connectionString = "Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;";
             }
             return connectionString;
+        }
+
+        private bool IsSecretKeyForLocalDevelopment()
+        {
+            return string.IsNullOrEmpty(GetSecretKeyForLocalDevelopment()) != true;
+        }
+
+        private static bool IsSecretKeySetForContinuousIntegration()
+        {
+            return string.IsNullOrEmpty(GetSecretKeyForContinuousIntegration()) != true;
+        }
+
+        private static bool IsSecretKeySetForRemoteServer()
+        {
+            return string.IsNullOrEmpty(GetSecretKeyForRemoteServer()) != true;
+        }
+
+        private string GetSecretKeyForLocalDevelopment()
+        {
+            return Configuration["SecretKey"];
+        }
+
+        private static string GetSecretKeyForContinuousIntegration()
+        {
+            return Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine);
+        }
+
+        private static string GetSecretKeyForRemoteServer()
+        {
+            return Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process);
         }
 
         protected virtual void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
