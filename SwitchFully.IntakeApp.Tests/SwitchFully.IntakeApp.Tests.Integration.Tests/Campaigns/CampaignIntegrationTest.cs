@@ -20,9 +20,8 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
     public class CampaignIntegrationTest 
     {
         private readonly HttpClient _client;
-        private TransactionScope _scope;
 
-        CampaignDTO_Create campaignToCreate = new CampaignDTO_Create { Client = "vab", Name = "java", EndDate = DateTime.Now.AddDays(3), StartDate = DateTime.Now.AddDays(7) };
+        CampaignDTO_Create campaignToCreate = new CampaignDTO_Create { Client = "vab1", Name = "java", EndDate = DateTime.Now.AddDays(3), StartDate = DateTime.Now.AddDays(7) };
 
 
 

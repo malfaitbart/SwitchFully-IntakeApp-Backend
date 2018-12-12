@@ -43,47 +43,15 @@ namespace SwitchFully.IntakeApp.Integration.Tests
 
         protected override void ConfigureAdditionalServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = "SwitchFully Intake App",
-                    Version = "v1"
-                });
-            });
-
-            services.AddScoped<ILoggerManager, LoggerManager>();
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICampaignService, CampaignService>();
-            services.AddScoped<ICandidateService, CandidateService>();
-            services.AddScoped<IJobApplicationService, JobApplicationService>();
-
-            services.AddScoped<CampaignRepository>();
-            services.AddScoped<CandidateRepository>();
-            services.AddScoped<JobApplicationRepository>();
-
-            services.AddScoped<UserMapper>();
-            services.AddScoped<ICandidateMapper, CandidateMapper>();
-            services.AddSingleton<ICampaignMapper, CampaignMapper>();
-            services.AddScoped<JobApplicationMapper>();
-            services.AddScoped<StatusMapper>();
-
-            services.AddScoped<Hasher>();
-            services.AddScoped<Salter>();
-            services.AddScoped<UserAuthenticationService>();
-
-            services.AddTransient<SwitchFullyIntakeAppContext>();
-
-
-            services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-                    options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-                );
             services.AddDbContext<SwitchFullyIntakeAppContext>(DbContext =>
-                    DbContext.UseInMemoryDatabase("SwitchDb" + Guid.NewGuid().ToString("N"))
+                    DbContext.UseInMemoryDatabase("SwitchDb" + Guid.NewGuid().ToString("N")), 
+                    ServiceLifetime.Singleton
                 );
+
+            base.ConfigureAdditionalServices(services);
+
+           
 
 
 
