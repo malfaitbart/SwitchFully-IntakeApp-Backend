@@ -95,7 +95,7 @@ namespace SwitchFully.IntakeApp.Service.Security
             }
             else
             {
-                return Encoding.ASCII.GetBytes("DummySecret");
+                return Encoding.ASCII.GetBytes("DummySecretThatIsNotThatSecretButLongEnough");
             }
         }
 
