@@ -1,6 +1,7 @@
 ﻿using SwitchFully.IntakeApp.Domain.Candidates;
 using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 using System.Text;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace SwitchFully.IntakeApp.Domain.Tests.Candidates
 		[Fact]
 		public void GivenSomeData_CreateACandidate()
 		{
-			var candidate = new Candidate("test", "test", new System.Net.Mail.MailAddress("test@test.be"));
+			var candidate = new Candidate("test", "test", new MailAddress("test@test.be"), "00000", "www.linkedin.be", "");
 
 			Assert.IsType<Candidate>(candidate);
 			Assert.Equal("test", candidate.FirstName);
@@ -23,7 +24,7 @@ namespace SwitchFully.IntakeApp.Domain.Tests.Candidates
 		{
 			Action act = () =>
 			{
-				var candidate = new Candidate("test", "test", new System.Net.Mail.MailAddress("test"));
+				var candidate = new Candidate("test", "test", new MailAddress("testtest"), "00000", "www.linkedin.be", "");
 			};
 
 			var exception = Assert.Throws<FormatException>(act);

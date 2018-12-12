@@ -15,7 +15,7 @@ namespace SwitchFully.IntakeApp.Controller.Tests.Candidates
 		{
 			//Given
 			var _mapper = new CandidateMapper();
-			var candidate = new Candidate("FName", "LName", new MailAddress("test@test.be"));
+			var candidate = new Candidate("test", "test", new MailAddress("test@test.be"), "00000", "www.linkedin.be", "");
 
 			//When
 			var actual = _mapper.DomainToDto(candidate);
@@ -30,7 +30,7 @@ namespace SwitchFully.IntakeApp.Controller.Tests.Candidates
 		{
 			//Given
 			var _mapper = new CandidateMapper();
-			var candidate = new Candidate("FName", "LName", new MailAddress("test@test.be"));
+			var candidate = new Candidate("test", "test", new MailAddress("test@test.be"), "00000", "www.linkedin.be", "");
 			var candidateDto = _mapper.DomainToDto(candidate);
 			//When
 			var actual = _mapper.DtoToDomain(candidateDto);

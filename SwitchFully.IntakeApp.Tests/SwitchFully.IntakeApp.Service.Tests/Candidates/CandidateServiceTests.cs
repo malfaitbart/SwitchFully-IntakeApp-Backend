@@ -50,7 +50,7 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 			var mockRepo = Substitute.For<CandidateRepository>();
 			var mockLogger = Substitute.For<ILoggerManager>();
 			var _candidateService = new CandidateService(mockRepo, mockLogger);
-			var candidate = new Candidate("test", "test", new MailAddress("test@test"));
+			var candidate = new Candidate("test", "test", new MailAddress("test@test"), "00000", "www.linkedin.be", "");
 			//When
 			_candidateService.Create(candidate);
 
