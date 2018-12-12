@@ -7,7 +7,7 @@ namespace SwitchFully.IntakeApp.Service.Users
 {
 	public interface IUserService
 	{
-		string Create(User user);
+		Task<string> Create(User user);
 		Task<User> GetById(Guid id);
 		List<User> GetAll();
 		string Update(User user);

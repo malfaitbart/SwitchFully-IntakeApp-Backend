@@ -15,9 +15,9 @@ namespace SwitchFully.IntakeApp.Service.Users
 			_userRepository = userRepository;
 		}
 
-		public string Create(User user)
+		public async Task<string> Create(User user)
 		{
-			_userRepository.Create(user);
+			await _userRepository.Create(user);
 			return user.Id.ToString();
 		}
 
