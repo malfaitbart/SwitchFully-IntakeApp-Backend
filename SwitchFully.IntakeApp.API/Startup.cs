@@ -83,8 +83,8 @@ namespace SwitchFully.IntakeApp.API
 
 			services.AddTransient<SwitchFullyIntakeAppContext>();
 			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-				options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-			);
+                options.UseSqlServer(GetConnectionString())
+            );
 			services.AddScoped<UserRepository>();
 
 			services
@@ -141,12 +141,22 @@ namespace SwitchFully.IntakeApp.API
 
 		private byte[] GetSecretKey()
 		{
-			if (Configuration["SecretKey"] == null)
-			{
-				throw new ArgumentNullException("SecretKey", "Set the SecretKey user secret, it is required");
-			}
-			return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine)))
+            {
+                return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+            }
+            return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine));
 		}
+
+        private string GetConnectionString()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString", EnvironmentVariableTarget.Machine);
+            if(string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = "Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;";
+            }
+            return connectionString;
+        }
 
         protected virtual void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
         {
