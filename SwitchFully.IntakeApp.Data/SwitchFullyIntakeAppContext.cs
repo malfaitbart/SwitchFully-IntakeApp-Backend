@@ -28,7 +28,9 @@ namespace SwitchFully.IntakeApp.Data
 				.UseLoggerFactory(_logger)
 				.Options;
 
-			base.OnConfiguring(optionsBuilder);
+            
+
+            base.OnConfiguring(optionsBuilder);
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
