@@ -25,6 +25,7 @@ using SwitchFully.IntakeApp.Service.Logging;
 using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
 using System;
+using System.Collections;
 using System.IO;
 using System.Text;
 
@@ -82,14 +83,10 @@ namespace SwitchFully.IntakeApp.API
 			services.AddScoped<UserAuthenticationService>();
 
 			services.AddTransient<SwitchFullyIntakeAppContext>();
-         
-                services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-                    options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-                );
-           
-            
-
-            services.AddScoped<UserRepository>();
+			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
+                options.UseSqlServer(GetConnectionString())
+            );
+			services.AddScoped<UserRepository>();
 
 			services
 				//.AddAuthorization(options => {
@@ -145,12 +142,30 @@ namespace SwitchFully.IntakeApp.API
 
 		private byte[] GetSecretKey()
 		{
-			if (Configuration["SecretKey"] == null)
-			{
-				throw new ArgumentNullException("SecretKey", "Set the SecretKey user secret, it is required");
-			}
-			return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process)))
+            {
+                System.Diagnostics.Trace.TraceWarning("The secret key was not found as an environment variable. Defaulting to local User Secrets. ");
+                if(string.IsNullOrEmpty(Configuration["SecretKey"]))
+                {
+                    var errorMessage = "No secret key was found. A secret key needs to be configured: Locally with User Secrets, remotely with Environment variables";
+                    System.Diagnostics.Trace.TraceError(errorMessage);
+                    throw new ArgumentException(errorMessage);
+                }
+                return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
+            }
+            return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process));
 		}
+
+        private string GetConnectionString()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("APPSETTING_SqlConnectionString", EnvironmentVariableTarget.Process);
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                System.Diagnostics.Trace.TraceWarning("The sql connection string environment variable was not found. Using the default.");
+                connectionString = "Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;";
+            }
+            return connectionString;
+        }
 
         protected virtual void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
         {
