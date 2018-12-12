@@ -49,7 +49,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Candidates
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/candidates", stringContent);
-            
+            response.EnsureSuccessStatusCode();
             return response;
         }
 
@@ -58,9 +58,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Candidates
         [Fact]
         public async Task CreateNewCandidate()
         {
-            var f = AuthenticatedTestRequestMiddleware.TestingHeader;
-            var t = AuthenticatedTestRequestMiddleware.TestingHeaderValue;
-            _client.DefaultRequestHeaders.Add(f,t);
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
             HttpResponseMessage response = await PostNewCandidate();
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -81,7 +79,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Candidates
 
 
             var response = await _client.GetAsync("/api/candidates");
-            
+            response.EnsureSuccessStatusCode();
 
 
             var responseString = await response.Content.ReadAsStringAsync();

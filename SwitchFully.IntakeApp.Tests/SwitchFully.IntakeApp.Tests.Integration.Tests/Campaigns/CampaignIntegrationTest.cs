@@ -20,7 +20,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
     {
         private readonly HttpClient _client;
 
-        CampaignDTO_Create campaignToCreate = new CampaignDTO_Create { Client = "vab1", Name = "java", EndDate = DateTime.Now.AddDays(3), StartDate = DateTime.Now.AddDays(7) };
+        private CampaignDTO_Create campaignToCreate = new CampaignDTO_Create { Client = "vab1", Name = "java", EndDate = DateTime.Now.AddDays(3), StartDate = DateTime.Now.AddDays(7) };
 
 
 
@@ -63,7 +63,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
             HttpResponseMessage response = await PostNewCampaign();
 
-            var responseString = await response.Content.ReadAsStringAsync();
+            var responseString = await response.Content.ReadAsStringAsync();           
             var createdCampaign = JsonConvert.DeserializeObject<CampaignDTO_Return>(responseString);
 
             AssertCampaignIsEqual(campaignToCreate, createdCampaign);
