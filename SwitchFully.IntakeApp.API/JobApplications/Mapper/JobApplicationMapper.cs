@@ -33,6 +33,7 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 				CampaignId = jobApplication.CampaignId.ToString(),
 				Campaign = _campaignMapper.CampaignToCampaignDTOReturn(jobApplication.Campaign),
 				StatusId = jobApplication.StatusId,
+				Status = jobApplication.Status
 			};
 		}
 
@@ -44,7 +45,8 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 				_candidateMapper.DtoToDomain(jobApplicationDto.Candidate),
 				Guid.Parse(jobApplicationDto.CampaignId), 
 				_campaignMapper.CampaignDTOReturnToCampaign(jobApplicationDto.Campaign),
-				jobApplicationDto.StatusId
+				jobApplicationDto.StatusId,
+				jobApplicationDto.Status
 				);
 		}
 

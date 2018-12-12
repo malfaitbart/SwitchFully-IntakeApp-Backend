@@ -19,6 +19,11 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		private JobApplication()
 		{
 		}
+		public JobApplication(Guid candidateId, Guid campaignId)
+		{
+			CandidateId = candidateId;
+			CampaignId = campaignId;
+		}
 
 		public JobApplication(Guid id, Guid candidateId, Guid campagneId, int statusId)
 		{
@@ -28,18 +33,15 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 			StatusId = statusId;
 		}
 
-		public JobApplication(Guid candidateId, Guid campaignId)
+		public JobApplication(Guid id, Guid candidateId, Candidate candidate, Guid campaignId, Campaign campaign, int statusId, Status status)
 		{
+			Id = id;
 			CandidateId = candidateId;
-			CampaignId = campaignId;
-		}
-
-		public JobApplication(Guid id, Guid candidateId, Candidate candidate, Guid campaignId, Campaign campaign, int statusId) : this(id, candidateId)
-		{
 			Candidate = candidate;
 			CampaignId = campaignId;
 			Campaign = campaign;
 			StatusId = statusId;
+			Status = status;
 		}
 	}
 }
