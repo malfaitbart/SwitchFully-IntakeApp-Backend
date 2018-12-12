@@ -143,6 +143,13 @@ namespace SwitchFully.IntakeApp.API
 		{
             if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine)))
             {
+                System.Diagnostics.Trace.TraceWarning("The secret key was not found as an environment variable. Defaulting to local User Secrets. ");
+                if(string.IsNullOrEmpty(Configuration["SecretKey"]))
+                {
+                    var errorMessage = "No secret key was found. A secret key needs to be configured: Locally with User Secrets, remotely with Environment variables";
+                    System.Diagnostics.Trace.TraceError(errorMessage);
+                    throw new ArgumentException(errorMessage);
+                }
                 return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
             }
             return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine));
@@ -153,6 +160,7 @@ namespace SwitchFully.IntakeApp.API
             var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString", EnvironmentVariableTarget.Machine);
             if(string.IsNullOrEmpty(connectionString))
             {
+                System.Diagnostics.Trace.TraceWarning("The sql connection string environment variable. Using the default.");
                 connectionString = "Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;";
             }
             return connectionString;
