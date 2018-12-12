@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SwitchFully.IntakeApp.API;
 using SwitchFully.IntakeApp.API.Candidates.DTO;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
@@ -59,7 +58,9 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Candidates
         [Fact]
         public async Task CreateNewCandidate()
         {
-            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+            var f = AuthenticatedTestRequestMiddleware.TestingHeader;
+            var t = AuthenticatedTestRequestMiddleware.TestingHeaderValue;
+            _client.DefaultRequestHeaders.Add(f,t);
             HttpResponseMessage response = await PostNewCandidate();
 
             var responseString = await response.Content.ReadAsStringAsync();
