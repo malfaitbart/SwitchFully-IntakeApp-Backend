@@ -11,8 +11,9 @@ namespace SwitchFully.IntakeApp.Domain.Candidates
 		public string FirstName { get; private set; }
 		public string LastName { get; private set; }
 		public MailAddress Email{ get; private set; }
+        public byte[] UploadedFile { get; set; }
 
-		private Candidate()
+        public Candidate()
 		{
 		}
 

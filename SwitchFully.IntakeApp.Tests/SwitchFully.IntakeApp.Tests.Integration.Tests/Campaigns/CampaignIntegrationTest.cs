@@ -37,7 +37,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
                 .UseStartup(typeof(TestServerStartup))
                 .UseConfiguration(
                     new ConfigurationBuilder()
-                        .AddUserSecrets(typeof(Startup).GetTypeInfo().Assembly)
+                        .AddUserSecrets(typeof(TestServerStartup).GetTypeInfo().Assembly)
                         .Build()
                 ))
                 .CreateClient();
