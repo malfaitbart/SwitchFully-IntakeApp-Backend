@@ -49,7 +49,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Candidates
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/candidates", stringContent);
-            response.EnsureSuccessStatusCode();
+            
             return response;
         }
 
@@ -81,7 +81,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Candidates
 
 
             var response = await _client.GetAsync("/api/candidates");
-            response.EnsureSuccessStatusCode();
+            
 
 
             var responseString = await response.Content.ReadAsStringAsync();

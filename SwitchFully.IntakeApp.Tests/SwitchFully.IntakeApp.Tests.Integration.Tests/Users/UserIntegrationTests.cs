@@ -15,13 +15,14 @@ using Xunit;
 
 namespace SwitchFully.IntakeApp.Integration.Tests.Users
 {
-   public class UserIntegrationTests
+    public class UserIntegrationTests
     {
 
-        private readonly HttpClient _client;
+        private readonly HttpClient _clien_AUTH;
+
         public UserIntegrationTests()
         {
-            _client = new TestServer(new WebHostBuilder()
+            _clien_AUTH = new TestServer(new WebHostBuilder()
                 .UseStartup(typeof(TestServerStartup))
 
                 .UseConfiguration(
@@ -32,5 +33,11 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Users
                 .CreateClient();
         }
 
+        [Fact]
+        public async Task RegisterNewUser()
+        {
+
+
+        }
     }
 }
