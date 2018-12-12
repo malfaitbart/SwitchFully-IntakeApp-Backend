@@ -43,20 +43,12 @@ namespace SwitchFully.IntakeApp.Integration.Tests
 
         protected override void ConfigureAdditionalServices(IServiceCollection services)
         {
-
             services.AddDbContext<SwitchFullyIntakeAppContext>(DbContext =>
                     DbContext.UseInMemoryDatabase("SwitchDb" + Guid.NewGuid().ToString("N")), 
                     ServiceLifetime.Singleton
                 );
 
             base.ConfigureAdditionalServices(services);
-
-           
-
-
-
-
-            services.AddScoped<UserRepository>();
         }
 
 
