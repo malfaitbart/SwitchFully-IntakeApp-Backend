@@ -29,77 +29,17 @@ using System;
 namespace SwitchFully.IntakeApp.Integration.Tests
 {
 
-    public class TestServerStartup : Startup
-    {
-        public TestServerStartup(IConfiguration configuration) : base(configuration)
+        public class TestServerStartup : Startup
         {
-        }
-
-
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            ConfigureAdditionalServices(services);
-        }
-
-        protected override void ConfigureAdditionalServices(IServiceCollection services)
-        {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddSwaggerGen(c =>
+            public TestServerStartup(IConfiguration configuration) : base(configuration)
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = "SwitchFully Intake App",
-                    Version = "v1"
-                });
-            });
+            }
 
-            services.AddScoped<ILoggerManager, LoggerManager>();
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICampaignService, CampaignService>();
-            services.AddScoped<ICandidateService, CandidateService>();
-            services.AddScoped<IJobApplicationService, JobApplicationService>();
-
-            services.AddScoped<CampaignRepository>();
-            services.AddScoped<CandidateRepository>();
-            services.AddScoped<JobApplicationRepository>();
-
-            services.AddScoped<UserMapper>();
-            services.AddScoped<ICandidateMapper, CandidateMapper>();
-            services.AddSingleton<ICampaignMapper, CampaignMapper>();
-            services.AddScoped<JobApplicationMapper>();
-            services.AddScoped<StatusMapper>();
-
-            services.AddScoped<Hasher>();
-            services.AddScoped<Salter>();
-            services.AddScoped<UserAuthenticationService>();
-
-            services.AddTransient<SwitchFullyIntakeAppContext>();
-
-
-            services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-                    options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-                );
-            services.AddDbContext<SwitchFullyIntakeAppContext>(DbContext =>
-                    DbContext.UseInMemoryDatabase("SwitchDb" + Guid.NewGuid().ToString("N"))
-                );
-
-
-
-
-            services.AddScoped<UserRepository>();
+            protected override void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
+            {
+                app.UseMiddleware<TestMiddleware.AuthenticatedTestRequestMiddleware>();
+            }
         }
 
 
-
-
-
-
-
-        protected override void ConfigureAdditionalMiddleware(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            app.UseMiddleware<TestMiddleware.AuthenticatedTestRequestMiddleware>();
-        }
-    }
 }

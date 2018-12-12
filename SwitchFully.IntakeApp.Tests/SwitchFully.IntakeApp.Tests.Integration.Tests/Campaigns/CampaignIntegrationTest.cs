@@ -17,15 +17,10 @@ using Xunit;
 namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
 {
 
-    public class CampaignIntegrationTest : IDisposable
+    public class CampaignIntegrationTest 
     {
         private readonly HttpClient _client;
         private TransactionScope _scope;
-        CampaignDTO_Create campaignToCreate;
-        CampaignDTO_Return campaignToReturn;
-        Guid defaultGuid;
-
-
 
         public CampaignIntegrationTest()
         {
@@ -39,37 +34,49 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
                 ))
                 .CreateClient();
 
-            campaignToCreate = new CampaignDTO_Create { Client = "vab", Name = "java", EndDate = DateTime.Now.AddDays(3), StartDate = DateTime.Now.AddDays(7) };
-            defaultGuid = Guid.NewGuid();
-            campaignToReturn = new CampaignDTO_Return { CampaignId = defaultGuid, Client = "random", Name = "Modnar", EndDate = DateTime.Now.AddDays(3), StartDate = DateTime.Now.AddDays(7) };
         }
+        CampaignDTO_Create campaignToCreate = new CampaignDTO_Create { Client = "vab", Name = "java", EndDate = new DateTime(2018, 05, 21), StartDate = new DateTime(2018, 10, 22) };
+
         [Fact]
         public async Task CreateNewCampaign()
         {
 
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+            using (this._scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var content = JsonConvert.SerializeObject(campaignToCreate);
+                var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            var content = JsonConvert.SerializeObject(campaignToCreate);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+                var response = await _client.PostAsync("/api/campaigns", stringContent);
 
-            var response = await _client.PostAsync("/api/campaigns", stringContent);
+        private void AssertCampaignIsEqual(CampaignDTO_Create campaignToCreate, CampaignDTO_Return createdCampaign)
+        {
+            Assert.Equal(campaignToCreate.Name, createdCampaign.Name);
+            Assert.Equal(campaignToCreate.Client, createdCampaign.Client);
+            Assert.Equal(campaignToCreate.EndDate, createdCampaign.EndDate);
+            Assert.Equal(campaignToCreate.StartDate, createdCampaign.StartDate);
+        }
 
-
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
             var createdCampaign = JsonConvert.DeserializeObject<CampaignDTO_Return>(responseString);
 
-            AssertCampaignIsEqual(campaignToCreate, createdCampaign);
-            Assert.True(createdCampaign.CampaignId != Guid.Empty);
+                AssertCampaignIsEqual(campaignToCreate, createdCampaign);
+                Assert.True(createdCampaign.CampaignId != Guid.Empty);
 
+                this._scope.Dispose();
+            }
         }
-
+        
         [Fact]
         public async Task GetAllCampaigns()
         {
-
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+
+            HttpResponseMessage responseCreate1 = await PostNewCampaign();
+            HttpResponseMessage responseCreate2 = await PostNewCampaign();
+            HttpResponseMessage responseCreate3 = await PostNewCampaign();
 
             var content1 = JsonConvert.SerializeObject(campaignToCreate);
             var stringContent1 = new StringContent(content1, Encoding.UTF8, "application/json");
@@ -88,9 +95,8 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
 
 
             var response = await _client.GetAsync("/api/campaigns");
-
-
             response.EnsureSuccessStatusCode();
+
 
             var responseString = await response.Content.ReadAsStringAsync();
             var allCampaigns = JsonConvert.DeserializeObject<IEnumerable<CampaignDTO_Return>>(responseString);
@@ -103,30 +109,21 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
         {
 
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
-          
-            var content = JsonConvert.SerializeObject(campaignToCreate);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-
-            var responseCreate = await _client.PostAsync("/api/campaigns", stringContent);
 
 
-            responseCreate.EnsureSuccessStatusCode();
+            var response = await _client.GetAsync("/api/campaigns/id:string?id=72993d43-bd59-4aae-b827-16e0198ec43b");
 
             var responseString = await responseCreate.Content.ReadAsStringAsync();
-            var createdCampaign = JsonConvert.DeserializeObject<CampaignDTO_Return>(responseString);
-
-            AssertCampaignIsEqual(campaignToCreate, createdCampaign);           
-
-
-
-            var responseReturn = await _client.GetAsync("/api/campaigns/id:string?id=" + createdCampaign.CampaignId);
-
+            var createdCampaign = JsonConvert.DeserializeObject<CampaignDTO_Return>(responseString);            
+            var responseReturn = await _client.GetAsync("/api/campaigns/id:string?id=" + createdCampaign.CampaignId.ToString());
             responseReturn.EnsureSuccessStatusCode();
 
-            var responseStringReturn = await responseReturn.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
             var singleCampaign = JsonConvert.DeserializeObject<CampaignDTO_Return>(responseString);
 
-            Assert.Equal(createdCampaign.CampaignId.ToString(), singleCampaign.CampaignId.ToString());
+            Assert.Equal("72993d43-bd59-4aae-b827-16e0198ec43b", singleCampaign.CampaignId.ToString());
         }
 
         private void AssertCampaignIsEqual(CampaignDTO_Create campaignToCreate, CampaignDTO_Return createdCampaign)
@@ -136,10 +133,6 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
             Assert.Equal(campaignToCreate.EndDate, createdCampaign.EndDate);
             Assert.Equal(campaignToCreate.StartDate, createdCampaign.StartDate);
         }
-
-        public void Dispose()
-        {
-            _client.Dispose();
-        }
+        
     }
 }
