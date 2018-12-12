@@ -15,7 +15,7 @@ namespace SwitchFully.IntakeApp.Domain.Tests.JobApplicationTests
 
 			Assert.Equal(candidateId, application.CandidateId);
 			Assert.Equal(campagneId, application.CampaignId);
-			Assert.Equal(0, application.StatusId);
+			Assert.Equal(2, application.StatusId);
 		}
 	}
 }
