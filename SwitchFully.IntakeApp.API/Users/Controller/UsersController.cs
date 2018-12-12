@@ -30,7 +30,7 @@ namespace SwitchFully.IntakeApp.API.Users.Controller
 		public async Task<ActionResult<UserDto>> Register([FromBody] UserRegisterDto userRequestDto)
 		{
 			User user = _userMapper.UserRegisterDtoToDomain(userRequestDto);
-			var userId = _userService.Create(user);
+			var userId = await _userService.Create(user);
 			UserDto userDto = _userMapper.UserToUserDto(await _userService.GetById(Guid.Parse(userId)));
 			return Ok(userDto);
 		}
