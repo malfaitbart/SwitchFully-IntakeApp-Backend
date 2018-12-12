@@ -1,4 +1,5 @@
 ﻿using SwitchFully.IntakeApp.API.Campaigns.DTO;
+using SwitchFully.IntakeApp.API.JobApplications.Dtos;
 using SwitchFully.IntakeApp.Domain.Campaigns;
 using System.Collections.Generic;
 
@@ -6,8 +7,6 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Mappers
 {
 	public class CampaignMapper : ICampaignMapper
 	{
-
-
 		public List<CampaignDTO_Return> CampaignListToCampaignDTOReturnList(List<Campaign> campaignList)
 		{
 			var CampaignDTO_ReturnList = new List<CampaignDTO_Return>();
@@ -64,6 +63,5 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Mappers
 				campaignDTO.EndDate);
 			return campaign;
 		}
-
 	}
 }

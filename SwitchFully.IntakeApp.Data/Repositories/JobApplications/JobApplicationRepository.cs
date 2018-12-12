@@ -22,17 +22,26 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 		public async Task<JobApplication> Create(JobApplication objectToCreate)
 		{
 			await _context.AddAsync(objectToCreate);
+			await _context.SaveChangesAsync();
 			return await GetById(objectToCreate.Id);
 		}
 
 		public async Task<List<JobApplication>> GetAll()
 		{
-			return await _context.JobApplications.ToListAsync();
+			return await _context.JobApplications
+				.Include(jp => jp.Campaign)
+				.Include(jp => jp.Candidate)
+				.Include(jp => jp.Status)
+				.ToListAsync();
 		}
 
 		public async Task<JobApplication> GetById(Guid id)
 		{
-			return await _context.JobApplications.FirstOrDefaultAsync(jp => jp.Id == id);
+			return await _context.JobApplications
+				.Include(jp => jp.Campaign)
+				.Include(jp => jp.Candidate)
+				.Include(jp => jp.Status)
+				.FirstOrDefaultAsync(jp => jp.Id == id);
 		}
 
 		public async Task<JobApplication> Update(JobApplication objectToUpdate)

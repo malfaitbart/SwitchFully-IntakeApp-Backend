@@ -42,7 +42,7 @@ namespace SwitchFully.IntakeApp.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             ConfigureAdditionalServices(services);
         }
@@ -82,10 +82,14 @@ namespace SwitchFully.IntakeApp.API
 			services.AddScoped<UserAuthenticationService>();
 
 			services.AddTransient<SwitchFullyIntakeAppContext>();
-			services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
-				options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
-			);
-			services.AddScoped<UserRepository>();
+         
+                services.AddDbContext<SwitchFullyIntakeAppContext>(options =>
+                    options.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;")
+                );
+           
+            
+
+            services.AddScoped<UserRepository>();
 
 			services
 				//.AddAuthorization(options => {

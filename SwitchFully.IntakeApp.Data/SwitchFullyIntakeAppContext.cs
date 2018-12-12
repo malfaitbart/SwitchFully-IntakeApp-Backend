@@ -28,7 +28,9 @@ namespace SwitchFully.IntakeApp.Data
 				.UseLoggerFactory(_logger)
 				.Options;
 
-			base.OnConfiguring(optionsBuilder);
+            
+
+            base.OnConfiguring(optionsBuilder);
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -79,7 +81,7 @@ namespace SwitchFully.IntakeApp.Data
 			modelBuilder.Entity<JobApplication>()
 				.HasOne(jp => jp.Campaign)
 				.WithMany()
-				.HasForeignKey(jp => jp.CampagneId)
+				.HasForeignKey(jp => jp.CampaignId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<JobApplication>()
