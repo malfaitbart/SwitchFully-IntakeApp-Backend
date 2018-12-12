@@ -11,11 +11,11 @@ namespace SwitchFully.IntakeApp.Domain.Tests.JobApplicationTests
 		{
 			var candidateId = Guid.NewGuid();
 			var campagneId = Guid.NewGuid();
-			var application = new JobApplication(candidateId, campagneId, 1);
+			var application = new JobApplication(candidateId, campagneId);
 
 			Assert.Equal(candidateId, application.CandidateId);
-			Assert.Equal(campagneId, application.CampagneId);
-			Assert.Equal(1, application.StatusId);
+			Assert.Equal(campagneId, application.CampaignId);
+			Assert.Equal(0, application.StatusId);
 		}
 	}
 }

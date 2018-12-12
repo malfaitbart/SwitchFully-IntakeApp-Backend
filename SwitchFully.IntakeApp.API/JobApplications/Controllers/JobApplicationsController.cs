@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SwitchFully.IntakeApp.API.Interfaces;
@@ -14,6 +15,7 @@ using SwitchFully.IntakeApp.Service.Logging;
 namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 {
 	[Route("api/[controller]")]
+	//[Authorize]
 	[ApiController]
 	public class JobApplicationsController : ControllerBase
 	{
@@ -29,9 +31,10 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		}
 
 		[HttpPost]
-		public Task<ActionResult<JobApplicationDto>> Create(JobApplicationDto objectToCreate)
+		public async  Task<ActionResult<JobApplicationDto>> Create(JobApplicationDto_Create objectToCreate)
 		{
-			throw new NotImplementedException();
+			var toCreate = await _jobApplicationService.Create(_jobApplicationMapper.Dto_CreateToDomain(objectToCreate));
+			return _jobApplicationMapper.DomainToDto(toCreate);
 		}
 		[HttpGet]
 		public async Task<ActionResult<List<JobApplicationDto>>> GetAll()
@@ -47,9 +50,9 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public Task<ActionResult<JobApplicationDto>> GetById(int id)
+		public async Task<ActionResult<JobApplicationDto>> GetById(string id)
 		{
-			throw new NotImplementedException();
+			return _jobApplicationMapper.DomainToDto(await _jobApplicationService.GetById(id));
 		}
 		[HttpPut]
 		public Task<ActionResult<JobApplicationDto>> Update(JobApplicationDto objectToUpdate)

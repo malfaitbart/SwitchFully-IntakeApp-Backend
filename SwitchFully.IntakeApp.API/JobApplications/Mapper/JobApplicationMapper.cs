@@ -14,14 +14,24 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 {
 	public class JobApplicationMapper
 	{
+		private readonly ICampaignMapper _campaignMapper;
+		private readonly ICandidateMapper _candidateMapper;
+
+		public JobApplicationMapper(ICampaignMapper campaignMapper, ICandidateMapper candidateMapper)
+		{
+			_campaignMapper = campaignMapper;
+			_candidateMapper = candidateMapper;
+		}
 
 		public JobApplicationDto DomainToDto(JobApplication jobApplication)
 		{
 			return new JobApplicationDto
 			{
 				Id = jobApplication.Id.ToString(),
-				CandidateId = jobApplication.CandidateId,
-				CampagneId = jobApplication.CampagneId,
+				CandidateId = jobApplication.CandidateId.ToString(),
+				Candidate = _candidateMapper.DomainToDto(jobApplication.Candidate),
+				CampaignId = jobApplication.CampaignId.ToString(),
+				Campaign = _campaignMapper.CampaignToCampaignDTOReturn(jobApplication.Campaign),
 				StatusId = jobApplication.StatusId,
 			};
 		}
@@ -30,10 +40,17 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 		{
 			return new JobApplication(
 				Guid.Parse(jobApplicationDto.Id), 
-				jobApplicationDto.CandidateId, 
-				jobApplicationDto.CampagneId, 
+				Guid.Parse(jobApplicationDto.CandidateId), 
+				_candidateMapper.DtoToDomain(jobApplicationDto.Candidate),
+				Guid.Parse(jobApplicationDto.CampaignId), 
+				_campaignMapper.CampaignDTOReturnToCampaign(jobApplicationDto.Campaign),
 				jobApplicationDto.StatusId
 				);
+		}
+
+		internal JobApplication Dto_CreateToDomain(JobApplicationDto_Create objectToCreate)
+		{
+			return new JobApplication(objectToCreate.CandidateId, objectToCreate.CampaignId);
 		}
 	}
 }

@@ -79,7 +79,7 @@ namespace SwitchFully.IntakeApp.Data
 			modelBuilder.Entity<JobApplication>()
 				.HasOne(jp => jp.Campaign)
 				.WithMany()
-				.HasForeignKey(jp => jp.CampagneId)
+				.HasForeignKey(jp => jp.CampaignId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<JobApplication>()
