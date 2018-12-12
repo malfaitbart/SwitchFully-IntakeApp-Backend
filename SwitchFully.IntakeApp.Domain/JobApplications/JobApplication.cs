@@ -21,8 +21,10 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		}
 		public JobApplication(Guid candidateId, Guid campaignId)
 		{
+			Id = Guid.NewGuid();
 			CandidateId = candidateId;
 			CampaignId = campaignId;
+			StatusId = 2;
 		}
 
 		public JobApplication(Guid id, Guid candidateId, Guid campagneId, int statusId)
