@@ -25,6 +25,7 @@ using SwitchFully.IntakeApp.Service.Logging;
 using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
 using System;
+using System.Collections;
 using System.IO;
 using System.Text;
 
@@ -141,7 +142,7 @@ namespace SwitchFully.IntakeApp.API
 
 		private byte[] GetSecretKey()
 		{
-            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine)))
+            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process)))
             {
                 System.Diagnostics.Trace.TraceWarning("The secret key was not found as an environment variable. Defaulting to local User Secrets. ");
                 if(string.IsNullOrEmpty(Configuration["SecretKey"]))
@@ -152,15 +153,15 @@ namespace SwitchFully.IntakeApp.API
                 }
                 return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
             }
-            return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine));
+            return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process));
 		}
 
         private string GetConnectionString()
         {
-            var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString", EnvironmentVariableTarget.Machine);
-            if(string.IsNullOrEmpty(connectionString))
+            var connectionString = Environment.GetEnvironmentVariable("APPSETTING_SqlConnectionString", EnvironmentVariableTarget.Process);
+            if (string.IsNullOrEmpty(connectionString))
             {
-                System.Diagnostics.Trace.TraceWarning("The sql connection string environment variable. Using the default.");
+                System.Diagnostics.Trace.TraceWarning("The sql connection string environment variable was not found. Using the default.");
                 connectionString = "Data Source=.\\SQLExpress;Initial Catalog=SwitchfullyIntakeApp;Integrated Security=True;";
             }
             return connectionString;
