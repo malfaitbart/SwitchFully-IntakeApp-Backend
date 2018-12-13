@@ -27,11 +27,6 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
             return await _repository.Create(jobApplication);
         }
 
-        public bool Delete(JobApplication jobApplication)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<JobApplication>> GetAll()
         {
             return await _repository.GetAll();
@@ -39,7 +34,19 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 
         public async Task<JobApplication> GetById(string id)
         {
-            return await _repository.GetById(Guid.Parse(id));
+            var g = Guid.Parse(id);
+            return await _repository.GetById(g);
+        }
+
+        public async Task RejectJobApplication(JobApplication jobApplicationByID)
+        {           
+                jobApplicationByID.ChangeStatusToGivenStatusID(3);
+                await _repository.Update(jobApplicationByID);           
+        }
+
+        public async Task<bool> Delete(JobApplication jobApplication)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<JobApplication> Update(JobApplication jobApplication)

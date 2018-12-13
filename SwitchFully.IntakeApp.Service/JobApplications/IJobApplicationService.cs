@@ -13,9 +13,10 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 
 		Task<JobApplication> Update(JobApplication jobApplication);
 
-		bool Delete(JobApplication jobApplication);
+        Task<bool> Delete(JobApplication jobApplication);
 
 		Task<JobApplication> Create(JobApplication jobApplication);
 
+        Task RejectJobApplication(JobApplication jobApplicationByID);
     }
 }
