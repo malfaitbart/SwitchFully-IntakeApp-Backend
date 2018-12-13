@@ -14,8 +14,10 @@ using SwitchFully.IntakeApp.API.Helpers;
 using SwitchFully.IntakeApp.API.JobApplications.Mapper;
 using SwitchFully.IntakeApp.API.Users.Mapper;
 using SwitchFully.IntakeApp.Data;
+using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
 using SwitchFully.IntakeApp.Data.Repositories.Candidates;
+using SwitchFully.IntakeApp.Data.Repositories.FileUploads;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications;
 using SwitchFully.IntakeApp.Data.Repositories.Users;
 using SwitchFully.IntakeApp.Service.Campaigns;
@@ -71,6 +73,7 @@ namespace SwitchFully.IntakeApp.API
 			services.AddScoped<CampaignRepository>();
 			services.AddScoped<CandidateRepository>();
 			services.AddScoped<JobApplicationRepository>();
+	        services.AddScoped<FileRepository>();
 
 			services.AddScoped<UserMapper>();
 			services.AddScoped<ICandidateMapper, CandidateMapper>();

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.JobApplications;
+using SwitchFully.IntakeApp.Domain.Uploads;
 using SwitchFully.IntakeApp.Domain.Users;
 
 namespace SwitchFully.IntakeApp.Data
@@ -15,6 +16,7 @@ namespace SwitchFully.IntakeApp.Data
 		public virtual DbSet<Candidate> Candidates { get; set; }
 		public virtual DbSet<Campaign> Campaigns { get; set; }
 		public virtual DbSet<JobApplication> JobApplications { get; set; }
+		public virtual DbSet<FileUpload> FileUploads { get; set; }
 
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
 		{
@@ -89,6 +91,10 @@ namespace SwitchFully.IntakeApp.Data
 				.WithMany()
 				.HasForeignKey(jp => jp.StatusId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<FileUpload>()
+				.ToTable("Files")
+				.HasKey(fu => fu.Id);
 
 			base.OnModelCreating(modelBuilder);
 		}
