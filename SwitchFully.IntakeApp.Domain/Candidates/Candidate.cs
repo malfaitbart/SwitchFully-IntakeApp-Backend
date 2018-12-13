@@ -11,26 +11,33 @@ namespace SwitchFully.IntakeApp.Domain.Candidates
 		public string FirstName { get; private set; }
 		public string LastName { get; private set; }
 		public MailAddress Email{ get; private set; }
-        
-
-        public Candidate()
+		public string Phone { get; private set; }
+		public string LinkedIn { get; private set; }
+		public string Comment { get; private set; }
+		private Candidate()
 		{
 		}
 
-		public Candidate(string firstName, string lastName, MailAddress email)
+		public Candidate(string firstName, string lastName, MailAddress email, string phone, string linkedin, string comment)
 		{
 			Id = Guid.NewGuid();
 			FirstName = firstName;
 			LastName = lastName;
 			Email = email;
+			Phone = phone;
+			LinkedIn = linkedin;
+			Comment = comment;
 		}
 
-		public Candidate(Guid id, string firstName, string lastName, MailAddress mailAddress)
+		public Candidate(Guid id, string firstName, string lastName, MailAddress mailAddress, string phone, string linkedin, string comment)
 		{
 			Id = id;
 			FirstName = firstName;
 			LastName = lastName;
 			Email = mailAddress;
+			Phone = phone;
+			LinkedIn = linkedin;
+			Comment = comment;
 		}
 	}
 }

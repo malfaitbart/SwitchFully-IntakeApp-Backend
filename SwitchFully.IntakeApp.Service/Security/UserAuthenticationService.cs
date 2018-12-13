@@ -57,7 +57,6 @@ namespace SwitchFully.IntakeApp.Service.Security
 
 		private SecurityTokenDescriptor CreateTokenDescription(User foundUser)
 		{
-			var key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 			var user = foundUser;
 			SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
 			{
@@ -68,7 +67,9 @@ namespace SwitchFully.IntakeApp.Service.Security
 					//new Claim("Role", foundUser.Role.Description)
 				}),
 				Expires = DateTime.UtcNow.AddHours(8),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+				SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(GetSecretKey(_configuration["SecretKey"])), 
+                    SecurityAlgorithms.HmacSha256Signature)
 			};
 			return tokenDescriptor;
 		}
@@ -78,5 +79,50 @@ namespace SwitchFully.IntakeApp.Service.Security
 			return _hasher.DoesProvidedPasswordMatchPersistedPassword(providedPassword, persistedUserSecurity);
 		}
 
-	}
+        public static byte[] GetSecretKey(string localSecretKey)
+        {
+            if (IsSecretKeySetForRemoteServer())
+            {
+                return Encoding.ASCII.GetBytes(GetSecretKeyForRemoteServer());
+            }
+            if (IsSecretKeySetForContinuousIntegration())
+            {
+                return Encoding.ASCII.GetBytes(GetSecretKeyForContinuousIntegration());
+            }
+            if (IsSecretKeyForLocalDevelopment(localSecretKey))
+            {
+                return Encoding.ASCII.GetBytes(localSecretKey);
+            }
+            else
+            {
+                return Encoding.ASCII.GetBytes("DummySecretThatIsNotThatSecretButLongEnough");
+            }
+        }
+
+        private static bool IsSecretKeyForLocalDevelopment(string localSecretKey)
+        {
+            return string.IsNullOrEmpty(localSecretKey) != true;
+        }
+
+        private static bool IsSecretKeySetForContinuousIntegration()
+        {
+            return string.IsNullOrEmpty(GetSecretKeyForContinuousIntegration()) != true;
+        }
+
+        private static bool IsSecretKeySetForRemoteServer()
+        {
+            return string.IsNullOrEmpty(GetSecretKeyForRemoteServer()) != true;
+        }
+
+        private static string GetSecretKeyForContinuousIntegration()
+        {
+            return Environment.GetEnvironmentVariable("SecretKey", EnvironmentVariableTarget.Machine);
+        }
+
+        private static string GetSecretKeyForRemoteServer()
+        {
+            return Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process);
+        }
+
+    }
 }
