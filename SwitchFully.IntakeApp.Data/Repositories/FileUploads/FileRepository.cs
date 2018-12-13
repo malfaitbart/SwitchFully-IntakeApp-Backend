@@ -2,12 +2,12 @@
 using SwitchFully.IntakeApp.Domain.Uploads;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.Data.Repositories.FileUploads
 {
-	public class FileRepository : IRepository<FileUpload>
+	public class FileRepository : IRepository<File>
 	{
 		private readonly SwitchFullyIntakeAppContext _context;
 
@@ -16,24 +16,26 @@ namespace SwitchFully.IntakeApp.Data.Repositories.FileUploads
 			_context = context;
 		}
 
-		public async Task<FileUpload> Create(FileUpload objectToCreate)
+		public async Task<File> Create(File objectToCreate)
 		{
 			await _context.AddAsync(objectToCreate);
 			await _context.SaveChangesAsync();
 			return await GetById(objectToCreate.Id);
 		}
 
-		public async Task<List<FileUpload>> GetAll()
+		public async Task<List<File>> GetAll()
 		{
-			return await _context.FileUploads.ToListAsync();
+			return await _context.FileUploads
+				.Select(fu => new File {Id= fu.Id, FileName = fu.FileName})
+				.ToListAsync();
 		}
 
-		public async Task<FileUpload> GetById(Guid id)
+		public async Task<File> GetById(Guid id)
 		{
 			return await _context.FileUploads.FirstOrDefaultAsync(fu => fu.Id == id);
 		}
 
-		public Task<FileUpload> Update(FileUpload objectToUpdate)
+		public Task<File> Update(File objectToUpdate)
 		{
 			throw new NotImplementedException();
 		}
