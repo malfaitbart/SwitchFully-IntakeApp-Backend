@@ -26,7 +26,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 			return await GetById(applicationToCreate.Id);
 		}
 
-		public async Task<List<JobApplication>> GetAll()
+		public async virtual Task<List<JobApplication>> GetAll()
 		{
 			return await _context.JobApplications
 				.Include(jp => jp.Campaign)
@@ -35,7 +35,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 				.ToListAsync();
 		}
 
-		public async Task<JobApplication> GetById(Guid id)
+		public async virtual Task<JobApplication> GetById(Guid id)
 		{
 			return await _context.JobApplications
 				.Include(jp => jp.Campaign)
