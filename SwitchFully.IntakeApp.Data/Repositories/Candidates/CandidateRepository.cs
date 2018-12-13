@@ -19,7 +19,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
 			_context = context;
 		}
 
-		public async Task<Candidate> Create(Candidate objectToCreate)
+		public virtual async Task<Candidate> Create(Candidate objectToCreate)
 		{
 			await _context.AddAsync(objectToCreate);
 			if (await _context.SaveChangesAsync() == 0)
@@ -29,12 +29,12 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
 			return await GetById(objectToCreate.Id);
 		}
 
-		public async Task<List<Candidate>> GetAll()
+		public virtual async Task<List<Candidate>> GetAll()
 		{
 			return await _context.Candidates.ToListAsync();
 		}
 
-		public async Task<Candidate> GetById(Guid id)
+		public virtual async Task<Candidate> GetById(Guid id)
 		{
 			return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
 		}

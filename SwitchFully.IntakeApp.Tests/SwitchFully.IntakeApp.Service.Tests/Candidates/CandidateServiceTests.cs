@@ -13,20 +13,25 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 {
 	public class CandidateServiceTests
 	{
-		[Fact]
-		public async void GivenACandidateService_WhenGetAll_GetAListOfCandidates()
-		{
-			//Given
+        [Fact]
+        public async void GivenACandidateService_WhenGetAll_GetAListOfCandidates()
+        {
+            //Given
+            List<Candidate> candidates = new List<Candidate>() {
+                new Candidate("test", "test", new MailAddress("test@test"), "00000", "www.linkedin.be", "")
+            };
 			var mockRepo = Substitute.For<CandidateRepository>();
+            mockRepo.GetAll()
+                .Returns(Task.FromResult(candidates));
 			var mockLogger = Substitute.For<ILoggerManager>();
 			var _candidateService = new CandidateService(mockRepo, mockLogger);
 
 			//When
 			var actual = await _candidateService.GetAll();
 
-			//Then
-			await Assert.IsType<Task<List<Candidate>>>(actual);
-		}
+            //Then
+            Assert.Equal(candidates, actual);
+        }
 
 		[Fact]
 		public async void GivenACandidate_WhenGetById_ThenRepoExecutesGetById()
@@ -34,6 +39,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 			//Given
 			var mockRepo = Substitute.For<CandidateRepository>();
 			var mockLogger = Substitute.For<ILoggerManager>();
+            mockRepo.GetById(Guid.NewGuid())
+                .Returns(Task.FromResult(new Candidate("test", "test", new MailAddress("test@test"), "00000", "www.linkedin.be", "")));
 			var _candidateService = new CandidateService(mockRepo, mockLogger);
 			var testGuid = Guid.NewGuid();
 			//When
@@ -43,19 +50,23 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 			await mockRepo.Received().GetById(testGuid);
 		}
 
-		[Fact]
-		public async void GivenACandidateAnACandidateService_WhenCreate_ThenRepoExecutesCreateWithThatCandite()
-		{
-			//Given
-			var mockRepo = Substitute.For<CandidateRepository>();
-			var mockLogger = Substitute.For<ILoggerManager>();
-			var _candidateService = new CandidateService(mockRepo, mockLogger);
-			var candidate = new Candidate("test", "test", new MailAddress("test@test"), "00000", "www.linkedin.be", "");
-			//When
-			await _candidateService.Create(candidate);
+        [Fact]
+        public async void GivenACandidateAnACandidateService_WhenCreate_ThenRepoExecutesCreateWithThatCandite()
+        {
+            //Given
+            var candidate = new Candidate("test", "test", new MailAddress("test@test"), "00000", "www.linkedin.be", "");
+            var mockRepo = Substitute.For<CandidateRepository>();
+            mockRepo.Create(candidate)
+                .Returns(Task.FromResult(candidate));
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var _candidateService = new CandidateService(mockRepo, mockLogger);
 
-			//Then
-			await mockRepo.Received().Create(candidate);
-		}
-	}
+
+            //When
+            await _candidateService.Create(candidate);
+
+            //Then
+            await mockRepo.Received().Create(candidate);
+        }
+    }
 }
