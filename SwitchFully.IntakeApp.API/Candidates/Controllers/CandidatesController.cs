@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using SwitchFully.IntakeApp.API.Candidates.DTO;
 using SwitchFully.IntakeApp.API.Candidates.Mapper;
 using SwitchFully.IntakeApp.Domain.Candidates;
@@ -34,12 +36,12 @@ namespace SwitchFully.IntakeApp.API.Candidates.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<CandidateDto>> Create(CandidateDtoWithoutId objectToCreate)
-        //{
-        //	var created = await _candidateService.Create(_candidateMapper.DtoToDomain(objectToCreate));
-        //	return _candidateMapper.DomainToDto(created);
-        //}
+        [HttpPost]
+        public async Task<ActionResult<CandidateDto>> Create(CandidateDtoWithoutId objectToCreate)
+        {
+            var created = await _candidateService.Create(_candidateMapper.DtoToDomain(objectToCreate));
+            return _candidateMapper.DomainToDto(created);
+        }
         [HttpGet]
         public async Task<ActionResult<List<CandidateDto>>> GetAll()
         {
@@ -66,32 +68,7 @@ namespace SwitchFully.IntakeApp.API.Candidates.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult> UploadFile()
-        {
-            var app = new Candidate();
-            try
-            {
-                var file = Request.Form.Files[0];
-
-                if (file.Length > 0)
-                {
-
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await file.CopyToAsync(memoryStream);
-                        var fileBytes = memoryStream.ToArray();
-                        app.UploadedFile = fileBytes;
-                    }
-                }
-                return Json("Upload succes");
-            }
-            catch (System.Exception ex)
-            {
-                return Json("Upload Failed: " + ex.Message);
-            }
-        }
-
-  
     }
+
+
 }

@@ -12,7 +12,7 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 	public class JobApplicationServiceTests
 	{
 		[Fact]
-		public void GivenAJobApplicationService_WhenGetAll_ThenRepoExecutesGetAll()
+		public async void GivenAJobApplicationService_WhenGetAll_ThenRepoExecutesGetAll()
 		{
 			//Given
 			var mockRepo = Substitute.For<JobApplicationRepository>();
@@ -20,14 +20,14 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
 
 			//When
-			_jobApplcaitionService.GetAll();
+			await _jobApplcaitionService.GetAll();
 
 			//Then
-			mockRepo.Received().GetAll();
+			await mockRepo.Received().GetAll();
 		}
 
 		[Fact]
-		public void GivenAJobApplicationService_WhenGetById_ThenRepoExecutesGetById()
+		public async void GivenAJobApplicationService_WhenGetById_ThenRepoExecutesGetById()
 		{
 			//Given
 			var mockRepo = Substitute.For<JobApplicationRepository>();
@@ -35,10 +35,10 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
 			var testGuid = Guid.NewGuid();
 			//When
-			_jobApplcaitionService.GetById(testGuid.ToString());
+			await _jobApplcaitionService.GetById(testGuid.ToString());
 
 			//Then
-			mockRepo.Received().GetById(testGuid);
+			await mockRepo.Received().GetById(testGuid);
 		}
 
 	}

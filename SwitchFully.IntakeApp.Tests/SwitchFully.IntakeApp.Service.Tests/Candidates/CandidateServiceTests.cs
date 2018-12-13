@@ -14,7 +14,7 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 	public class CandidateServiceTests
 	{
 		[Fact]
-		public void GivenACandidateService_WhenGetAll_GetAListOfCandidates()
+		public async void GivenACandidateService_WhenGetAll_GetAListOfCandidates()
 		{
 			//Given
 			var mockRepo = Substitute.For<CandidateRepository>();
@@ -22,14 +22,14 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 			var _candidateService = new CandidateService(mockRepo, mockLogger);
 
 			//When
-			var actual = _candidateService.GetAll();
+			var actual = await _candidateService.GetAll();
 
 			//Then
-			Assert.IsType<Task<List<Candidate>>>(actual);
+			await Assert.IsType<Task<List<Candidate>>>(actual);
 		}
 
 		[Fact]
-		public void GivenACandidate_WhenGetById_ThenRepoExecutesGetById()
+		public async void GivenACandidate_WhenGetById_ThenRepoExecutesGetById()
 		{
 			//Given
 			var mockRepo = Substitute.For<CandidateRepository>();
@@ -37,14 +37,14 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 			var _candidateService = new CandidateService(mockRepo, mockLogger);
 			var testGuid = Guid.NewGuid();
 			//When
-			_candidateService.GetById(testGuid.ToString());
+			await _candidateService.GetById(testGuid.ToString());
 
 			//Then
-			mockRepo.Received().GetById(testGuid);
+			await mockRepo.Received().GetById(testGuid);
 		}
 
 		[Fact]
-		public void GivenACandidateAnACandidateService_WhenCreate_ThenRepoExecutesCreateWithThatCandite()
+		public async void GivenACandidateAnACandidateService_WhenCreate_ThenRepoExecutesCreateWithThatCandite()
 		{
 			//Given
 			var mockRepo = Substitute.For<CandidateRepository>();
@@ -52,10 +52,10 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 			var _candidateService = new CandidateService(mockRepo, mockLogger);
 			var candidate = new Candidate("test", "test", new MailAddress("test@test"));
 			//When
-			_candidateService.Create(candidate);
+			await _candidateService.Create(candidate);
 
 			//Then
-			mockRepo.Received().Create(candidate);
+			await mockRepo.Received().Create(candidate);
 		}
 	}
 }

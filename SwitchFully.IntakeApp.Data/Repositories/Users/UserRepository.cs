@@ -42,7 +42,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Users
 
 		public User FindByEmail(string providedEmail)
 		{
-			return _context.Users.FirstOrDefault(u => u.Email.Address == providedEmail);
+			return  _context.Users.FirstOrDefault(u => u.Email.Address == providedEmail);
 		}
 
 		public void SetLastLogon(User foundUser)

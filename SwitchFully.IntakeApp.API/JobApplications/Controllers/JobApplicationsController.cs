@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 	[Route("api/[controller]")]
 	[Authorize]
 	[ApiController]
-	public class JobApplicationsController : ControllerBase
+	public class JobApplicationsController : Controller
 	{
 		private readonly JobApplicationMapper _jobApplicationMapper;
 		private readonly ILoggerManager _loggerManager;
@@ -59,5 +60,6 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+    }
 }

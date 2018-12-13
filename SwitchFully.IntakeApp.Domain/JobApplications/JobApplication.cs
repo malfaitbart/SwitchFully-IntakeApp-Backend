@@ -16,7 +16,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		public int StatusId { get; private set; }
 		public Status Status { get; private set; }
 
-		private JobApplication()
+        private JobApplication()
 		{
 		}
 		public JobApplication(Guid candidateId, Guid campaignId)

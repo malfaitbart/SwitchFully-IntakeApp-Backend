@@ -29,9 +29,9 @@ namespace SwitchFully.IntakeApp.Data.Repositories.Candidates
 			return await GetById(objectToCreate.Id);
 		}
 
-		public Task<List<Candidate>> GetAll()
+		public async Task<List<Candidate>> GetAll()
 		{
-			return _context.Candidates.ToListAsync();
+			return await _context.Candidates.ToListAsync();
 		}
 
 		public async Task<Candidate> GetById(Guid id)

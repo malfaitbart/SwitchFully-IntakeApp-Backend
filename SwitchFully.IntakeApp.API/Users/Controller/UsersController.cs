@@ -55,10 +55,10 @@ namespace SwitchFully.IntakeApp.API.Users.Controller
 		[Authorize]
 		public ActionResult<UserDto> GeCurrentUser()
 		{
-			var authenticatedUser = _userAuthenticationService.GetCurrentLoggedInUser(User);
+			var authenticatedUser =  _userAuthenticationService.GetCurrentLoggedInUser(User);
 			if (authenticatedUser != null)
 			{
-				return Ok(_userMapper.UserToUserDto(authenticatedUser));
+				return Ok( _userMapper.UserToUserDto(authenticatedUser));
 			}
 			return BadRequest("Could not find your user information... Contact us :)");
 		}
