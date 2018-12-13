@@ -77,7 +77,6 @@ namespace SwitchFully.IntakeApp.API.FileManager
 				FileDownloadName = filename
 			};
 			// I need to delete file after me
-			System.IO.File.Delete(filename);
 			return fileContentResult;
 			//var file = await _repo.GetById(Guid.Parse(id));
 
