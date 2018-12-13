@@ -4,6 +4,7 @@ using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
 using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.ErrorHandling;
 using SwitchFully.IntakeApp.Service.Campaigns;
+using SwitchFully.IntakeApp.Service.Logging;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -28,9 +29,10 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
 			using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
 			{
 				context.Campaigns.Add(testCampaign);
-				context.SaveChangesAsync();
+				await context.SaveChangesAsync();
+                var log = new LoggerManager();
 				var repo = new CampaignRepository(context);
-				var service = new CampaignService(repo);
+				var service = new CampaignService(repo, log);
 				var result = await service.GetAllCampaigns();
 
 				Assert.IsType<List<Campaign>>(result);
@@ -46,9 +48,10 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
             using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
             {
                 context.Campaigns.Add(testCampaign);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
+                var log = new LoggerManager();
                 var repo = new CampaignRepository(context);
-                var service = new CampaignService(repo);
+                var service = new CampaignService(repo, log);
                 var result = await service.GetSingleCampaignByID(testCampaign.CampaignId.ToString());
 
                 Assert.Equal(testCampaign.CampaignId.ToString(), result.CampaignId.ToString());
@@ -62,9 +65,9 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
 
             using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
             {
-
+                var log = new LoggerManager();
                 var repo = new CampaignRepository(context);
-                var service = new CampaignService(repo);
+                var service = new CampaignService(repo, log);
                 var result = await service.GetSingleCampaignByID(Guid.NewGuid().ToString());
 
                 Assert.Null(result);
@@ -79,9 +82,9 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
 
             using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
             {
-
+                var log = new LoggerManager();
                 var repo = new CampaignRepository(context);
-                var service = new CampaignService(repo);
+                var service = new CampaignService(repo, log);
                 var result = await service.CreateNewCampaign(testCampaign);
 
                 Assert.True(context.Campaigns.SingleOrDefaultAsync(r => r.CampaignId == testCampaign.CampaignId) != null);
@@ -96,9 +99,9 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
 
             using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
             {
-
+                var log = new LoggerManager();
                 var repo = new CampaignRepository(context);
-                var service = new CampaignService(repo);
+                var service = new CampaignService(repo, log);
                 var exc =  await Assert.ThrowsAsync<ExceptionsHandler>(async () =>  await service.CreateNewCampaign(testCampaign));
 
                 Assert.Equal("campaign Exeption: fields are not filled in correctly", exc.Message);

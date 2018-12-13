@@ -107,7 +107,7 @@ namespace SwitchFully.IntakeApp.API
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
 						ValidateIssuerSigningKey = true,
-						IssuerSigningKey = new SymmetricSecurityKey(GetSecretKey()),
+						IssuerSigningKey = new SymmetricSecurityKey(UserAuthenticationService.GetSecretKey(Configuration["SecretKey"])),
 						ValidateIssuer = false,
 						ValidateAudience = false
 					};
@@ -142,22 +142,6 @@ namespace SwitchFully.IntakeApp.API
 
             app.UseMvc();
         }
-
-		private byte[] GetSecretKey()
-		{
-            if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process)))
-            {
-                System.Diagnostics.Trace.TraceWarning("The secret key was not found as an environment variable. Defaulting to local User Secrets. ");
-                if(string.IsNullOrEmpty(Configuration["SecretKey"]))
-                {
-                    var errorMessage = "No secret key was found. A secret key needs to be configured: Locally with User Secrets, remotely with Environment variables";
-                    System.Diagnostics.Trace.TraceError(errorMessage);
-                    throw new ArgumentException(errorMessage);
-                }
-                return Encoding.ASCII.GetBytes(Configuration["SecretKey"]);
-            }
-            return Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("APPSETTING_SecretKey", EnvironmentVariableTarget.Process));
-		}
 
         private string GetConnectionString()
         {

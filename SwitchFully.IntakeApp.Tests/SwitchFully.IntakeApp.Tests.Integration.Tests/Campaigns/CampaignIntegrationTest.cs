@@ -35,7 +35,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
                 .CreateClient();
         }
 
-        [Fact(Skip = "Ignoring due to blocking build")]
+        [Fact(Skip = "To inspect")]
         private async Task<HttpResponseMessage> PostNewCampaign()
         {
             var content = JsonConvert.SerializeObject(campaignToCreate);
@@ -56,7 +56,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
 
 
 
-        [Fact(Skip = "Ignoring due to blocking build")]
+        [Fact]
         public async Task CreateNewCampaign()
         {
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
@@ -69,7 +69,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
             Assert.True(createdCampaign.CampaignId != Guid.Empty);
         }
 
-        [Fact(Skip = "Ignoring due to blocking build")]
+        [Fact]
         public async Task GetAllCampaigns()
         {
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
@@ -89,7 +89,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
             Assert.NotEmpty(allCampaigns);
         }
 
-        [Fact(Skip = "Ignoring due to blocking build")]
+        [Fact]
         public async Task GetSingleCampaign()
         {
 

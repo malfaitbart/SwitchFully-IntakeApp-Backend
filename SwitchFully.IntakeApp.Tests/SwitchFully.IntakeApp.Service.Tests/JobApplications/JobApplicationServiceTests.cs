@@ -1,10 +1,12 @@
 ﻿using NSubstitute;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications;
+using SwitchFully.IntakeApp.Domain.JobApplications;
 using SwitchFully.IntakeApp.Service.JobApplications;
 using SwitchFully.IntakeApp.Service.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
@@ -12,33 +14,40 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 	public class JobApplicationServiceTests
 	{
 		[Fact]
-		public void GivenAJobApplicationService_WhenGetAll_ThenRepoExecutesGetAll()
+		public async void GivenAJobApplicationService_WhenGetAll_ThenRepoExecutesGetAll()
 		{
 			//Given
 			var mockRepo = Substitute.For<JobApplicationRepository>();
-			var mockLogger = Substitute.For<ILoggerManager>();
+            List<JobApplication> expectedJobApplications = new List<JobApplication>() {
+                new JobApplication(Guid.NewGuid(), Guid.NewGuid())
+            };
+            mockRepo.GetAll()
+                .Returns(Task.FromResult(expectedJobApplications));
+            var mockLogger = Substitute.For<ILoggerManager>();
 			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
 
 			//When
-			_jobApplcaitionService.GetAll();
+			var actualJobApplications = await _jobApplcaitionService.GetAll();
 
-			//Then
-			mockRepo.Received().GetAll();
+            //Then
+            Assert.Equal(expectedJobApplications, actualJobApplications);
 		}
 
 		[Fact]
-		public void GivenAJobApplicationService_WhenGetById_ThenRepoExecutesGetById()
+		public async void GivenAJobApplicationService_WhenGetById_ThenRepoExecutesGetById()
 		{
 			//Given
-			var mockRepo = Substitute.For<JobApplicationRepository>();
-			var mockLogger = Substitute.For<ILoggerManager>();
-			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
 			var testGuid = Guid.NewGuid();
+			var mockRepo = Substitute.For<JobApplicationRepository>();
+            mockRepo.GetById(testGuid)
+                .Returns(Task.FromResult(new JobApplication(Guid.NewGuid(), Guid.NewGuid())));
+            var mockLogger = Substitute.For<ILoggerManager>();
+			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
 			//When
-			_jobApplcaitionService.GetById(testGuid.ToString());
+			await _jobApplcaitionService.GetById(testGuid.ToString());
 
 			//Then
-			mockRepo.Received().GetById(testGuid);
+			await mockRepo.Received().GetById(testGuid);
 		}
 
 	}

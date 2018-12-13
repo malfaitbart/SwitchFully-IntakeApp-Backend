@@ -19,14 +19,14 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 			_context = context;
 		}
 
-		public async Task<JobApplication> Create(JobApplication objectToCreate)
+		public async Task<JobApplication> Create(JobApplication applicationToCreate)
 		{
-			await _context.AddAsync(objectToCreate);
+			await _context.AddAsync(applicationToCreate);
 			await _context.SaveChangesAsync();
-			return await GetById(objectToCreate.Id);
+			return await GetById(applicationToCreate.Id);
 		}
 
-		public async Task<List<JobApplication>> GetAll()
+		public async virtual Task<List<JobApplication>> GetAll()
 		{
 			return await _context.JobApplications
 				.Include(jp => jp.Campaign)
@@ -35,7 +35,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 				.ToListAsync();
 		}
 
-		public async Task<JobApplication> GetById(Guid id)
+		public async virtual Task<JobApplication> GetById(Guid id)
 		{
 			return await _context.JobApplications
 				.Include(jp => jp.Campaign)
@@ -46,13 +46,13 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 
 		public async Task<JobApplication> Update(JobApplication objectToUpdate)
 		{
-			var jobApplication = GetById(objectToUpdate.Id);
+			var jobApplication = await GetById(objectToUpdate.Id);
 			if (jobApplication == null)
 			{
 				throw new Exception("id not found, update not possible");
 			}
 			_context.Update(objectToUpdate);
-			_context.SaveChanges();
+			await _context.SaveChangesAsync();
 			return objectToUpdate;
 		}
 	}
