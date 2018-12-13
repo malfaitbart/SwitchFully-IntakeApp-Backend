@@ -95,16 +95,18 @@ namespace SwitchFully.IntakeApp.Service.Tests.CampaignsTests
         [Fact]
         public async void GivenCreateNewCampaignUnhappyPath_whenCreatingANewCampaignWhenNotallFieldsAreFilledIn_ThenReturnNull()
         {
-            var testCampaign = Campaign.CreateNewCampaign("", "VAB", new DateTime(2018, 04, 21), new DateTime(2018, 06, 22));
 
+            var testCampaign = new Campaign(Guid.NewGuid(), "", "VAB", new DateTime(2018, 04, 21), new DateTime(2018, 06, 22));
+            testCampaign = null;
             using (var context = new SwitchFullyIntakeAppContext(CreateNewInMemoryDatabase()))
             {
                 var log = new LoggerManager();
                 var repo = new CampaignRepository(context);
                 var service = new CampaignService(repo, log);
-                var exc =  await Assert.ThrowsAsync<ExceptionsHandler>(async () =>  await service.CreateNewCampaign(testCampaign));
 
-                Assert.Equal("campaign Exeption: fields are not filled in correctly", exc.Message);
+                var exc =  await Assert.ThrowsAsync<NullReferenceException>(async () =>  await service.CreateNewCampaign(testCampaign));
+
+                
             }
 
         }

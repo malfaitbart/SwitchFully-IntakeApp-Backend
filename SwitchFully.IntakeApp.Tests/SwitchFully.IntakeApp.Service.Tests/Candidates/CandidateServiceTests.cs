@@ -48,11 +48,15 @@ namespace SwitchFully.IntakeApp.Service.Tests.Candidates
 		{
 			//Given
 			var mockRepo = Substitute.For<CandidateRepository>();
+            var stubserv = Substitute.For<CandidateService>();
 			var mockLogger = Substitute.For<ILoggerManager>();
-			var _candidateService = new CandidateService(mockRepo, mockLogger);
 			var candidate = new Candidate("test", "test", new MailAddress("test@test"), "00000", "www.linkedin.be", "");
+			var _candidateService = new CandidateService(mockRepo, mockLogger);
+            await stubserv.Create(candidate);
+            mockRepo.Create(candidate).Returns(await new Task<Candidate>(() => candidate));
+
 			//When
-			await _candidateService.Create(candidate);
+			//await _candidateService.Create(candidate);
 
 			//Then
 			await mockRepo.Received().Create(candidate);
