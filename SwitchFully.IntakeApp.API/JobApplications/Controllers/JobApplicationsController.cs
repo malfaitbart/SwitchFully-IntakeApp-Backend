@@ -60,6 +60,19 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		{
 			throw new NotImplementedException();
 		}
+        [HttpPut]
+        [Route("reject/id:string")]
+        public async Task<ActionResult> Reject(string id)
+        {
+            var jobApplicationByID = await _jobApplicationService.GetById(id);
 
+            if (jobApplicationByID == null)
+            { return BadRequest("ID not found"); }
+
+            await _jobApplicationService.RejectJobApplication(jobApplicationByID);
+
+            return Ok();
+
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 
 		public async Task<JobApplication> Update(JobApplication objectToUpdate)
 		{
-			var jobApplication = GetById(objectToUpdate.Id);
+			var jobApplication = await GetById(objectToUpdate.Id);
 			if (jobApplication == null)
 			{
 				throw new Exception("id not found, update not possible");
