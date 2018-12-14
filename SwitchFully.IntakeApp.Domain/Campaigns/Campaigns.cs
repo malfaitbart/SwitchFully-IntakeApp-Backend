@@ -7,7 +7,7 @@ namespace SwitchFully.IntakeApp.Domain.Campaigns
 {
     public class Campaign
     {
-        public Guid CampaignId { get; private set; }
+        public Guid CampaignId { get; protected set; }
         public string Name { get; private set; }
         public string Client { get; private set; }
         public DateTime StartDate { get; private set; }
@@ -38,7 +38,7 @@ namespace SwitchFully.IntakeApp.Domain.Campaigns
 			Status = status;
 		}
 
-		private Campaign(string name, string client, DateTime startDate, DateTime endDate)
+		private  Campaign(string name, string client, DateTime startDate, DateTime endDate)
         {
             CampaignId = Guid.NewGuid();
             Name = name;
