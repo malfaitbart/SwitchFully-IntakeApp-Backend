@@ -11,7 +11,7 @@ namespace SwitchFully.IntakeApp.Data
 {
     public partial class SwitchFullyIntakeAppContext : DbContext
     {
-        private readonly ILoggerFactory _logger;
+
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
@@ -53,7 +53,7 @@ namespace SwitchFully.IntakeApp.Data
                         securePass.Property(prop => prop.PasswordHash).HasColumnName("PassWord");
                         securePass.Property(prop => prop.Salt).HasColumnName("SecPass");
                     });
-                    
+
 
             modelBuilder.Entity<Candidate>()
                 .ToTable("Candidates")
@@ -63,7 +63,7 @@ namespace SwitchFully.IntakeApp.Data
                 .OwnsOne(c => c.Email,
                     email => { email.Property(prop => prop.Address).HasColumnName("Email"); }
                 );
-               
+
 
 
             modelBuilder.Entity<Campaign>()
@@ -95,7 +95,6 @@ namespace SwitchFully.IntakeApp.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<JobApplication>()
-
                 .HasOne(jp => jp.Status)
                 .WithMany()
                 .HasForeignKey(jp => jp.StatusId)
