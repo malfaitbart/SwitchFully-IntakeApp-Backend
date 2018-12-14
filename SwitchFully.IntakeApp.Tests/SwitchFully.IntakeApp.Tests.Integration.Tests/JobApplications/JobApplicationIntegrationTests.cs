@@ -54,17 +54,17 @@ namespace SwitchFully.IntakeApp.Integration.Tests.JobApplications
 
 
 
-        [Fact]
-        public async Task CreateNewApplication()
-        {
-            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
-            HttpResponseMessage response = await PostNewJobApplication();
+        //[Fact]
+        //public async Task CreateNewApplication()
+        //{
+        //    _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+        //    HttpResponseMessage response = await PostNewJobApplication();
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var createdApplication = JsonConvert.DeserializeObject<JobApplicationDto>(responseString);
+        //    var responseString = await response.Content.ReadAsStringAsync();
+        //    var createdApplication = JsonConvert.DeserializeObject<JobApplicationDto>(responseString);
 
-            AssertCampaignIsEqual(jobApplicationToCreate, createdApplication);
-        }
+        //    AssertCampaignIsEqual(jobApplicationToCreate, createdApplication);
+        //}
 
         //[Fact]
         //public async Task GetAllCampaigns()
