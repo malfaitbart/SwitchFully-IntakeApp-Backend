@@ -11,7 +11,7 @@ namespace SwitchFully.IntakeApp.Data
 {
     public partial class SwitchFullyIntakeAppContext : DbContext
     {
-
+        private readonly ILoggerFactory _logger;
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
