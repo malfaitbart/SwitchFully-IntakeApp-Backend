@@ -92,17 +92,17 @@ namespace SwitchFully.IntakeApp.Data
 				.HasForeignKey(jp => jp.StatusId)
 				.OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<JobApplication>()
-				.HasOne(jp => jp.CV)
-				.WithMany()
-				.HasForeignKey(jp => jp.CvId)
-				.OnDelete(DeleteBehavior.Restrict);
+			//modelBuilder.Entity<JobApplication>()
+			//	.HasOne(jp => jp.CV)
+			//	.WithMany()
+			//	.HasForeignKey(jp => jp.CvId)
+			//	.OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<JobApplication>()
-				.HasOne(jp => jp.Motivation)
-				.WithMany()
-				.HasForeignKey(jp => jp.MotivationId)
-				.OnDelete(DeleteBehavior.Restrict);
+			//modelBuilder.Entity<JobApplication>()
+			//	.HasOne(jp => jp.Motivation)
+			//	.WithMany()
+			//	.HasForeignKey(jp => jp.MotivationId)
+			//	.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<File>()
 				.ToTable("Files")

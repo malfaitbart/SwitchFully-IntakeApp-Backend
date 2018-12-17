@@ -10,8 +10,8 @@ using SwitchFully.IntakeApp.Data;
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
     [DbContext(typeof(SwitchFullyIntakeAppContext))]
-    [Migration("20181217073317_uploadConnectJobApplication")]
-    partial class uploadConnectJobApplication
+    [Migration("20181217104858_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,24 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Candidates");
                 });
 
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.FileManagement.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContentType");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<int>("Type");
+
+                    b.Property<byte[]>("UploadedFile");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", b =>
                 {
                     b.Property<Guid>("Id")
@@ -68,9 +86,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.Property<Guid>("CandidateId");
 
-                    b.Property<Guid>("CvId");
+                    b.Property<Guid?>("CvId");
 
-                    b.Property<Guid>("MotivationId");
+                    b.Property<Guid?>("MotivationId");
 
                     b.Property<int>("StatusId");
 
@@ -100,26 +118,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
-                });
-
-            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Uploads.File", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ContentType");
-
-                    b.Property<string>("FileName");
-
-                    b.Property<Guid?>("JobApplicationId");
-
-                    b.Property<byte[]>("uploadedFile");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobApplicationId");
-
-                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Users.User", b =>
@@ -170,12 +168,12 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SwitchFully.IntakeApp.Domain.Uploads.File", "CV")
+                    b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "CV")
                         .WithMany()
                         .HasForeignKey("CvId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SwitchFully.IntakeApp.Domain.Uploads.File", "Motivation")
+                    b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "Motivation")
                         .WithMany()
                         .HasForeignKey("MotivationId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -184,13 +182,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Uploads.File", b =>
-                {
-                    b.HasOne("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", "JobApplication")
-                        .WithMany()
-                        .HasForeignKey("JobApplicationId");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Users.User", b =>

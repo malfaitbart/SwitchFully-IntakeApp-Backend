@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,11 +30,29 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Email = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    LinkedIn = table.Column<string>(nullable: true),
+                    Comment = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Candidates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    FileName = table.Column<string>(nullable: true),
+                    ContentType = table.Column<string>(nullable: true),
+                    UploadedFile = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,15 +92,17 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     CandidateId = table.Column<Guid>(nullable: false),
-                    CampagneId = table.Column<Guid>(nullable: false),
-                    StatusId = table.Column<int>(nullable: false)
+                    CampaignId = table.Column<Guid>(nullable: false),
+                    StatusId = table.Column<int>(nullable: false),
+                    CvId = table.Column<Guid>(nullable: true),
+                    MotivationId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_JobApplication", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_JobApplication_Campaign_CampagneId",
-                        column: x => x.CampagneId,
+                        name: "FK_JobApplication_Campaign_CampaignId",
+                        column: x => x.CampaignId,
                         principalTable: "Campaign",
                         principalColumn: "CampaignId",
                         onDelete: ReferentialAction.Restrict);
@@ -90,6 +110,18 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         name: "FK_JobApplication_Candidates_CandidateId",
                         column: x => x.CandidateId,
                         principalTable: "Candidates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_JobApplication_Files_CvId",
+                        column: x => x.CvId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_JobApplication_Files_MotivationId",
+                        column: x => x.MotivationId,
+                        principalTable: "Files",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -101,14 +133,24 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobApplication_CampagneId",
+                name: "IX_JobApplication_CampaignId",
                 table: "JobApplication",
-                column: "CampagneId");
+                column: "CampaignId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobApplication_CandidateId",
                 table: "JobApplication",
                 column: "CandidateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplication_CvId",
+                table: "JobApplication",
+                column: "CvId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplication_MotivationId",
+                table: "JobApplication",
+                column: "MotivationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobApplication_StatusId",
@@ -129,6 +171,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Candidates");
+
+            migrationBuilder.DropTable(
+                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "Status");
