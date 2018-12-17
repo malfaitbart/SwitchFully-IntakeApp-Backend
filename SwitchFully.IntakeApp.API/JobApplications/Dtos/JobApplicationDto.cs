@@ -3,6 +3,7 @@ using SwitchFully.IntakeApp.API.Candidates.DTO;
 using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.JobApplications;
+using SwitchFully.IntakeApp.Domain.FileManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,9 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Dtos
 		public CampaignDTO_Return Campaign { get; set; }
 		public int StatusId { get; set; }
 		public Status Status { get; set; }
+		public Guid? CvId { get; set; }
+		public File CV { get; set; }
+		public Guid? MotivationId { get; set; }
+		public File Motivation { get; set; }
 	}
 }

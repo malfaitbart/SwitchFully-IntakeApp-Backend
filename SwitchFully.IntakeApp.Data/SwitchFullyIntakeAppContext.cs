@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.JobApplications;
-using SwitchFully.IntakeApp.Domain.Uploads;
+using SwitchFully.IntakeApp.Domain.FileManagement;
 using SwitchFully.IntakeApp.Domain.Users;
 
 namespace SwitchFully.IntakeApp.Data
@@ -30,9 +30,9 @@ namespace SwitchFully.IntakeApp.Data
 				.UseLoggerFactory(_logger)
 				.Options;
 
-            
 
-            base.OnConfiguring(optionsBuilder);
+
+			base.OnConfiguring(optionsBuilder);
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -90,6 +90,18 @@ namespace SwitchFully.IntakeApp.Data
 				.HasOne(jp => jp.Status)
 				.WithMany()
 				.HasForeignKey(jp => jp.StatusId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<JobApplication>()
+				.HasOne(jp => jp.CV)
+				.WithMany()
+				.HasForeignKey(jp => jp.CvId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<JobApplication>()
+				.HasOne(jp => jp.Motivation)
+				.WithMany()
+				.HasForeignKey(jp => jp.MotivationId)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<File>()

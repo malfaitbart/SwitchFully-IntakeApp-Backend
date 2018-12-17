@@ -35,7 +35,6 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Campaigns
                 .CreateClient();
         }
 
-        [Fact(Skip = "To inspect")]
         private async Task<HttpResponseMessage> PostNewCampaign()
         {
             var content = JsonConvert.SerializeObject(campaignToCreate);

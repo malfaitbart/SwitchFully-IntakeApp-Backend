@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SwitchFully.IntakeApp.Domain.JobApplications;
+using SwitchFully.IntakeApp.Domain.FileManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,5 +19,6 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 		Task<JobApplication> Create(JobApplication jobApplication);
 
         Task RejectJobApplication(JobApplication jobApplicationByID);
-    }
+		Task<File> uploadFile(File formFile);
+	}
 }

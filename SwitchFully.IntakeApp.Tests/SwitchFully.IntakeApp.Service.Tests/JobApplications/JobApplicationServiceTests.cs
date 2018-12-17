@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using SwitchFully.IntakeApp.Data.Repositories.FileUploads;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications;
 using SwitchFully.IntakeApp.Domain.JobApplications;
 using SwitchFully.IntakeApp.Service.JobApplications;
@@ -18,13 +19,15 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 		{
 			//Given
 			var mockRepo = Substitute.For<JobApplicationRepository>();
-            List<JobApplication> expectedJobApplications = new List<JobApplication>() {
+			var mockRepoFile = Substitute.For<FileRepository>();
+
+			List<JobApplication> expectedJobApplications = new List<JobApplication>() {
                 new JobApplication(Guid.NewGuid(), Guid.NewGuid())
             };
             mockRepo.GetAll()
                 .Returns(Task.FromResult(expectedJobApplications));
             var mockLogger = Substitute.For<ILoggerManager>();
-			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
+			var _jobApplcaitionService = new JobApplicationService(mockRepo,mockRepoFile, mockLogger);
 
 			//When
 			var actualJobApplications = await _jobApplcaitionService.GetAll();
@@ -39,10 +42,11 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 			//Given
 			var testGuid = Guid.NewGuid();
 			var mockRepo = Substitute.For<JobApplicationRepository>();
+			var mockRepoFile = Substitute.For<FileRepository>();
             mockRepo.GetById(testGuid)
                 .Returns(Task.FromResult(new JobApplication(Guid.NewGuid(), Guid.NewGuid())));
             var mockLogger = Substitute.For<ILoggerManager>();
-			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockLogger);
+			var _jobApplcaitionService = new JobApplicationService(mockRepo,mockRepoFile, mockLogger);
 			//When
 			await _jobApplcaitionService.GetById(testGuid.ToString());
 

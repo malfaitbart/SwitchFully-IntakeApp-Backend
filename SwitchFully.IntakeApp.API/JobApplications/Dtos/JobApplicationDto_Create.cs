@@ -9,6 +9,8 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Dtos
 	{
 		public Guid CandidateId { get; set; }
 		public Guid CampaignId { get; set; }
+		public Guid? CvId { get; set; }
+		public Guid? MotivationId { get; set; }
 
 	}
 }

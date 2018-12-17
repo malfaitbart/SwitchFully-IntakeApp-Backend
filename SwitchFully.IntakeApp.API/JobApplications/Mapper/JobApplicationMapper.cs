@@ -33,7 +33,11 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 				CampaignId = jobApplication.CampaignId.ToString(),
 				Campaign = _campaignMapper.CampaignToCampaignDTOReturn(jobApplication.Campaign),
 				StatusId = jobApplication.StatusId,
-				Status = jobApplication.Status
+				Status = jobApplication.Status,
+				CvId = jobApplication.CvId,
+				CV = jobApplication.CV,
+				MotivationId = jobApplication.MotivationId,
+				Motivation = jobApplication.Motivation
 			};
 		}
 
@@ -46,7 +50,11 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 				Guid.Parse(jobApplicationDto.CampaignId), 
 				_campaignMapper.CampaignDTOReturnToCampaign(jobApplicationDto.Campaign),
 				jobApplicationDto.StatusId,
-				jobApplicationDto.Status
+				jobApplicationDto.Status,
+				jobApplicationDto.CvId,
+				jobApplicationDto.CV,
+				jobApplicationDto.MotivationId,
+				jobApplicationDto.Motivation
 				);
 		}
 

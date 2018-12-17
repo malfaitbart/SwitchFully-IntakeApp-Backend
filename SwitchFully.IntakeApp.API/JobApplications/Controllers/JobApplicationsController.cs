@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SwitchFully.IntakeApp.API.Interfaces;
 using SwitchFully.IntakeApp.API.JobApplications.Dtos;
 using SwitchFully.IntakeApp.API.JobApplications.Mapper;
-using SwitchFully.IntakeApp.Domain.JobApplications;
+using SwitchFully.IntakeApp.Domain.FileManagement;
 using SwitchFully.IntakeApp.Service.JobApplications;
 using SwitchFully.IntakeApp.Service.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 {
@@ -31,12 +28,44 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 			_jobApplicationService = jobApplicationService;
 		}
 
+		[HttpPost, DisableRequestSizeLimit]
+		[Route("Upload")]
+		public async Task<ActionResult<string>> UpLoad(string type)
+		{
+			var fileupload = new Domain.FileManagement.File();
+			if (!Enum.IsDefined(typeof(FileType), type))
+			{
+				return BadRequest("Type must CV or Motivatie");
+			}
+			fileupload.SetType((FileType)Enum.Parse(typeof(FileType), type));
+
+			try
+			{
+				var file = Request.Form.Files[0];
+				fileupload.SetContentType(file.ContentType);
+				fileupload.SetFileName(file.FileName);
+				using (var memorystream = new MemoryStream())
+				{
+					await file.CopyToAsync(memorystream);
+					fileupload.SetUploadedFile(memorystream.ToArray());
+				}
+
+				var result = _jobApplicationService.uploadFile(fileupload);
+				return Ok(result.Id);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
 		[HttpPost]
-		public async  Task<ActionResult<JobApplicationDto>> Create(JobApplicationDto_Create objectToCreate)
+		public async Task<ActionResult<JobApplicationDto>> Create(JobApplicationDto_Create objectToCreate)
 		{
 			var toCreate = await _jobApplicationService.Create(_jobApplicationMapper.Dto_CreateToDomain(objectToCreate));
 			return _jobApplicationMapper.DomainToDto(toCreate);
 		}
+
 		[HttpGet]
 		public async Task<ActionResult<List<JobApplicationDto>>> GetAll()
 		{
@@ -60,19 +89,19 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		{
 			throw new NotImplementedException();
 		}
-        [HttpPut]
-        [Route("reject/id:string")]
-        public async Task<ActionResult> Reject(string id)
-        {
-            var jobApplicationByID = await _jobApplicationService.GetById(id);
+		[HttpPut]
+		[Route("reject/id:string")]
+		public async Task<ActionResult> Reject(string id)
+		{
+			var jobApplicationByID = await _jobApplicationService.GetById(id);
 
-            if (jobApplicationByID == null)
-            { return BadRequest("ID not found"); }
+			if (jobApplicationByID == null)
+			{ return BadRequest("ID not found"); }
 
-            await _jobApplicationService.RejectJobApplication(jobApplicationByID);
+			await _jobApplicationService.RejectJobApplication(jobApplicationByID);
 
-            return Ok();
+			return Ok();
 
-        }
-    }
+		}
+	}
 }
