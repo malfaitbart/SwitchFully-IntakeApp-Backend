@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwitchFully.IntakeApp.Data;
 
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
     [DbContext(typeof(SwitchFullyIntakeAppContext))]
-    partial class SwitchFullyIntakeAppContextModelSnapshot : ModelSnapshot
+    [Migration("20181214134509_seedData")]
+    partial class seedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,24 +65,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Candidates");
                 });
 
-            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.FileManagement.File", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ContentType");
-
-                    b.Property<string>("FileName");
-
-                    b.Property<int>("Type");
-
-                    b.Property<byte[]>("UploadedFile");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Files");
-                });
-
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,10 +74,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.Property<Guid>("CandidateId");
 
-                    b.Property<Guid?>("CvId");
-
-                    b.Property<Guid?>("MotivationId");
-
                     b.Property<int>("StatusId");
 
                     b.HasKey("Id");
@@ -101,10 +81,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasIndex("CampaignId");
 
                     b.HasIndex("CandidateId");
-
-                    b.HasIndex("CvId");
-
-                    b.HasIndex("MotivationId");
 
                     b.HasIndex("StatusId");
 
@@ -177,14 +153,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "CV")
-                        .WithMany()
-                        .HasForeignKey("CvId");
-
-                    b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "Motivation")
-                        .WithMany()
-                        .HasForeignKey("MotivationId");
 
                     b.HasOne("SwitchFully.IntakeApp.Domain.JobApplications.Status", "Status")
                         .WithMany()
