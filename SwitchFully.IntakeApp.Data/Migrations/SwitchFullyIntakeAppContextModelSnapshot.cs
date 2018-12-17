@@ -37,9 +37,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Campaign");
 
                     b.HasData(
-                        new { CampaignId = new Guid("370f5ea9-7c14-43a4-9a2c-6d8d33813145"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("8250cd92-912b-43a2-9e76-10e0299d4ce8"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("5b2a9f6a-fd3c-44e3-8fc7-67f4d7480ac5"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                        new { CampaignId = new Guid("98b82b4c-a7ed-42f2-a738-f800d103fe9e"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("76e1db39-e1d1-4c68-8626-6213f6eba5fb"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("54e8dd1e-5537-4cd9-818d-fd15d37da7e1"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                     );
                 });
 

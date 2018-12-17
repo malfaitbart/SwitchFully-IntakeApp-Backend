@@ -132,6 +132,26 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Campaign",
+                columns: new[] { "CampaignId", "Client", "EndDate", "Name", "StartDate" },
+                values: new object[,]
+                {
+                    { new Guid("98b82b4c-a7ed-42f2-a738-f800d103fe9e"), "CM", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("76e1db39-e1d1-4c68-8626-6213f6eba5fb"), "Cegeka", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "java", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("54e8dd1e-5537-4cd9-818d-fd15d37da7e1"), "OZ", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "Id", "Description" },
+                values: new object[,]
+                {
+                    { 1, "Inactive" },
+                    { 2, "active" },
+                    { 3, "Rejected" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_JobApplication_CampaignId",
                 table: "JobApplication",
