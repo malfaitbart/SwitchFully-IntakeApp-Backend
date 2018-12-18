@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
-    public partial class Screening_temp2 : Migration
+    public partial class Screening : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,7 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     JobApplicationId = table.Column<Guid>(nullable: false),
                     AuditUser = table.Column<string>(nullable: true),
                     AuditDateTime = table.Column<DateTime>(nullable: false),
-                    screeningType = table.Column<int>(nullable: false)
+                    screeningType = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,17 +48,17 @@ namespace SwitchFully.IntakeApp.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Campaign",
                 columns: new[] { "CampaignId", "Client", "EndDate", "Name", "StartDate" },
-                values: new object[] { new Guid("b985840f-5e7c-48fa-95cc-f4f950639935"), "CM", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[] { new Guid("26a7ca9f-fd6a-4df2-aa88-73af115a6858"), "CM", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Campaign",
                 columns: new[] { "CampaignId", "Client", "EndDate", "Name", "StartDate" },
-                values: new object[] { new Guid("4e398d45-7dfc-4e5c-9f0e-16e3a2a4342c"), "Cegeka", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "java", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[] { new Guid("6a2eafae-ae2a-4fb5-a996-80fdfc594d96"), "Cegeka", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "java", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Campaign",
                 columns: new[] { "CampaignId", "Client", "EndDate", "Name", "StartDate" },
-                values: new object[] { new Guid("6806bf2a-5991-461b-82ca-646ab19d9d5f"), "OZ", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[] { new Guid("f231efda-6e7d-4d0c-86da-7cb5ec4fffcb"), "OZ", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -69,17 +69,17 @@ namespace SwitchFully.IntakeApp.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "Campaign",
                 keyColumn: "CampaignId",
-                keyValue: new Guid("4e398d45-7dfc-4e5c-9f0e-16e3a2a4342c"));
+                keyValue: new Guid("26a7ca9f-fd6a-4df2-aa88-73af115a6858"));
 
             migrationBuilder.DeleteData(
                 table: "Campaign",
                 keyColumn: "CampaignId",
-                keyValue: new Guid("6806bf2a-5991-461b-82ca-646ab19d9d5f"));
+                keyValue: new Guid("6a2eafae-ae2a-4fb5-a996-80fdfc594d96"));
 
             migrationBuilder.DeleteData(
                 table: "Campaign",
                 keyColumn: "CampaignId",
-                keyValue: new Guid("b985840f-5e7c-48fa-95cc-f4f950639935"));
+                keyValue: new Guid("f231efda-6e7d-4d0c-86da-7cb5ec4fffcb"));
 
             migrationBuilder.InsertData(
                 table: "Campaign",

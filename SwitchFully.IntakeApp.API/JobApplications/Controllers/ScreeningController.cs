@@ -13,7 +13,7 @@ using SwitchFully.IntakeApp.Service.Logging;
 namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class ScreeningController : Controller
     {

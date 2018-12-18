@@ -110,20 +110,14 @@ namespace SwitchFully.IntakeApp.Data
 
             modelBuilder.Entity<Screening>()
                 .ToTable("Screening")
-                .HasKey(screeingKey => new
+                .HasKey(screeningKey => new
                     {
-                        screeingKey.JobApplicationId,
-                        screeingKey.Name
+                        screeningKey.JobApplicationId,
+                        screeningKey.Name
                     });
 
             modelBuilder.Entity<Screening>()
-                .HasDiscriminator<int>("screeningType")
-                .HasValue<CV_Screening>(1)
-                .HasValue<Phone_Screening>(2)
-                .HasValue<TestResults_Screening>(3)
-                .HasValue<FirstInterview_Screening>(4)
-                .HasValue<GroupInterview_Screening>(5)
-                .HasValue<FinalDecision_Screening>(6);
+                .HasDiscriminator<string>("screeningType");
 
 
             modelBuilder.Entity<CV_Screening>();

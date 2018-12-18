@@ -37,9 +37,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Campaign");
 
                     b.HasData(
-                        new { CampaignId = new Guid("b985840f-5e7c-48fa-95cc-f4f950639935"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("4e398d45-7dfc-4e5c-9f0e-16e3a2a4342c"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("6806bf2a-5991-461b-82ca-646ab19d9d5f"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                        new { CampaignId = new Guid("26a7ca9f-fd6a-4df2-aa88-73af115a6858"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("6a2eafae-ae2a-4fb5-a996-80fdfc594d96"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("f231efda-6e7d-4d0c-86da-7cb5ec4fffcb"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                     );
                 });
 
@@ -99,13 +99,14 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.Property<bool>("Status");
 
-                    b.Property<int>("screeningType");
+                    b.Property<string>("screeningType")
+                        .IsRequired();
 
                     b.HasKey("JobApplicationId", "Name");
 
                     b.ToTable("Screening");
 
-                    b.HasDiscriminator<int>("screeningType");
+                    b.HasDiscriminator<string>("screeningType").HasValue("Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.Status", b =>
@@ -152,17 +153,17 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.ToTable("CV_Screening");
 
-                    b.HasDiscriminator().HasValue(1);
+                    b.HasDiscriminator().HasValue("CV_Screening");
                 });
 
-            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.FinalDesicion_Screening", b =>
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.FinalDecision_Screening", b =>
                 {
                     b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
 
 
-                    b.ToTable("FinalDesicion_Screening");
+                    b.ToTable("FinalDecision_Screening");
 
-                    b.HasDiscriminator().HasValue(6);
+                    b.HasDiscriminator().HasValue("FinalDecision_Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.FirstInterview_Screening", b =>
@@ -172,7 +173,7 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.ToTable("FirstInterview_Screening");
 
-                    b.HasDiscriminator().HasValue(4);
+                    b.HasDiscriminator().HasValue("FirstInterview_Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.GroupInterview_Screening", b =>
@@ -182,7 +183,7 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.ToTable("GroupInterview_Screening");
 
-                    b.HasDiscriminator().HasValue(5);
+                    b.HasDiscriminator().HasValue("GroupInterview_Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Phone_Screening", b =>
@@ -192,7 +193,7 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.ToTable("Phone_Screening");
 
-                    b.HasDiscriminator().HasValue(2);
+                    b.HasDiscriminator().HasValue("Phone_Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.TestResults_Screening", b =>
@@ -202,7 +203,7 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.ToTable("TestResults_Screening");
 
-                    b.HasDiscriminator().HasValue(3);
+                    b.HasDiscriminator().HasValue("TestResults_Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Candidates.Candidate", b =>
