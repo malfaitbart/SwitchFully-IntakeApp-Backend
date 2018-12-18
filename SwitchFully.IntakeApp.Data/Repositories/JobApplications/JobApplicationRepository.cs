@@ -19,7 +19,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 			_context = context;
 		}
 
-		public async Task<JobApplication> Create(JobApplication applicationToCreate)
+		public async virtual Task<JobApplication> Create(JobApplication applicationToCreate)
 		{
 			await _context.AddAsync(applicationToCreate);
 			await _context.SaveChangesAsync();
@@ -44,16 +44,16 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 				.FirstOrDefaultAsync(jp => jp.Id == id);
 		}
 
-		public async Task<JobApplication> Update(JobApplication objectToUpdate)
+		public async virtual Task<JobApplication> Update(JobApplication jobAppToUpdate)
 		{
-			var jobApplication = await GetById(objectToUpdate.Id);
+            var jobApplication = await _context.JobApplications.FindAsync(jobAppToUpdate.Id);
 			if (jobApplication == null)
 			{
 				throw new Exception("id not found, update not possible");
 			}
-			_context.Update(objectToUpdate);
+			_context.Update(jobAppToUpdate);
 			await _context.SaveChangesAsync();
-			return objectToUpdate;
+			return jobAppToUpdate;
 		}
 	}
 }

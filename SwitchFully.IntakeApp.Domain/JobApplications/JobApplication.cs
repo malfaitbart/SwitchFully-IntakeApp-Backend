@@ -13,12 +13,13 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		public Candidate Candidate { get; private set; }
 		public Guid CampaignId { get; private set; }
 		public Campaign Campaign { get; private set; }
-		public int StatusId { get; private set; }
+		public int StatusId { get; private  set; }
 		public Status Status { get; private set; }
 
         private JobApplication()
 		{
 		}
+
 		public JobApplication(Guid candidateId, Guid campaignId)
 		{
 			Id = Guid.NewGuid();
@@ -46,7 +47,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 			Status = status;
 		}
 
-        public void ChangeStatusToGivenStatusID( int givenStatusId)
+        public virtual void ChangeStatusToGivenStatusID( int givenStatusId)
         {
             StatusId = givenStatusId;
         }
