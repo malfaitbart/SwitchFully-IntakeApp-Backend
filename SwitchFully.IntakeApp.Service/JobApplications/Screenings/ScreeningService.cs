@@ -35,33 +35,30 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
             var listOfScreenings = await GetAllScreeningsById(givenId);
 
             if (listOfScreenings.Count == 6)
-            {
-                return listOfScreenings;
-            }
-
+            { return listOfScreenings; }
             else if (listOfScreenings.Count != 0)
             {
                 Screening lastScreening = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
 
                 if (lastScreening == null)
                 { return null; }
-                
+
                 var newScreening = lastScreening.CreateNextScreening(Guid.Parse(givenId), givenComment);
-                await _repository.AddNewScreeningToDatabase(newScreening);
-                listOfScreenings.Add(newScreening);
+                await SaveScreeningToRepo(listOfScreenings, newScreening);
             }
             else
             {
                 var newScreening = new CV_Screening(givenComment, Guid.Parse(givenId));
-
-                await _repository.AddNewScreeningToDatabase(newScreening);
-
-                listOfScreenings.Add(newScreening);
+                await SaveScreeningToRepo(listOfScreenings, newScreening);
             }
 
             return listOfScreenings;
-        }
+        }    
 
-        
+        private async Task SaveScreeningToRepo(List<Screening> listOfScreenings, Screening newScreening)
+        {
+            await _repository.AddNewScreeningToDatabase(newScreening);
+            listOfScreenings.Add(newScreening);
+        }
     }
 }
