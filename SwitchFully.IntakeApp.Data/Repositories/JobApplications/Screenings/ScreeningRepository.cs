@@ -12,7 +12,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
     {
         private readonly SwitchFullyIntakeAppContext _context;
 
-        private ScreeningRepository()
+        public ScreeningRepository()
         { }
 
         public ScreeningRepository(SwitchFullyIntakeAppContext context)
@@ -20,7 +20,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
             _context = context;
         }
 
-        public async Task<Screening> AddNewScreeningToDatabase(Screening newScreening)
+        public virtual async Task<Screening> AddNewScreeningToDatabase(Screening newScreening)
         {
 
             await _context.Screenings.AddAsync(newScreening);
@@ -28,7 +28,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
             return newScreening;
         }
 
-        public async Task<List<Screening>> GetAllById(Guid id)
+        public virtual async Task<List<Screening>> GetAllById(Guid id)
         {
             return await _context.Screenings.Where(p => p.JobApplicationId == id)
                 .ToListAsync();
