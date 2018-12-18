@@ -51,7 +51,7 @@ namespace SwitchFully.IntakeApp.Domain.FileManagement
 
 		public void SetFileName(string fileName)
 		{
-			FileName = FileName;
+			FileName = fileName;
 		}
 
 		public void SetContentType(string contentType)

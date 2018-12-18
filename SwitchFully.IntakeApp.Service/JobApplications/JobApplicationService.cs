@@ -1,10 +1,12 @@
-﻿using SwitchFully.IntakeApp.Data.Repositories.FileUploads;
+﻿using Microsoft.AspNetCore.Http;
+using SwitchFully.IntakeApp.Data.Repositories.FileUploads;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications;
 using SwitchFully.IntakeApp.Domain.FileManagement;
 using SwitchFully.IntakeApp.Domain.JobApplications;
 using SwitchFully.IntakeApp.Service.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SwitchFully.IntakeApp.Service.JobApplications
@@ -54,9 +56,20 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 			return await _repository.Update(jobApplication);
 		}
 
-		public async Task<File> uploadFile(File formFile)
+		public async Task<string> StoreDocInDb(IFormFile cV, FileType type)
 		{
-			return await _fileRepository.Create(formFile);
+			var fileupload = new Domain.FileManagement.File();
+			fileupload.SetContentType(cV.ContentType);
+			fileupload.SetFileName(cV.FileName);
+			using (var memorystream = new MemoryStream())
+			{
+				await cV.CopyToAsync(memorystream);
+				fileupload.SetUploadedFile(memorystream.ToArray());
+			}
+
+			fileupload.SetType(type);
+			var result  = await _fileRepository.Create(fileupload);
+			return result.Id.ToString();
 		}
 	}
 }
