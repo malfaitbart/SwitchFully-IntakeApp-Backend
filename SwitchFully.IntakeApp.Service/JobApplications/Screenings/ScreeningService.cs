@@ -2,6 +2,7 @@
 using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings;
 using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
+using SwitchFully.IntakeApp.Service.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,13 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
     public class ScreeningService : IScreeningService
     {
         private readonly IScreeningRepository _repository;
+        private readonly ILoggerManager _loggerManager;
 
-        public ScreeningService(IScreeningRepository repository)
+
+        public ScreeningService(IScreeningRepository repository, ILoggerManager loggerManager)
         {
             _repository = repository;
+            _loggerManager = loggerManager;
         }
 
         public async Task<List<Screening>> GetAllScreeningsById(string givenId)
@@ -31,44 +35,30 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
             var listOfScreenings = await GetAllScreeningsById(givenId);
 
             if (listOfScreenings.Count == 6)
-            {
-                return listOfScreenings;
-            }
-
+            { return listOfScreenings; }
             else if (listOfScreenings.Count != 0)
             {
-                Screening lastScreening = GetLastSCreening(listOfScreenings);
+                Screening lastScreening = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
+
+                if (lastScreening == null)
+                { return null; }
 
                 var newScreening = lastScreening.CreateNextScreening(Guid.Parse(givenId), givenComment);
-                if (newScreening == null)
-                {
-                    await _repository.FinalizeScreening(lastScreening);
-                    return listOfScreenings;
-                }
-
-                await _repository.AddNewScreeningToDatabase(newScreening);
-                listOfScreenings.Add(newScreening);
+                await SaveScreeningToRepo(listOfScreenings, newScreening);
             }
             else
             {
                 var newScreening = new CV_Screening(givenComment, Guid.Parse(givenId));
-
-                await _repository.AddNewScreeningToDatabase(newScreening);
-
-                listOfScreenings.Add(newScreening);
+                await SaveScreeningToRepo(listOfScreenings, newScreening);
             }
 
             return listOfScreenings;
-        }
+        }    
 
-        private static Screening GetLastSCreening(List<Screening> listOfScreenings)
+        private async Task SaveScreeningToRepo(List<Screening> listOfScreenings, Screening newScreening)
         {
-            Screening lastScreening = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
-
-            if (lastScreening == null)
-            { throw new NotImplementedException(); }
-
-            return lastScreening;
+            await _repository.AddNewScreeningToDatabase(newScreening);
+            listOfScreenings.Add(newScreening);
         }
     }
 }

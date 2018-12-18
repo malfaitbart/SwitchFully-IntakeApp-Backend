@@ -32,14 +32,6 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
         {
             return await _context.Screenings.Where(p => p.JobApplicationId == id)
                 .ToListAsync();
-        }
-
-        public async Task<Screening> FinalizeScreening(Screening lastScreening)
-        {
-            lastScreening.UpdateStatusToFalse();
-            _context.Screenings.Update(lastScreening);
-            await _context.SaveChangesAsync();
-            return lastScreening;
-        }
+        }       
     }
 }
