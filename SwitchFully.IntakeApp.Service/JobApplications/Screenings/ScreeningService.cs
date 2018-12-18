@@ -2,6 +2,7 @@
 using SwitchFully.IntakeApp.Data.Repositories;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings;
 using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
+using SwitchFully.IntakeApp.Service.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,13 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
     public class ScreeningService : IScreeningService
     {
         private readonly IScreeningRepository _repository;
+        private readonly ILoggerManager _loggerManager;
 
-        public ScreeningService(IScreeningRepository repository)
+        
+        public ScreeningService(IScreeningRepository repository, ILoggerManager loggerManager)
         {
             _repository = repository;
+            _loggerManager = loggerManager;
         }
 
         public async Task<List<Screening>> GetAllScreeningsById(string givenId)
