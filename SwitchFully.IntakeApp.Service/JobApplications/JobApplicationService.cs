@@ -38,7 +38,7 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
             return await _repository.GetById(g);
         }
 
-        public async Task RejectJobApplication(JobApplication jobApplicationByID)
+        public async virtual Task RejectJobApplication(JobApplication jobApplicationByID)
         {           
                 jobApplicationByID.ChangeStatusToGivenStatusID(3);
                 await _repository.Update(jobApplicationByID);           
