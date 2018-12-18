@@ -1,5 +1,6 @@
 ﻿using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
+using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,10 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		public Campaign Campaign { get; private set; }
 		public int StatusId { get; private  set; }
 		public Status Status { get; private set; }
+
+        public List<Screening> Screening { get; private set; } = new List<Screening>();
+
+
 
         private JobApplication()
 		{

@@ -17,10 +17,12 @@ using SwitchFully.IntakeApp.Data;
 using SwitchFully.IntakeApp.Data.Repositories.Campaigns;
 using SwitchFully.IntakeApp.Data.Repositories.Candidates;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications;
+using SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings;
 using SwitchFully.IntakeApp.Data.Repositories.Users;
 using SwitchFully.IntakeApp.Service.Campaigns;
 using SwitchFully.IntakeApp.Service.Candidates;
 using SwitchFully.IntakeApp.Service.JobApplications;
+using SwitchFully.IntakeApp.Service.JobApplications.Screenings;
 using SwitchFully.IntakeApp.Service.Logging;
 using SwitchFully.IntakeApp.Service.Security;
 using SwitchFully.IntakeApp.Service.Users;
@@ -72,7 +74,12 @@ namespace SwitchFully.IntakeApp.API
 			services.AddScoped<CandidateRepository>();
 			services.AddScoped<JobApplicationRepository>();
 
-			services.AddScoped<UserMapper>();
+            services.AddScoped<IScreeningMapper, ScreeningMapper>();
+            services.AddScoped<IScreeningService, ScreeningService>();
+            services.AddScoped<IScreeningRepository, ScreeningRepository>();
+
+
+            services.AddScoped<UserMapper>();
 			services.AddScoped<ICandidateMapper, CandidateMapper>();
 			services.AddSingleton<ICampaignMapper, CampaignMapper>();
 			services.AddScoped<JobApplicationMapper>();

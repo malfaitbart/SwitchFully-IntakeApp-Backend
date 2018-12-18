@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwitchFully.IntakeApp.Data;
 
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
     [DbContext(typeof(SwitchFullyIntakeAppContext))]
-    partial class SwitchFullyIntakeAppContextModelSnapshot : ModelSnapshot
+    [Migration("20181217104449_Screening_temp2")]
+    partial class Screening_temp2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
