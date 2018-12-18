@@ -22,7 +22,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             var mockRepo = Substitute.For<ScreeningRepository>();
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testScreen));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.GetAllScreeningsById(testGuid.ToString());
 
@@ -41,7 +42,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
                 .Returns(Task.FromResult(testScreening));
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening.Comment);
 
@@ -55,14 +57,15 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             var testGuid = Guid.NewGuid();
             Screening testScreening = new CV_Screening("testtess", testGuid);
             Screening testScreening2 = new Phone_Screening("ezqdsrezrez", testGuid);
-            List<Screening> testList = new List<Screening>() { testScreening};
+            List<Screening> testList = new List<Screening>() { testScreening };
 
             var mockRepo = Substitute.For<ScreeningRepository>();
             mockRepo.AddNewScreeningToDatabase(testScreening2)
                 .Returns(Task.FromResult(testScreening2));
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening2.Comment);
 
@@ -87,7 +90,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
                 .Returns(Task.FromResult(testScreening3));
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening3.Comment);
 
@@ -114,7 +118,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
                 .Returns(Task.FromResult(testScreening4));
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening4.Comment);
 
@@ -135,7 +140,7 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             Screening testScreening3 = new TestResults_Screening("ezqdsrezrazezaeez", testGuid);
             testScreening3.UpdateStatusToFalse();
             Screening testScreening4 = new FirstInterview_Screening("eblabla", testGuid);
-            Screening testScreening5= new GroupInterview_Screening("eblabdsdsfdsfla", testGuid);
+            Screening testScreening5 = new GroupInterview_Screening("eblabdsdsfdsfla", testGuid);
             List<Screening> testList = new List<Screening>() { testScreening, testScreening2, testScreening3, testScreening4 };
 
             var mockRepo = Substitute.For<ScreeningRepository>();
@@ -143,7 +148,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
                 .Returns(Task.FromResult(testScreening5));
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening5.Comment);
 
@@ -165,8 +171,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             testScreening3.UpdateStatusToFalse();
             Screening testScreening4 = new FirstInterview_Screening("eblabla", testGuid);
             testScreening4.UpdateStatusToFalse();
-            Screening testScreening5= new GroupInterview_Screening("eblabdsdsfdsfla", testGuid);
-            Screening testScreening6= new FinalDecision_Screening("aangenome", testGuid);
+            Screening testScreening5 = new GroupInterview_Screening("eblabdsdsfdsfla", testGuid);
+            Screening testScreening6 = new FinalDecision_Screening("aangenome", testGuid);
             List<Screening> testList = new List<Screening>() { testScreening, testScreening2, testScreening3, testScreening4, testScreening5 };
 
             var mockRepo = Substitute.For<ScreeningRepository>();
@@ -174,7 +180,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
                 .Returns(Task.FromResult(testScreening6));
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
-            var service = new ScreeningService(mockRepo);
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening6.Comment);
 
@@ -182,6 +189,39 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             Assert.Equal(testScreening6.Comment, actualScreenings[5].Comment);
             Assert.IsType<FinalDecision_Screening>(actualScreenings[5]);
             Assert.False(actualScreenings[4].Status);
+            Assert.False(actualScreenings[5].Status);
+        }
+
+
+        [Fact]
+        public async void GivenNewScreeningWithSixScreeningsInDatabase_WhenAddingSeventhhScreening_ThenListOfSixScreeningsIsReturned()
+        {
+            var testGuid = Guid.NewGuid();
+            Screening testScreening = new CV_Screening("testtess", testGuid);
+            testScreening.UpdateStatusToFalse();
+            Screening testScreening2 = new Phone_Screening("ezqdsrezrez", testGuid);
+            testScreening2.UpdateStatusToFalse();
+            Screening testScreening3 = new TestResults_Screening("ezqdsrezrazezaeez", testGuid);
+            testScreening3.UpdateStatusToFalse();
+            Screening testScreening4 = new FirstInterview_Screening("eblabla", testGuid);
+            testScreening4.UpdateStatusToFalse();
+            Screening testScreening5 = new GroupInterview_Screening("eblabdsdsfdsfla", testGuid);
+            testScreening5.UpdateStatusToFalse();
+            Screening testScreening6 = new FinalDecision_Screening("aangenome", testGuid);
+            testScreening6.UpdateStatusToFalse();
+            List<Screening> testList = new List<Screening>() { testScreening, testScreening2, testScreening3, testScreening4, testScreening5, testScreening6 };
+
+            var mockRepo = Substitute.For<ScreeningRepository>();
+            mockRepo.GetAllById(testGuid)
+                .Returns(Task.FromResult(testList));
+            var mockLogger = Substitute.For<ILoggerManager>();
+            var service = new ScreeningService(mockRepo, mockLogger);
+
+            var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening6.Comment);
+
+            Assert.True(actualScreenings.Count == 6);
+            Assert.Equal(testList, actualScreenings);
         }
     }
 }
+
