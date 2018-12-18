@@ -10,6 +10,6 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
     {
         Task<List<Screening>> GetAllById(Guid id);
         Task<Screening> AddNewScreeningToDatabase(Screening newScreening);
-        Task<Screening> FinalizeScreening(Screening lastScreeing);
+        Task<Screening> FinalizeScreening(Screening lastScreening);
     }
 }

@@ -37,12 +37,12 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
 
             else if (listOfScreenings.Count != 0)
             {
-                Screening lastScreeing = GetLastSCreening(listOfScreenings);
+                Screening lastScreening = GetLastSCreening(listOfScreenings);
 
-                var newScreening = lastScreeing.CreateNextScreening(Guid.Parse(givenId), givenComment);
+                var newScreening = lastScreening.CreateNextScreening(Guid.Parse(givenId), givenComment);
                 if (newScreening == null)
                 {
-                    await _repository.FinalizeScreening(lastScreeing);
+                    await _repository.FinalizeScreening(lastScreening);
                     return listOfScreenings;
                 }
 
@@ -63,12 +63,12 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
 
         private static Screening GetLastSCreening(List<Screening> listOfScreenings)
         {
-            Screening lastScreeing = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
+            Screening lastScreening = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
 
-            if (lastScreeing == null)
+            if (lastScreening == null)
             { throw new NotImplementedException(); }
 
-            return lastScreeing;
+            return lastScreening;
         }
     }
 }

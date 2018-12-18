@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181214132209_seedData.cs" />
+    <Compile Remove="Migrations\20181217104449_Screening_temp2.cs" />
   </ItemGroup>
 
   <ItemGroup>
