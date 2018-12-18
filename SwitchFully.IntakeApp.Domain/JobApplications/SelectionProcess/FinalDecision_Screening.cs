@@ -12,6 +12,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
         }
         public FinalDecision_Screening( string comment, Guid givenID) : base("FinalDecision", givenID, comment)
         {
+            UpdateStatusToFalse();
         }
 
         public override Screening CreateNextScreening(Guid givenID, string givenComment)

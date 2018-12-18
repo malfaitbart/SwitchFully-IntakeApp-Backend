@@ -16,7 +16,7 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
         private readonly IScreeningRepository _repository;
         private readonly ILoggerManager _loggerManager;
 
-        
+
         public ScreeningService(IScreeningRepository repository, ILoggerManager loggerManager)
         {
             _repository = repository;
@@ -41,15 +41,12 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
 
             else if (listOfScreenings.Count != 0)
             {
-                Screening lastScreening = GetLastSCreening(listOfScreenings);
+                Screening lastScreening = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
 
+                if (lastScreening == null)
+                { return null; }
+                
                 var newScreening = lastScreening.CreateNextScreening(Guid.Parse(givenId), givenComment);
-                if (newScreening == null)
-                {
-                    await _repository.FinalizeScreening(lastScreening);
-                    return listOfScreenings;
-                }
-
                 await _repository.AddNewScreeningToDatabase(newScreening);
                 listOfScreenings.Add(newScreening);
             }
@@ -65,14 +62,6 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
             return listOfScreenings;
         }
 
-        private static Screening GetLastSCreening(List<Screening> listOfScreenings)
-        {
-            Screening lastScreening = listOfScreenings.FirstOrDefault(screening => screening.Status == true);
-
-            if (lastScreening == null)
-            { throw new NotImplementedException(); }
-
-            return lastScreening;
-        }
+        
     }
 }
