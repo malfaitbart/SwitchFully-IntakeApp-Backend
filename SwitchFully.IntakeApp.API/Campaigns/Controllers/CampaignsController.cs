@@ -47,10 +47,6 @@ namespace SwitchFully.IntakeApp.API.Campaigns.Controllers
 
 			return Ok(campaignToReturn);
 		}
-		[HttpPut]
-		public Task<ActionResult<CampaignDTO_Return>> Update(Campaign objectToUpdate)
-		{
-			throw new NotImplementedException();
-		}
+
 	}
 }
