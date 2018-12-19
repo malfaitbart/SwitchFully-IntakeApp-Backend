@@ -19,6 +19,5 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 		Task<JobApplication> Create(JobApplication jobApplication);
 
         Task RejectJobApplication(JobApplication jobApplicationByID);
-		Task<string> StoreDocInDb(IFormFile cV, FileType type);
 	}
 }

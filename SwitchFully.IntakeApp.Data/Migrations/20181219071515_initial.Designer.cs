@@ -10,8 +10,8 @@ using SwitchFully.IntakeApp.Data;
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
     [DbContext(typeof(SwitchFullyIntakeAppContext))]
-    [Migration("20181217142341_Initial")]
-    partial class Initial
+    [Migration("20181219071515_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,9 +39,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Campaign");
 
                     b.HasData(
-                        new { CampaignId = new Guid("98b82b4c-a7ed-42f2-a738-f800d103fe9e"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("76e1db39-e1d1-4c68-8626-6213f6eba5fb"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("54e8dd1e-5537-4cd9-818d-fd15d37da7e1"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                        new { CampaignId = new Guid("14c1c41d-a1a6-448b-bcf1-700efb76c1a1"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("377884e5-d762-426a-ac96-a639e7a9d2b2"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("cb8b2e1d-8baa-481a-9a4b-622c295c5a79"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                     );
                 });
 
@@ -182,11 +182,13 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "CV")
                         .WithMany()
-                        .HasForeignKey("CvId");
+                        .HasForeignKey("CvId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "Motivation")
                         .WithMany()
-                        .HasForeignKey("MotivationId");
+                        .HasForeignKey("MotivationId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SwitchFully.IntakeApp.Domain.JobApplications.Status", "Status")
                         .WithMany()

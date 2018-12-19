@@ -48,7 +48,13 @@ namespace SwitchFully.IntakeApp.Domain.Campaigns
             Status = status;
         }
 
-        public static Campaign CreateNewCampaign(string name, string client, DateTime startDate, DateTime endDate)
+		public Campaign(Guid campaignId, string name)
+		{
+			CampaignId = campaignId;
+			Name = name;
+		}
+
+		public static Campaign CreateNewCampaign(string name, string client, DateTime startDate, DateTime endDate)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(client) || startDate == null || endDate == null)
             {

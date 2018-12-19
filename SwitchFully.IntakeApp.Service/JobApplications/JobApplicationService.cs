@@ -55,21 +55,5 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 		{
 			return await _repository.Update(jobApplication);
 		}
-
-		public async Task<string> StoreDocInDb(IFormFile cV, FileType type)
-		{
-			var fileupload = new Domain.FileManagement.File();
-			fileupload.SetContentType(cV.ContentType);
-			fileupload.SetFileName(cV.FileName);
-			using (var memorystream = new MemoryStream())
-			{
-				await cV.CopyToAsync(memorystream);
-				fileupload.SetUploadedFile(memorystream.ToArray());
-			}
-
-			fileupload.SetType(type);
-			var result  = await _fileRepository.Create(fileupload);
-			return result.Id.ToString();
-		}
 	}
 }

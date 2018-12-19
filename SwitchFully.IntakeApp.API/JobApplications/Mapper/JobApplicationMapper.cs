@@ -28,15 +28,10 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 			return new JobApplicationDto
 			{
 				Id = jobApplication.Id.ToString(),
-				CandidateId = jobApplication.CandidateId.ToString(),
 				Candidate = _candidateMapper.DomainToDto(jobApplication.Candidate),
-				CampaignId = jobApplication.CampaignId.ToString(),
 				Campaign = _campaignMapper.CampaignToCampaignDTOReturn(jobApplication.Campaign),
-				StatusId = jobApplication.StatusId,
 				Status = jobApplication.Status,
-				CvId = jobApplication.CvId,
 				CV = jobApplication.CV,
-				MotivationId = jobApplication.MotivationId,
 				Motivation = jobApplication.Motivation
 			};
 		}
@@ -45,22 +40,17 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 		{
 			return new JobApplication(
 				Guid.Parse(jobApplicationDto.Id), 
-				Guid.Parse(jobApplicationDto.CandidateId), 
 				_candidateMapper.DtoToDomain(jobApplicationDto.Candidate),
-				Guid.Parse(jobApplicationDto.CampaignId), 
 				_campaignMapper.CampaignDTOReturnToCampaign(jobApplicationDto.Campaign),
-				jobApplicationDto.StatusId,
 				jobApplicationDto.Status,
-				jobApplicationDto.CvId,
 				jobApplicationDto.CV,
-				jobApplicationDto.MotivationId,
 				jobApplicationDto.Motivation
 				);
 		}
 
 		internal JobApplication Dto_CreateToDomain(JobApplicationDto_Create objectToCreate)
 		{
-			return new JobApplication(objectToCreate.CandidateId, objectToCreate.CampaignId);
+			return new JobApplication(objectToCreate.CandidateId, objectToCreate.CampaignId, objectToCreate.CvId, objectToCreate.MotivationId);
 		}
 	}
 }

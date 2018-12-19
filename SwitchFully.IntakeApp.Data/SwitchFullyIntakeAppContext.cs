@@ -104,17 +104,17 @@ namespace SwitchFully.IntakeApp.Data
 			modelBuilder.Entity<Status>()
 				 .HasData(new Status(1, "Inactive"), new Status(2, "active"), new Status(3, "Rejected"));
 
-			//modelBuilder.Entity<JobApplication>()
-			//	.HasOne(jp => jp.CV)
-			//	.WithMany()
-			//	.HasForeignKey(jp => jp.CvId)
-			//	.OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity<JobApplication>()
+				.HasOne(jp => jp.CV)
+				.WithMany()
+				.HasForeignKey(jp => jp.CvId)
+				.OnDelete(DeleteBehavior.Restrict);
 
-			//modelBuilder.Entity<JobApplication>()
-			//	.HasOne(jp => jp.Motivation)
-			//	.WithMany()
-			//	.HasForeignKey(jp => jp.MotivationId)
-			//	.OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity<JobApplication>()
+				.HasOne(jp => jp.Motivation)
+				.WithMany()
+				.HasForeignKey(jp => jp.MotivationId)
+				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<File>()
 				.ToTable("Files")

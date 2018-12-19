@@ -14,9 +14,9 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		public Campaign Campaign { get; private set; }
 		public int StatusId { get; private set; }
 		public Status Status { get; private set; }
-		public Guid? CvId { get; private set; }
+		public Guid CvId { get; private set; }
 		public File CV{ get; private set; }
-		public Guid? MotivationId { get; private set; }
+		public Guid MotivationId { get; private set; }
 		public File Motivation { get; private set; }
 
 		private JobApplication()
@@ -30,7 +30,17 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 			StatusId = 2;
 		}
 
-		public JobApplication(Guid candidateId, Guid campaignId, Guid? cvId, Guid? motivationId)
+		public JobApplication(Guid id, Candidate candidate, Campaign campaign, Status status, File cV, File motivation)
+		{
+			Id = id;
+			Candidate = candidate;
+			Campaign = campaign;
+			Status = status;
+			CV = cV;
+			Motivation = motivation;
+		}
+
+		public JobApplication(Guid candidateId, Guid campaignId, Guid cvId, Guid motivationId)
 		{
 			Id = Guid.NewGuid();
 			CandidateId = candidateId;
@@ -48,7 +58,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 			StatusId = statusId;
 		}
 
-		public JobApplication(Guid id, Guid candidateId, Candidate candidate, Guid campaignId, Campaign campaign, int statusId, Status status, Guid? cvid, File cv, Guid? motivationid, File motivation)
+		public JobApplication(Guid id, Guid candidateId, Candidate candidate, Guid campaignId, Campaign campaign, int statusId, Status status, Guid cvid, File cv, Guid motivationid, File motivation)
 		{
 			Id = id;
 			CandidateId = candidateId;

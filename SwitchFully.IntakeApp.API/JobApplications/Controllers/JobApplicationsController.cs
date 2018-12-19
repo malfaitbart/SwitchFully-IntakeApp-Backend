@@ -14,7 +14,7 @@ using File = SwitchFully.IntakeApp.Domain.FileManagement.File;
 namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 {
 	[Route("api/[controller]")]
-	[Authorize]
+	//[Authorize]
 	[ApiController]
 	public class JobApplicationsController : Controller
 	{
@@ -29,43 +29,9 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 			_jobApplicationService = jobApplicationService;
 		}
 
-		//[HttpPost, DisableRequestSizeLimit]
-		//[Route("Upload")]
-		//public async Task<ActionResult<string>> UpLoad(string type)
-		//{
-		//	var fileupload = new File();
-		//	if (!Enum.IsDefined(typeof(FileType), type))
-		//	{
-		//		return BadRequest("Type must CV or Motivatie");
-		//	}
-		//	fileupload.SetType((FileType)Enum.Parse(typeof(FileType), type));
-
-		//	try
-		//	{
-		//		var file = Request.Form.Files[0];
-		//		fileupload.SetContentType(file.ContentType);
-		//		fileupload.SetFileName(file.FileName);
-		//		using (var memorystream = new MemoryStream())
-		//		{
-		//			await file.CopyToAsync(memorystream);
-		//			fileupload.SetUploadedFile(memorystream.ToArray());
-		//		}
-
-		//		var result = _jobApplicationService.uploadFile(fileupload);
-		//		return Ok(result.Id);
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		return BadRequest(e.Message);
-		//	}
-		//}
-
 		[HttpPost]
 		public async Task<ActionResult<JobApplicationDto>> Create(JobApplicationDto_Create objectToCreate)
 		{
-			var cv = _jobApplicationService.StoreDocInDb(objectToCreate.CV, FileType.CV);
-			var moti = _jobApplicationService.StoreDocInDb(objectToCreate.Motivation, FileType.Motivatie);
-
 			var toCreate = await _jobApplicationService.Create(_jobApplicationMapper.Dto_CreateToDomain(objectToCreate));
 			return _jobApplicationMapper.DomainToDto(toCreate);
 		}

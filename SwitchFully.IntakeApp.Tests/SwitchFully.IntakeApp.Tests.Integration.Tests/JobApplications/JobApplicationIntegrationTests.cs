@@ -48,8 +48,8 @@ namespace SwitchFully.IntakeApp.Integration.Tests.JobApplications
 
         private void AssertCampaignIsEqual(JobApplicationDto_Create applicationToCreate, JobApplicationDto createdApplication)
         {
-            Assert.Equal(applicationToCreate.CampaignId.ToString(), createdApplication.CampaignId);
-            Assert.Equal(applicationToCreate.CandidateId.ToString(), createdApplication.CandidateId);
+            Assert.Equal(applicationToCreate.CampaignId.ToString(), createdApplication.Campaign.CampaignId.ToString());
+            Assert.Equal(applicationToCreate.CandidateId.ToString(), createdApplication.Candidate.Id);
         }
 
 

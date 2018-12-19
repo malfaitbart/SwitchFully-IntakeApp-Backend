@@ -14,15 +14,10 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Dtos
 	public class JobApplicationDto
 	{
 		public string Id { get; set; }
-		public string CandidateId { get; set; }
 		public CandidateDto Candidate { get; set; }
-		public string CampaignId { get; set; }
 		public CampaignDTO_Return Campaign { get; set; }
-		public int StatusId { get; set; }
 		public Status Status { get; set; }
-		public Guid? CvId { get; set; }
 		public File CV { get; set; }
-		public Guid? MotivationId { get; set; }
 		public File Motivation { get; set; }
 	}
 }
