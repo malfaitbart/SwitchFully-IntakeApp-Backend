@@ -11,7 +11,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
 
         }
 
-        public CV_Screening(string comment, Guid givenID) : base("CV" , givenID , comment)
+        public CV_Screening(string comment, Guid givenID) : base("CV" , givenID , comment, typeof(Phone_Screening).ToString())
         {
 
         }

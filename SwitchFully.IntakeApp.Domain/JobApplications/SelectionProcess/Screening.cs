@@ -13,28 +13,38 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
 
         public JobApplication JobApplication { get; private set; }
         public Guid JobApplicationId { get; private set; }
-        
+        public string NextScreeningType { get; private set; }
 
         public string AuditUser { get; private set; }
         public DateTime AuditDateTime { get; private set; }
 
         protected Screening() { }
 
-        protected Screening(string name, Guid givenID, string comment)
+        protected Screening(string name, Guid givenID, string comment, string nextGivvenType)
         {
             Name = name;
             Status = true;
             Comment = comment;
             JobApplicationId = givenID;
-
+            NextScreeningType = GetNextScreeningNameFromTypeName(nextGivvenType);
             AuditUser = "temp";
             AuditDateTime = DateTime.Now;
 
         }
 
+        private string GetNextScreeningNameFromTypeName(string nextGivvenType)
+        {
+            string[] namespacesArray = nextGivvenType.Split('.');
+            string className = namespacesArray[namespacesArray.Length - 1];
+            string[] ClassNameArray = className.Split('_');
+            return ClassNameArray[0];
+        }
+
         public abstract Screening CreateNextScreening(Guid givenID, string givenComment);
 
 
-        public abstract void UpdateStatusToFalse();      
+        public abstract void UpdateStatusToFalse(); 
+       
+
     }
 }

@@ -25,6 +25,7 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
             return new ScreeningDTO_Return
             {
                 Name = screening.Name,
+                NextScreeningType = screening.NextScreeningType,
                 Comment = screening.Comment,
                 Status = screening.Status,
                 JobApplicationId = screening.JobApplicationId,
