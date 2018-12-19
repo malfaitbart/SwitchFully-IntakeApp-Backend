@@ -10,8 +10,8 @@ using SwitchFully.IntakeApp.Data;
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
     [DbContext(typeof(SwitchFullyIntakeAppContext))]
-    [Migration("20181219071515_initial")]
-    partial class initial
+    [Migration("20181219134630_MVP")]
+    partial class MVP
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,9 +39,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Campaign");
 
                     b.HasData(
-                        new { CampaignId = new Guid("14c1c41d-a1a6-448b-bcf1-700efb76c1a1"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("377884e5-d762-426a-ac96-a639e7a9d2b2"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("cb8b2e1d-8baa-481a-9a4b-622c295c5a79"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                        new { CampaignId = new Guid("f9608dbe-de27-47aa-8ce1-75f76769ed0c"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("0b1e9996-103b-4fe7-82cc-31a07c3a24cb"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("ec78e2d9-29d0-4570-a2c0-451dd9e52560"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                     );
                 });
 
@@ -92,9 +92,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.Property<Guid>("CandidateId");
 
-                    b.Property<Guid?>("CvId");
+                    b.Property<Guid>("CvId");
 
-                    b.Property<Guid?>("MotivationId");
+                    b.Property<Guid>("MotivationId");
 
                     b.Property<int>("StatusId");
 
@@ -111,6 +111,32 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("JobApplication");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening", b =>
+                {
+                    b.Property<Guid>("JobApplicationId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime>("AuditDateTime");
+
+                    b.Property<string>("AuditUser");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<string>("NextScreeningType");
+
+                    b.Property<bool>("Status");
+
+                    b.Property<string>("screeningType")
+                        .IsRequired();
+
+                    b.HasKey("JobApplicationId", "Name");
+
+                    b.ToTable("Screening");
+
+                    b.HasDiscriminator<string>("screeningType").HasValue("Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.Status", b =>
@@ -148,6 +174,66 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.CV_Screening", b =>
+                {
+                    b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
+
+
+                    b.ToTable("CV_Screening");
+
+                    b.HasDiscriminator().HasValue("CV_Screening");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.FinalDecision_Screening", b =>
+                {
+                    b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
+
+
+                    b.ToTable("FinalDecision_Screening");
+
+                    b.HasDiscriminator().HasValue("FinalDecision_Screening");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.FirstInterview_Screening", b =>
+                {
+                    b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
+
+
+                    b.ToTable("FirstInterview_Screening");
+
+                    b.HasDiscriminator().HasValue("FirstInterview_Screening");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.GroupInterview_Screening", b =>
+                {
+                    b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
+
+
+                    b.ToTable("GroupInterview_Screening");
+
+                    b.HasDiscriminator().HasValue("GroupInterview_Screening");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Phone_Screening", b =>
+                {
+                    b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
+
+
+                    b.ToTable("Phone_Screening");
+
+                    b.HasDiscriminator().HasValue("Phone_Screening");
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.TestResults_Screening", b =>
+                {
+                    b.HasBaseType("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening");
+
+
+                    b.ToTable("TestResults_Screening");
+
+                    b.HasDiscriminator().HasValue("TestResults_Screening");
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Candidates.Candidate", b =>
@@ -194,6 +280,14 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess.Screening", b =>
+                {
+                    b.HasOne("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", "JobApplication")
+                        .WithMany("Screening")
+                        .HasForeignKey("JobApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.Users.User", b =>

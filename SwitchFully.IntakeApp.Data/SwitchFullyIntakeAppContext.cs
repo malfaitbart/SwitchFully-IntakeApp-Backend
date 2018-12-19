@@ -4,6 +4,7 @@ using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.FileManagement;
 using SwitchFully.IntakeApp.Domain.JobApplications;
+using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
 using SwitchFully.IntakeApp.Domain.Users;
 using System;
 
@@ -19,10 +20,16 @@ namespace SwitchFully.IntakeApp.Data
 		public virtual DbSet<JobApplication> JobApplications { get; set; }
 		public virtual DbSet<File> FileUploads { get; set; }
 
+		public virtual DbSet<Screening> Screenings { get; set; }
+
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
 		{
 		}
 
+		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options, ILoggerFactory logger) : base(options)
+		{
+			_logger = logger;
+		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -101,9 +108,6 @@ namespace SwitchFully.IntakeApp.Data
 				.HasForeignKey(jp => jp.StatusId)
 				.OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<Status>()
-				 .HasData(new Status(1, "Inactive"), new Status(2, "active"), new Status(3, "Rejected"));
-
 			modelBuilder.Entity<JobApplication>()
 				.HasOne(jp => jp.CV)
 				.WithMany()
@@ -119,6 +123,32 @@ namespace SwitchFully.IntakeApp.Data
 			modelBuilder.Entity<File>()
 				.ToTable("Files")
 				.HasKey(fu => fu.Id);
+
+			modelBuilder.Entity<Status>()
+				 .HasData(new Status(1, "Inactive"), new Status(2, "active"), new Status(3, "Rejected"));
+
+			modelBuilder.Entity<Screening>()
+				.ToTable("Screening")
+				.HasKey(screeningKey => new
+				{
+					screeningKey.JobApplicationId,
+					screeningKey.Name
+				});
+
+			modelBuilder.Entity<Screening>()
+				.HasDiscriminator<string>("screeningType");
+
+			modelBuilder.Entity<CV_Screening>();
+			modelBuilder.Entity<FinalDecision_Screening>();
+			modelBuilder.Entity<FirstInterview_Screening>();
+			modelBuilder.Entity<GroupInterview_Screening>();
+			modelBuilder.Entity<Phone_Screening>();
+			modelBuilder.Entity<TestResults_Screening>();
+
+			modelBuilder.Entity<Screening>()
+			   .HasOne(scr => scr.JobApplication)
+			   .WithMany(jp => jp.Screening)
+			   .HasForeignKey(j => j.JobApplicationId);
 
 			base.OnModelCreating(modelBuilder);
 		}

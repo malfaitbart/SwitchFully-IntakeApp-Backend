@@ -1,7 +1,9 @@
 ﻿using SwitchFully.IntakeApp.Domain.Campaigns;
 using SwitchFully.IntakeApp.Domain.Candidates;
 using SwitchFully.IntakeApp.Domain.FileManagement;
+using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
 using System;
+using System.Collections.Generic;
 
 namespace SwitchFully.IntakeApp.Domain.JobApplications
 {
@@ -15,13 +17,18 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		public int StatusId { get; private set; }
 		public Status Status { get; private set; }
 		public Guid CvId { get; private set; }
-		public File CV{ get; private set; }
+		public File CV { get; private set; }
 		public Guid MotivationId { get; private set; }
 		public File Motivation { get; private set; }
+
+		public List<Screening> Screening { get; private set; } = new List<Screening>();
+
+
 
 		private JobApplication()
 		{
 		}
+
 		public JobApplication(Guid candidateId, Guid campaignId)
 		{
 			Id = Guid.NewGuid();

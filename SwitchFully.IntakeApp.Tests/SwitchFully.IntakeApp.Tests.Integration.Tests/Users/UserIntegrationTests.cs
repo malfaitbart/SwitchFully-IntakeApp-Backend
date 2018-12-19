@@ -69,7 +69,7 @@ namespace SwitchFully.IntakeApp.Integration.Tests.Users
             Assert.Equal(userToRegister.LastName, createdUser.LastName);
             Assert.Equal(userToRegister.Email, createdUser.Email);
         }
-
+		[Fact]
         public async Task TestToAuthenticateAUser()
         {
             HttpResponseMessage responseCreate = await RegisterNewUser();

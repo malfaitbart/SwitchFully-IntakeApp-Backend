@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class MVP : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -94,8 +94,8 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     CandidateId = table.Column<Guid>(nullable: false),
                     CampaignId = table.Column<Guid>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),
-                    CvId = table.Column<Guid>(nullable: true),
-                    MotivationId = table.Column<Guid>(nullable: true)
+                    CvId = table.Column<Guid>(nullable: false),
+                    MotivationId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,14 +132,38 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Screening",
+                columns: table => new
+                {
+                    Name = table.Column<string>(nullable: false),
+                    Status = table.Column<bool>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    JobApplicationId = table.Column<Guid>(nullable: false),
+                    NextScreeningType = table.Column<string>(nullable: true),
+                    AuditUser = table.Column<string>(nullable: true),
+                    AuditDateTime = table.Column<DateTime>(nullable: false),
+                    screeningType = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Screening", x => new { x.JobApplicationId, x.Name });
+                    table.ForeignKey(
+                        name: "FK_Screening_JobApplication_JobApplicationId",
+                        column: x => x.JobApplicationId,
+                        principalTable: "JobApplication",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Campaign",
                 columns: new[] { "CampaignId", "Client", "EndDate", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { new Guid("14c1c41d-a1a6-448b-bcf1-700efb76c1a1"), "CM", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("377884e5-d762-426a-ac96-a639e7a9d2b2"), "Cegeka", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "java", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("cb8b2e1d-8baa-481a-9a4b-622c295c5a79"), "OZ", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { new Guid("f9608dbe-de27-47aa-8ce1-75f76769ed0c"), "CM", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("0b1e9996-103b-4fe7-82cc-31a07c3a24cb"), "Cegeka", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "java", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("ec78e2d9-29d0-4570-a2c0-451dd9e52560"), "OZ", new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "asp.net", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -181,10 +205,13 @@ namespace SwitchFully.IntakeApp.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "JobApplication");
+                name: "Screening");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "JobApplication");
 
             migrationBuilder.DropTable(
                 name: "Campaign");

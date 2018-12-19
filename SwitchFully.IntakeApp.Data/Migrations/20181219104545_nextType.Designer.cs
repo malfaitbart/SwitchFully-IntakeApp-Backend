@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwitchFully.IntakeApp.Data;
 
 namespace SwitchFully.IntakeApp.Data.Migrations
 {
     [DbContext(typeof(SwitchFullyIntakeAppContext))]
-    partial class SwitchFullyIntakeAppContextModelSnapshot : ModelSnapshot
+    [Migration("20181219104545_nextType")]
+    partial class nextType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +39,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Campaign");
 
                     b.HasData(
-                        new { CampaignId = new Guid("f9608dbe-de27-47aa-8ce1-75f76769ed0c"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("0b1e9996-103b-4fe7-82cc-31a07c3a24cb"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("ec78e2d9-29d0-4570-a2c0-451dd9e52560"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                        new { CampaignId = new Guid("b4a82680-81af-4eb1-883c-e95ea0b494c1"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("4ef0a784-3e0b-4376-bad5-c874f7116e5a"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("b3deb3e0-dab7-4ac6-b0f9-b27e988cc49b"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                     );
                 });
 
@@ -63,24 +65,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Candidates");
                 });
 
-            modelBuilder.Entity("SwitchFully.IntakeApp.Domain.FileManagement.File", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ContentType");
-
-                    b.Property<string>("FileName");
-
-                    b.Property<int>("Type");
-
-                    b.Property<byte[]>("UploadedFile");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Files");
-                });
-
             modelBuilder.Entity("SwitchFully.IntakeApp.Domain.JobApplications.JobApplication", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,10 +74,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.Property<Guid>("CandidateId");
 
-                    b.Property<Guid>("CvId");
-
-                    b.Property<Guid>("MotivationId");
-
                     b.Property<int>("StatusId");
 
                     b.HasKey("Id");
@@ -101,10 +81,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasIndex("CampaignId");
 
                     b.HasIndex("CandidateId");
-
-                    b.HasIndex("CvId");
-
-                    b.HasIndex("MotivationId");
 
                     b.HasIndex("StatusId");
 
@@ -262,16 +238,6 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.HasOne("SwitchFully.IntakeApp.Domain.Candidates.Candidate", "Candidate")
                         .WithMany()
                         .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "CV")
-                        .WithMany()
-                        .HasForeignKey("CvId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SwitchFully.IntakeApp.Domain.FileManagement.File", "Motivation")
-                        .WithMany()
-                        .HasForeignKey("MotivationId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SwitchFully.IntakeApp.Domain.JobApplications.Status", "Status")
