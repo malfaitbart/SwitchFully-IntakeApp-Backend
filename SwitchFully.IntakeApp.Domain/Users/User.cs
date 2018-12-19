@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Mail;
-using System.Text;
 
 namespace SwitchFully.IntakeApp.Domain.Users
 {
@@ -17,8 +15,10 @@ namespace SwitchFully.IntakeApp.Domain.Users
 
 		private User() { }
 
+
 		public User(string firstName, string lastName, MailAddress email, UserSecurity securePassword)
 		{
+			Id = Guid.NewGuid();
 			FirstName = firstName;
 			LastName = lastName;
 			Email = email;

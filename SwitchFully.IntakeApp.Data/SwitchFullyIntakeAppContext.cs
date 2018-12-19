@@ -7,6 +7,7 @@ using SwitchFully.IntakeApp.Domain.JobApplications;
 using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
 using SwitchFully.IntakeApp.Domain.Users;
 using System;
+using System.Net.Mail;
 
 namespace SwitchFully.IntakeApp.Data
 {
@@ -19,7 +20,6 @@ namespace SwitchFully.IntakeApp.Data
 		public virtual DbSet<Campaign> Campaigns { get; set; }
 		public virtual DbSet<JobApplication> JobApplications { get; set; }
 		public virtual DbSet<File> FileUploads { get; set; }
-
 		public virtual DbSet<Screening> Screenings { get; set; }
 
 		public SwitchFullyIntakeAppContext(DbContextOptions<SwitchFullyIntakeAppContext> options) : base(options)
@@ -37,8 +37,6 @@ namespace SwitchFully.IntakeApp.Data
 				.EnableSensitiveDataLogging()
 				.UseLoggerFactory(_logger)
 				.Options;
-
-
 
 			base.OnConfiguring(optionsBuilder);
 		}
@@ -62,6 +60,28 @@ namespace SwitchFully.IntakeApp.Data
 						securePass.Property(prop => prop.Salt).HasColumnName("SecPass");
 					});
 
+			//modelBuilder.Entity<User>(u =>
+			//{
+			//	u.HasData(new
+			//	{
+			//		Id = Guid.NewGuid(),
+			//		FirstName = "test",
+			//		LastName = "user",
+			//		RoleId = 1
+			//	});
+			//	var testadddress = new MailAddress("test@user.be");
+			//	u.OwnsOne(m => m.Email).HasData(new
+			//	{
+			//		UserId = Guid.NewGuid(),
+			//		Email = testadddress
+			//	});
+			//	u.OwnsOne(us => us.SecurePassword).HasData(new
+			//	{
+			//		UserId = Guid.NewGuid(),
+			//		PassWord = "r5iPEDa9yVsW9s1Jr7j3fEpepSjT+oLu+4gUG6o7sMI=",
+			//		SecPass = "nhSRFAcAR6lgnY40PZi4iw==",
+			//	});
+			//});
 
 			modelBuilder.Entity<Candidate>()
 				.ToTable("Candidates")
@@ -72,19 +92,17 @@ namespace SwitchFully.IntakeApp.Data
 					email => { email.Property(prop => prop.Address).HasColumnName("Email"); }
 				);
 
-
-
 			modelBuilder.Entity<Campaign>()
 				.ToTable("Campaign")
 				.HasKey(key => key.CampaignId);
 
 			modelBuilder.Entity<Campaign>()
 				.Ignore(prop => prop.Status)
-				.HasData(Campaign.CreateNewCampaign("asp.net", "CM", new DateTime(2019, 01, 01), new DateTime(2019, 05, 30)),
-				Campaign.CreateNewCampaign("java", "Cegeka", new DateTime(2019, 01, 01), new DateTime(2019, 05, 30)),
-				Campaign.CreateNewCampaign("asp.net", "OZ", new DateTime(2019, 01, 01), new DateTime(2019, 05, 30)));
-
-
+				.HasData(
+					Campaign.CreateNewCampaign("asp.net", "CM", new DateTime(2019, 01, 01), new DateTime(2019, 05, 30)),
+					Campaign.CreateNewCampaign("java", "Cegeka", new DateTime(2019, 01, 01), new DateTime(2019, 05, 30)),
+					Campaign.CreateNewCampaign("asp.net", "OZ", new DateTime(2019, 01, 01), new DateTime(2019, 05, 30))
+				);
 
 			modelBuilder.Entity<JobApplication>()
 				.ToTable("JobApplication")
@@ -125,7 +143,11 @@ namespace SwitchFully.IntakeApp.Data
 				.HasKey(fu => fu.Id);
 
 			modelBuilder.Entity<Status>()
-				 .HasData(new Status(1, "Inactive"), new Status(2, "active"), new Status(3, "Rejected"));
+				 .HasData(
+					new Status(1, "Inactive"),
+					new Status(2, "active"),
+					new Status(3, "Rejected")
+				);
 
 			modelBuilder.Entity<Screening>()
 				.ToTable("Screening")
