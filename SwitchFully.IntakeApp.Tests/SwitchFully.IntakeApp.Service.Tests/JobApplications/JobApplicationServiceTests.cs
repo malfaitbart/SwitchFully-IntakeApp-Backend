@@ -78,15 +78,18 @@ namespace SwitchFully.IntakeApp.Service.Tests.JobApplications
 			var testGuid = Guid.NewGuid();
 			var testJobApp = new JobApplication(testGuid, Guid.NewGuid(), Guid.NewGuid(), 2);
 
-			//Given
-			var mockRepo = Substitute.For<JobApplicationRepository>();
-			var mockRepoFile = Substitute.For<FileRepository>();
+            //Given
+            var mockRepo = Substitute.For<JobApplicationRepository>();
+            mockRepo.GetById(testGuid)
+                .Returns(Task.FromResult(testJobApp));
+            var mockRepoFile = Substitute.For<FileRepository>();
 			mockRepo.Update(testJobApp)
 				.Returns(Task.FromResult(testJobApp));
-			var mockLogger = Substitute.For<ILoggerManager>();
-			var _jobApplcaitionService = new JobApplicationService(mockRepo, mockRepoFile, mockLogger);
+			var mockLogger = Substitute.For<ILoggerManager>();         
+
+            var _jobApplcaitionService = new JobApplicationService(mockRepo, mockRepoFile, mockLogger);
 			//When
-			await _jobApplcaitionService.RejectJobApplication(testJobApp);
+			await _jobApplcaitionService.UpdateStatusOfJobApplication(testGuid.ToString(),3);
 
 
 			//Then

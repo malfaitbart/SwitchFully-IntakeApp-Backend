@@ -34,17 +34,23 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 			return await _repository.GetAll();
 		}
 
-		public async Task<JobApplication> GetById(string id)
+		public virtual async Task<JobApplication> GetById(string id)
 		{
 			var g = Guid.Parse(id);
 			return await _repository.GetById(g);
 		}
 
-		public async Task RejectJobApplication(JobApplication jobApplicationByID)
+		public async Task<JobApplication> UpdateStatusOfJobApplication(string jobApplicationID,int statuId)
 		{
-			jobApplicationByID.ChangeStatusToGivenStatusID(3);
-			await _repository.Update(jobApplicationByID);
-		}
+            var jobApplication = await GetById(jobApplicationID);
+
+            if (jobApplication == null)
+            { return null; }
+
+            jobApplication.ChangeStatusToGivenStatusID(statuId);
+			await _repository.Update(jobApplication);
+            return jobApplication;
+        }
 
 		public async Task<bool> Delete(JobApplication jobApplication)
 		{

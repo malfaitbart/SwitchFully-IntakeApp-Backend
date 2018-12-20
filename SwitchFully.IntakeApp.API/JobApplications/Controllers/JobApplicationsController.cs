@@ -73,11 +73,14 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		[Route("reject/id:string")]
 		public async Task<ActionResult> Reject(string id)
 		{
-			var jobApplicationByID = await _jobApplicationService.GetById(id);
-			if (jobApplicationByID == null)
-			{ return BadRequest("ID not found"); }
-			await _jobApplicationService.RejectJobApplication(jobApplicationByID);
-			_loggerManager.LogInfo($"jobapplication with id {id} is rejected");
+
+            var jobApplicationByID = await _jobApplicationService.UpdateStatusOfJobApplication(id, 3);
+
+            if (jobApplicationByID == null)
+            { return BadRequest("ID not found"); }
+
+            _loggerManager.LogInfo($"jobapplication with id {id} is rejected");
+
 			return Ok();
 		}
 	}

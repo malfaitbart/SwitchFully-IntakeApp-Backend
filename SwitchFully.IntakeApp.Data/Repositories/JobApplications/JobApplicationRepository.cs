@@ -82,7 +82,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications
 					)
 				))
 				.FirstOrDefaultAsync();
-		}
+        }
 
 		public async virtual Task<JobApplication> Update(JobApplication jobAppToUpdate)
 		{

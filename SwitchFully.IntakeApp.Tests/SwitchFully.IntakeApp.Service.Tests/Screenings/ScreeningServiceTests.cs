@@ -1,6 +1,8 @@
 ﻿using NSubstitute;
 using SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings;
+using SwitchFully.IntakeApp.Domain.JobApplications;
 using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
+using SwitchFully.IntakeApp.Service.JobApplications;
 using SwitchFully.IntakeApp.Service.JobApplications.Screenings;
 using SwitchFully.IntakeApp.Service.Logging;
 using System;
@@ -23,7 +25,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testScreen));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.GetAllScreeningsById(testGuid.ToString());
 
@@ -43,7 +46,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening.Comment);
 
@@ -65,7 +69,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening2.Comment);
 
@@ -91,7 +96,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening3.Comment);
 
@@ -119,7 +125,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening4.Comment);
 
@@ -149,7 +156,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening5.Comment);
 
@@ -163,6 +171,8 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
         public async void GivenNewScreeningWithFiveScreeningsInDatabase_WhenAddingSixthScreening_ThenSixthScreeningIsAdded()
         {
             var testGuid = Guid.NewGuid();
+            var testJobApp = new JobApplication(testGuid, Guid.NewGuid(), Guid.NewGuid(), 4);
+
             Screening testScreening = new CV_Screening("testtess", testGuid);
             testScreening.UpdateStatusToFalse();
             Screening testScreening2 = new Phone_Screening("ezqdsrezrez", testGuid);
@@ -181,10 +191,14 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();
+            mockJopApp.UpdateStatusOfJobApplication(testGuid.ToString(),4)
+                .Returns(Task.FromResult(testJobApp));
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening6.Comment);
 
+            Assert.Equal(testJobApp.StatusId, 4);
             Assert.True(actualScreenings.Count == 6);
             Assert.Equal(testScreening6.Comment, actualScreenings[5].Comment);
             Assert.IsType<FinalDecision_Screening>(actualScreenings[5]);
@@ -197,6 +211,7 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
         public async void GivenNewScreeningWithSixScreeningsInDatabase_WhenAddingSeventhhScreening_ThenListOfSixScreeningsIsReturned()
         {
             var testGuid = Guid.NewGuid();
+
             Screening testScreening = new CV_Screening("testtess", testGuid);
             testScreening.UpdateStatusToFalse();
             Screening testScreening2 = new Phone_Screening("ezqdsrezrez", testGuid);
@@ -215,12 +230,13 @@ namespace SwitchFully.IntakeApp.Service.Tests.Screenings
             mockRepo.GetAllById(testGuid)
                 .Returns(Task.FromResult(testList));
             var mockLogger = Substitute.For<ILoggerManager>();
-            var service = new ScreeningService(mockRepo, mockLogger);
+            var mockJopApp = Substitute.For<IJobApplicationService>();            
+            var service = new ScreeningService(mockRepo, mockLogger, mockJopApp);
 
             var actualScreenings = await service.NewScreening(testGuid.ToString(), testScreening6.Comment);
 
             Assert.True(actualScreenings.Count == 6);
-            Assert.Equal(testList, actualScreenings);
+            Assert.Equal(testList, actualScreenings);           
         }
     }
 }

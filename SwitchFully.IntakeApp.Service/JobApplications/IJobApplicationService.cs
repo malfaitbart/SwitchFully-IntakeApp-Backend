@@ -18,6 +18,7 @@ namespace SwitchFully.IntakeApp.Service.JobApplications
 
 		Task<JobApplication> Create(JobApplication jobApplication);
 
-        Task RejectJobApplication(JobApplication jobApplicationByID);
-	}
+        Task<JobApplication> UpdateStatusOfJobApplication(string jobApplicationID, int statuId);
+
+    }
 }
