@@ -83,6 +83,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications
 		public void ChangeStatusToGivenStatusID(int givenStatusId)
 		{
 			StatusId = givenStatusId;
+            Status = null;
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
         {
 
         }
-        public FinalDecision_Screening( string comment, Guid givenID) : base("FinalDecision", givenID, comment, "") { 
+        public FinalDecision_Screening( string comment, Guid givenID) : base("FinalDecision", givenID, comment, "Done") { 
 
             UpdateStatusToFalse();
         }
