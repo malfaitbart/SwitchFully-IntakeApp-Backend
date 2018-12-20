@@ -11,7 +11,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
 
         }
 
-        public FirstInterview_Screening(string comment, Guid givenID) : base("FirstInterview", givenID, comment, typeof(GroupInterview_Screening).ToString())
+        public FirstInterview_Screening(string comment, Guid givenID) : base("FirstInterview", givenID, comment, typeof(GroupInterview_Screening).ToString(), 4)
         {            
         }
 

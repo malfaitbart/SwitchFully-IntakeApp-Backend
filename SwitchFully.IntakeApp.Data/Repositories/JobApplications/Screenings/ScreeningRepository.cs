@@ -31,14 +31,16 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
 		{
 			return await _context.Screenings
 				.Where(s => s.JobApplicationId == id)
-				.Where(s => s.Status == true)
+				.Where(s => s.Status == true || s.NextScreeningType == "Done")
 				.Select(s => s.NextScreeningType)
 				.FirstOrDefaultAsync();
 		}
 
 		public virtual async Task<List<Screening>> GetAllById(Guid id)
 		{
-			return await _context.Screenings.Where(p => p.JobApplicationId == id)
+			return await _context.Screenings
+				.Where(p => p.JobApplicationId == id)
+				.OrderBy(p => p.Order)
 				.ToListAsync();
 		}
 	}

@@ -6,12 +6,11 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
 {
     public class CV_Screening : Screening
     {
-        private CV_Screening() 
+        private CV_Screening()
         {
-
         }
 
-        public CV_Screening(string comment, Guid givenID) : base("CV" , givenID , comment, typeof(Phone_Screening).ToString())
+        public CV_Screening(string comment, Guid givenID) : base("CV" , givenID , comment, typeof(Phone_Screening).ToString(), 1)
         {
 
         }

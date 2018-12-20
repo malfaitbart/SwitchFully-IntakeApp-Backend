@@ -17,10 +17,11 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
 
         public string AuditUser { get; private set; }
         public DateTime AuditDateTime { get; private set; }
+		public int Order { get; private set; }
 
-        protected Screening() { }
+		protected Screening() { }
 
-        protected Screening(string name, Guid givenID, string comment, string nextGivvenType)
+        protected Screening(string name, Guid givenID, string comment, string nextGivvenType, int order)
         {
             Name = name;
             Status = true;
@@ -29,7 +30,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
             NextScreeningType = GetNextScreeningNameFromTypeName(nextGivvenType);
             AuditUser = "temp";
             AuditDateTime = DateTime.Now;
-
+			Order = order;
         }
 
         private string GetNextScreeningNameFromTypeName(string nextGivvenType)

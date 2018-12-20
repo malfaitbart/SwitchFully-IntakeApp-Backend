@@ -11,7 +11,7 @@ namespace SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess
 
         }
 
-        public GroupInterview_Screening( string comment, Guid givenID) : base("GroupInterview", givenID,comment, typeof(FinalDecision_Screening).ToString())
+        public GroupInterview_Screening( string comment, Guid givenID) : base("GroupInterview", givenID,comment, typeof(FinalDecision_Screening).ToString(), 5)
         {
         }      
 
