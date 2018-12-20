@@ -1,6 +1,7 @@
 ﻿using SwitchFully.IntakeApp.API.Campaigns.Mappers;
 using SwitchFully.IntakeApp.API.Candidates.Mapper;
 using SwitchFully.IntakeApp.API.JobApplications.Dtos;
+using SwitchFully.IntakeApp.API.JobApplications.Dtos.JobApplication;
 using SwitchFully.IntakeApp.Domain.JobApplications;
 using SwitchFully.IntakeApp.Service.Campaigns;
 using SwitchFully.IntakeApp.Service.Candidates;
@@ -33,6 +34,21 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 				Status = jobApplication.Status,
 				CV = jobApplication.CV,
 				Motivation = jobApplication.Motivation
+			};
+		}
+		public JobApplicationDto_Overview DomainToDto_Overview(JobApplication jobApplication, string selectionStep)
+		{
+			var candidate = _candidateMapper.DomainToDto(jobApplication.Candidate);
+			var campaign = _campaignMapper.CampaignToCampaignDTOReturn(jobApplication.Campaign);
+			var status = jobApplication.Status;
+
+			return new JobApplicationDto_Overview
+			{
+				Id = jobApplication.Id.ToString(),
+				Candidate = candidate.FirstName + " " + candidate.LastName,
+				Campaign = campaign.Name,
+				Status = status.Description,
+				SelectionStep = selectionStep
 			};
 		}
 

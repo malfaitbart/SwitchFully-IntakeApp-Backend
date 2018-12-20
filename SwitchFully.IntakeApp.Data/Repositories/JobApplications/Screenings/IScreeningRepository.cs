@@ -9,6 +9,7 @@ namespace SwitchFully.IntakeApp.Data.Repositories.JobApplications.Screenings
     public interface IScreeningRepository
     {
         Task<List<Screening>> GetAllById(Guid id);
-        Task<Screening> AddNewScreeningToDatabase(Screening newScreening);     
-    }
+        Task<Screening> AddNewScreeningToDatabase(Screening newScreening);
+		Task<string> GetActiveScreeningStepForJobApplicationId(Guid id);
+	}
 }

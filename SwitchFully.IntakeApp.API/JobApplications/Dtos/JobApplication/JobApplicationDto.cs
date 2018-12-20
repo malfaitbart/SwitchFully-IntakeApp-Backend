@@ -17,6 +17,7 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Dtos
 		public CandidateDto Candidate { get; set; }
 		public CampaignDTO_Return Campaign { get; set; }
 		public Status Status { get; set; }
+		public string SelectionStep { get; set; }
 		public File CV { get; set; }
 		public File Motivation { get; set; }
 	}

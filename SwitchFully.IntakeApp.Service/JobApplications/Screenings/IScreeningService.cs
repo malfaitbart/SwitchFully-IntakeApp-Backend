@@ -1,4 +1,5 @@
 ﻿using SwitchFully.IntakeApp.Domain.JobApplications.SelectionProcess;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace SwitchFully.IntakeApp.Service.JobApplications.Screenings
 	{
 		Task<List<Screening>> GetAllScreeningsById(string id);
 		Task<List<Screening>> NewScreening(string id, string comment);
+		Task<string> GetActiveScreeningStepForJobApplicationId(Guid id);
 	}
 }
