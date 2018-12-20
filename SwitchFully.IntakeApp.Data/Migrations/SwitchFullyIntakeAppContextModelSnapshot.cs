@@ -37,9 +37,9 @@ namespace SwitchFully.IntakeApp.Data.Migrations
                     b.ToTable("Campaign");
 
                     b.HasData(
-                        new { CampaignId = new Guid("62d01e72-b2a0-4ce1-9189-ec297044ea18"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("ea353991-9832-4e9e-91e8-38ed67432d23"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                        new { CampaignId = new Guid("b6067b06-fb42-4e10-b3c5-63fc3d7994a6"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                        new { CampaignId = new Guid("6d3f8129-7dfe-4107-ab38-cbf28de9ec7b"), Client = "CM", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("0327279f-e8ce-4a09-9c5d-906d19b13a83"), Client = "Cegeka", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "java", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { CampaignId = new Guid("ccd53f93-098b-4a27-a8e4-fd95cc922f8d"), Client = "OZ", EndDate = new DateTime(2019, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), Name = "asp.net", StartDate = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                     );
                 });
 
@@ -151,7 +151,7 @@ namespace SwitchFully.IntakeApp.Data.Migrations
 
                     b.HasData(
                         new { Id = 1, Description = "Inactive" },
-                        new { Id = 2, Description = "active" },
+                        new { Id = 2, Description = "Active" },
                         new { Id = 3, Description = "Rejected" },
                         new { Id = 4, Description = "Accepted" }
                     );

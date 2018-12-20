@@ -145,7 +145,7 @@ namespace SwitchFully.IntakeApp.Data
 			modelBuilder.Entity<Status>()
 				 .HasData(
 					new Status(1, "Inactive"),
-					new Status(2, "active"),
+					new Status(2, "Active"),
 					new Status(3, "Rejected"),
 					new Status(4, "Accepted")
                 );
