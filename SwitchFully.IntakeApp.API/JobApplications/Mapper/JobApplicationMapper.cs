@@ -24,7 +24,7 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 			_candidateMapper = candidateMapper;
 		}
 
-		public JobApplicationDto DomainToDto(JobApplication jobApplication)
+		public JobApplicationDto DomainToDto(JobApplication jobApplication, string selectionStep)
 		{
 			return new JobApplicationDto
 			{
@@ -32,6 +32,7 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Mapper
 				Candidate = _candidateMapper.DomainToDto(jobApplication.Candidate),
 				Campaign = _campaignMapper.CampaignToCampaignDTOReturn(jobApplication.Campaign),
 				Status = jobApplication.Status,
+				SelectionStep = selectionStep,
 				CV = jobApplication.CV,
 				Motivation = jobApplication.Motivation
 			};

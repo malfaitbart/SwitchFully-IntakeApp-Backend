@@ -34,8 +34,14 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		public async Task<ActionResult<JobApplicationDto>> Create(JobApplicationDto_Create objectToCreate)
 		{
 			var toCreate = await _jobApplicationService.Create(_jobApplicationMapper.Dto_CreateToDomain(objectToCreate));
+			var selectionStep = await _screeningService.GetActiveScreeningStepForJobApplicationId(toCreate.Id);
+			if (string.IsNullOrEmpty(selectionStep))
+			{
+				selectionStep = "CV";
+			}
+
 			_loggerManager.LogInfo($"jobapplication created with id {toCreate.Id}");
-			return _jobApplicationMapper.DomainToDto(toCreate);
+			return _jobApplicationMapper.DomainToDto(toCreate, selectionStep);
 		}
 
 		[HttpGet]
@@ -59,8 +65,13 @@ namespace SwitchFully.IntakeApp.API.JobApplications.Controllers
 		[HttpGet("{id}")]
 		public async Task<ActionResult<JobApplicationDto>> GetById(string id)
 		{
+			var selectionStep = await _screeningService.GetActiveScreeningStepForJobApplicationId(Guid.Parse(id));
+			if (string.IsNullOrEmpty(selectionStep))
+			{
+				selectionStep = "CV";
+			}
 			_loggerManager.LogInfo($"jobapplication returned with id {id}");
-			return _jobApplicationMapper.DomainToDto(await _jobApplicationService.GetById(id));
+			return _jobApplicationMapper.DomainToDto(await _jobApplicationService.GetById(id), selectionStep);
 		}
 
 		[HttpPut]
