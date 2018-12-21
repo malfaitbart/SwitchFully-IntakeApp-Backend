@@ -18,7 +18,7 @@ namespace SwitchFully.IntakeApp.Domain.Campaigns
         {
             get
             {
-                return status;
+                return SetStatusOfCampaign();
             }
             set
             {
