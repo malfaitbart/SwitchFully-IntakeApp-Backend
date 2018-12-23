@@ -60,28 +60,29 @@ namespace SwitchFully.IntakeApp.Data
 						securePass.Property(prop => prop.Salt).HasColumnName("SecPass");
 					});
 
-			//modelBuilder.Entity<User>(u =>
-			//{
-			//	u.HasData(new
-			//	{
-			//		Id = Guid.NewGuid(),
-			//		FirstName = "test",
-			//		LastName = "user",
-			//		RoleId = 1
-			//	});
-			//	u.OwnsOne(m => m.Email).HasData(new
-			//	{
-			//		UserId = Guid.NewGuid(),
-			//		Address = "test@user.be"
-			//	});
-			//	var temp = new UserSecurity("r5iPEDa9yVsW9s1Jr7j3fEpepSjT+oLu+4gUG6o7sMI=", "nhSRFAcAR6lgnY40PZi4iw==");
-			//	u.OwnsOne(us => us.SecurePassword).HasData(new
-			//	{
-			//		UserId = Guid.NewGuid(),
-			//		PassWordHash = "r5iPEDa9yVsW9s1Jr7j3fEpepSjT+oLu+4gUG6o7sMI=",
-			//		Salt = "nhSRFAcAR6lgnY40PZi4iw=="
-			//	});
-			//});
+			modelBuilder.Entity<User>(u =>
+			{
+				var userId = Guid.NewGuid();
+				u.HasData(new
+				{
+					Id = userId,
+					FirstName = "test",
+					LastName = "user",
+					RoleId = 1, 
+				});
+				u.OwnsOne(m => m.Email).HasData(new
+				{
+					UserId = userId,
+					Address = "test@user.be"
+				});
+				var temp = new UserSecurity("r5iPEDa9yVsW9s1Jr7j3fEpepSjT+oLu+4gUG6o7sMI=", "nhSRFAcAR6lgnY40PZi4iw==");
+				u.OwnsOne(us => us.SecurePassword).HasData(new
+				{
+					UserId = userId,
+					PassWordHash = "r5iPEDa9yVsW9s1Jr7j3fEpepSjT+oLu+4gUG6o7sMI=",
+					Salt = "nhSRFAcAR6lgnY40PZi4iw=="
+				});
+			});
 
 			modelBuilder.Entity<Candidate>()
 				.ToTable("Candidates")
